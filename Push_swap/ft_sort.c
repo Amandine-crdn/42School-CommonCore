@@ -1,58 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_sort.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acerdan <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/24 08:12:02 by acerdan           #+#    #+#             */
+/*   Updated: 2021/09/24 08:12:03 by acerdan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
-
-void	ft_range_stackB(int *stackB, int M)
-{
-	int	n;
-
-	n = 0;
-	while (n < M)
-	{
-		stackB[n] = stackB[n + 1];
-		n++;
-	}
-}
-
-void	ft_range_stackA(int *stackA, int pa)
-{
-	int n;
-
-	n = pa;
-	while (n > 0)
-	{
-		stackA[n] = stackA[n - 1];
-		n--;
-	}
-}
 
 void	ft_swap(int *a, int *b)
 {
-	int i;
+	int	i;
 
 	i = *a;
 	*a = *b;
 	*b = i;
-	write(1, "SA\n", 3);
 }
 
-int ft_push_min(int total, int *A)
+int	ft_superior(int *stackb, int nb_chunk)
 {
-	if (A[0] > A[1] && A[1] < A[2] && A[0] > A[2])
-        ft_rb(A, total);
-	else if (A[0] < A[1] && A[1] > A[2] && A[0] > A[2])
-		ft_rrb(A, total);
-    else if (A[0] > A[1] && A[1] > A[2]) 
-    {
-        ft_swap(&A[0], &A[1]);
-        ft_rrb(A, total);
-    }
-	 else if ((total == 2 && A[0] > A[1]) ||
-        (A[1] < A[0] && A[1] < A[2]))
-        ft_swap(&A[0], &A[1]);
-    else if (A[0] < A[1] && A[1] > A[2]) 
-    {
-        ft_swap(&A[0], &A[1]);
-        ft_rb(A, total);
-    }
-    printf("\n%d\n%d\n%d\n", A[0], A[1], A[2]);
-    return (-1);
+	int	i;
+
+	i = 1;
+	while (i < nb_chunk)
+	{
+		if (stackb[0] > stackb[i])
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
+
+void	ft_sort_int(int *tab, int size)
+{
+	int	j;
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		j = i + 1;
+		while (j < size)
+		{
+			if (tab[i] > tab[j])
+			{
+				ft_swap(&tab[i], &tab[j]);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+void	ft_sort_for_median(int new_value, int *sort, int *stacka)
+{
+	int	n;
+
+	n = 0;
+	while (n < new_value)
+	{
+		sort[n] = stacka[n];
+		n++;
+	}
+	ft_sort_int(sort, new_value);
 }
