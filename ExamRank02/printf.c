@@ -2,20 +2,16 @@
 #include <unistd.h>
 #include <limits.h>
 
-
 typedef struct s_sc
 {
     int len;
     int widht;
 }   t_sc;
 
-
 void    ft_putchar(char c)
 {
     write(1, &c, 1);
 }
-
-
 
 int ft_intlen(int nb, int base)
 {
