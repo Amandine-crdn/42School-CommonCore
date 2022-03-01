@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 17:32:36 by acerdan           #+#    #+#             */
-/*   Updated: 2022/02/04 15:17:30 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/03/01 11:33:44 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_render_sprites(t_game *game, int i, int j)
 {
 	if (game->map[i][j] == '0')
 		mlx_put_image_to_window(game->mlx, game->window,
-			game->sprite_air, IMG_SIZE * j, IMG_SIZE * i);		
+			game->sprite_air, IMG_SIZE * j, IMG_SIZE * i);
 	else if (game->map[i][j] == 'P' && ft_choice_player(game, i, j) == 1)
 		mlx_put_image_to_window(game->mlx, game->window,
 			game->sprite_bat_danger, IMG_SIZE * j, IMG_SIZE * i);

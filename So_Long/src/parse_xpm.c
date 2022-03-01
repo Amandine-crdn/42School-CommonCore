@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 16:58:07 by acerdan           #+#    #+#             */
-/*   Updated: 2022/02/04 02:37:29 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/03/01 11:33:31 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ int	ft_parse_xpm(t_game *game)
 			"xpm/bat_danger.xpm", &game->img_size, &game->img_size);
 	ft_extra_sprites(game);
 	if (!game->sprite_end || !game->sprite_air || !game->sprite_player_1
-		|| !game->sprite_player_2 || !game->sprite_bat_danger || !game->sprite_rock
-		|| !game->sprite_collectible)
+		|| !game->sprite_player_2 || !game->sprite_bat_danger
+		|| !game->sprite_rock || !game->sprite_collectible)
 		ft_exit(game, ERROR_OPEN);
 	return (SUCCESS);
 }

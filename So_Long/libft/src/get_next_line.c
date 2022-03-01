@@ -6,102 +6,56 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 02:44:49 by acerdan           #+#    #+#             */
-/*   Updated: 2022/02/04 02:48:17 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/03/01 11:30:01 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <stdio.h>
+#include "libft.h"
+
 #ifndef BUFFER_SIZE 
-#define BUFFER_SIZE 4096
+# define BUFFER_SIZE 4096
 #endif
-#include <sys/types.h>
-#include <sys/uio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-int     ft_strlen(char *s)
+char	*ft_select(char *s)
 {
-    int i = 0;
-    while (*s && s[i])
-        i++;
-    return (i);
+	char	*str;
+	int		i;
+
+	i = 0;
+	str = NULL;
+	while (*s && s[i] && s[i] != '\n')
+		i++;
+	str = malloc(sizeof(char) * i + 1);
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (*s && s[i] && s[i] != '\n')
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = 0;
+	return (str);
 }
 
-char    *ft_strjoin(char *temp, char *buf)
+char	*ft_select2(char *s)
 {
-    int len;
-    char *join;
-    if (temp)
-        len = ft_strlen(temp);
-    if (buf)
-        len += ft_strlen(buf);
-    join = malloc(sizeof(char) * len + 1);
-    if (!join)
-        return (NULL);
-    int i = 0;
-    while (temp && temp[i])
-    {
-        join[i] = temp[i];
-        i++;
-    }
-    int j = 0;
-    while (buf && buf[j])
-    {
-        join[i + j] = buf[j];
-        j++;
-    }
-    join[i + j] = 0;
-    return (join);
-}
+	char	*str;
+	int		i;
+	int		j;
 
-char    *ft_select(char *s)
-{  
-    char *str = NULL;
-    int i = 0;
-
-    while (*s && s[i] && s[i] != '\n')
-        i++;
-    str = malloc(sizeof(char) * i + 1);
-    if (!str)
-        return (NULL);
-    i = 0;
-    while (*s && s[i] && s[i] != '\n')
-    {
-        str[i] = s[i];
-        i++;
-    }
-    str[i] = 0;
-    return (str);
-}
-
-char    *ft_select2(char *s)
-{  
-    char *str = NULL;
-    int i = 0;
-
-    while (*s && s[i] && s[i] != '\n')
-        i++;
-    str = malloc(sizeof(char) * ft_strlen(s) - i + 1);
-    if (!str)
-        return (NULL);
-    int j = 0;
-    while (*s && s[i])
-    {
-        str[j++] = s[++i];
-    }
-    str[j] = 0;
-    return (str);
-}
-
-int     ft_strchr(char *buf, char c)
-{
-    int i = 0;
-    while (*buf && buf[i] && buf[i] != c)
-        i++;
-    if (buf[i] == c)
-        return (1);
-    return (0);    
+	i = 0;
+	str = NULL;
+	while (*s && s[i] && s[i] != '\n')
+		i++;
+	str = malloc(sizeof(char) * ft_strlen(s) - i + 1);
+	if (!str)
+		return (NULL);
+	j = 0;
+	while (*s && s[i])
+		str[j++] = s[++i];
+	str[j] = 0;
+	return (str);
 }
 
 int	ft_check_return(int ret, char **str)
@@ -115,46 +69,30 @@ int	ft_check_return(int ret, char **str)
 	return (1);
 }
 
-char    *gnl(int fd)
+char	*gnl(int fd)
 {
-    char *line = NULL;
-    static char *str = NULL;
-    ssize_t ret;
-    char buf[BUFFER_SIZE + 1];
-    char *temp;
-    ret = 1;
-    if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1023)
-        return (NULL);
-    
-    while (ret > 0)
-    {
-        ret = read(fd, buf, BUFFER_SIZE);
-        buf[ret] = 0;
-        temp = str;
-        str = ft_strjoin(temp, buf);
-        free(temp);
-        if (ft_strchr(str, '\n') == 1)
-            break;
-    }
-    line = ft_select(str);
-    temp = str;
-    str = ft_select2(temp);
-    free(temp);
-    if (ft_check_return(ret, &str) == 0 && line[0] == '\0')
-        return (NULL);
-    return (line);   
-}
+	s_gnl	sgnl;
 
-int main()
-{
-    int fd;
-    char *line;
-    fd = open("coucou.txt", O_RDONLY);
-
-    while (line != NULL)
-    {
-        line = gnl(fd);
-        printf("--- FINAL LINE = %s\n", line);
-    }
-    return (0);
+	sgnl.str = NULL;
+	sgnl.line = NULL;
+	sgnl.ret = 1;
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 1023)
+		return (NULL);
+	while (sgnl.ret > 0)
+	{
+		sgnl.ret = read(fd, sgnl.buf, BUFFER_SIZE);
+		sgnl.buf[sgnl.ret] = 0;
+		sgnl.temp = sgnl.str;
+		sgnl.str = ft_strjoin(sgnl.temp, sgnl.buf);
+		free(sgnl.temp);
+		if (ft_strchr(sgnl.str, '\n') == 1)
+			break ;
+	}
+	sgnl.line = ft_select(sgnl.str);
+	sgnl.temp = sgnl.str;
+	sgnl.str = ft_select2(sgnl.temp);
+	free(sgnl.temp);
+	if (ft_check_return(sgnl.ret, &sgnl.str) == 0 && sgnl.line[0] == '\0')
+		return (NULL);
+	return (sgnl.line);
 }

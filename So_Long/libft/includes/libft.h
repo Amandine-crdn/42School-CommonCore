@@ -6,21 +6,33 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 14:08:36 by acerdan           #+#    #+#             */
-/*   Updated: 2022/02/04 02:48:05 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/03/01 11:30:09 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
 # include <stdlib.h>
 # include <unistd.h>
+# include <sys/types.h>
+# include <sys/uio.h>
+# include <fcntl.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_gnl
+{
+	char			*line;
+	static char		*str;
+	ssize_t			ret;
+	char			buf[BUFFER_SIZE + 1];
+	char			*temp;
+}					t_gnl;
 
 int				ft_atoi(const char *str);
 

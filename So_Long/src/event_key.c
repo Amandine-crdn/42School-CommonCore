@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 16:45:50 by acerdan           #+#    #+#             */
-/*   Updated: 2022/02/04 02:37:47 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/03/01 11:30:55 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	ft_check_key(t_game *game, int x, int y)
 			ft_print_msg(1);
 			ft_exit(game, END_OF_GAME);
 		}
-
 		game->map[x][y] = 'P';
 		game->map[game->player_pos_x][game->player_pos_y] = '0';
 		game->player_pos_x = x;

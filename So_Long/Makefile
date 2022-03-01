@@ -6,33 +6,34 @@
 #    By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/26 14:51:19 by acerdan           #+#    #+#              #
-#    Updated: 2022/02/03 14:24:24 by acerdan          ###   ########.fr        #
+#    Updated: 2022/02/28 23:20:15 by acerdan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= so_long
 
-SRC			=	main.c \
-				map_checks.c \
-				map_check_symbols.c \
-				exit.c \
-				parse_ber.c \
-				parse_xpm.c	\
-				render.c \
-				event_key.c	\
+SRC		=	main.c \
+			map_checks.c \
+			map_check_symbols.c \
+			exit.c \
+			parse_ber.c \
+			parse_xpm.c	\
+			render.c \
+			event_key.c	\
 
-OBJ				= $(addprefix ./obj/,$(SRC:.c=.o))
+OBJ	= $(addprefix ./obj/,$(SRC:.c=.o))
 
-CC		= gcc
+CC	= gcc
+
 CFLAGS	= -Wall -Wextra -Werror
 
 LIBFTA	= ./libft/libft.a
-LIBINCL = -I./libft/includes
+LIBINCL	= -I./libft/includes
 LIBLINK	= -L./libft -lft
 
-MLXA = ./mlx/libmlx.a
-MLXINCL = -I./mlx
-MLXLINK = -Lmlx -lmlx -Imlx -Lmlx -lm -lbsd -lX11 -lXext
+MLXA	= ./mlx/libmlx.a
+MLXINCL	= -I./mlx
+MLXLINK	= -Lmlx -lmlx -Imlx -Lmlx -lm -lbsd -lX11 -lXext
 
 all: obj $(LIBFTA) $(MLXA) $(NAME)
 
