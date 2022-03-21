@@ -5,42 +5,52 @@
 #                                                     +:+ +:+         +:+      #
 #    By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/11/27 15:22:31 by acerdan           #+#    #+#              #
-#    Updated: 2022/02/08 23:39:26 by acerdan          ###   ########.fr        #
+#    Created: 2022/02/21 15:41:05 by acerdan           #+#    #+#              #
+#    Updated: 2022/03/21 14:40:57 by acerdan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC		= gcc
-FLAGS	= -Wall -Werror -Wextra -pthread
+NAME := philo
 
-HEADER	= include/philo.h
+DIR_SRCS := ./SRCS
+LST_SRCS := main.c			\
+			monitoring.c	\
+			philo.c			\
+			actions.c		\
+			checkers.c
 
-SRC		= src/libft.c \
-	src/main.c \
-	src/misc.c \
-	src/philos.c \
-	src/utils.c
+DIR_OBJS := ./.OBJS
+LST_OBJS := $(LST_SRCS:.c=.o)
 
-OBJ		= $(SRC:.c=.o)
-NAME	= philo
-GREEN	= \033[92;1m
-NOCOLOR	= \033[0m
+SRCS := $(addprefix $(DIR_SRCS)/, $(LST_SRCS))
+OBJS := $(addprefix $(DIR_OBJS)/, $(LST_OBJS))
 
-all :	$(NAME)
+CC := gcc -pthread
+CFLAGS := -Wall -Wextra -Werror 
 
-bonus:	$(NAME_BONUS)
+$(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c 
+		@mkdir -p $(DIR_OBJS)
+		$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME) :	$(OBJ) $(HEADER)
-	@echo "$(GREEN)\nBUILDING $(NAME)$(NOCOLOR)"
-	$(CC) $(FLAGS) $(OBJ) -I $(HEADER) -o $(NAME)
-	@echo "\n"
+all : $(NAME)
+		@printf "\033[0;32mProject is ready to run !\033[0m\n"
+
+$(NAME) : $(OBJS)
+		$(CC) $(OBJS) -o $(NAME)
+		@printf "\033[0;32mCompilation has succeeded !\033[0m\n"
+
+DIR_OBJS :
+		mkdir -p $(DIR_OBJS)
 
 clean :
-	@rm -rf $(OBJ)
+		@rm -rf $(DIR_OBJS)
+		@printf "\033[0;33mObjects deleted\033[0m\n"
 
-fclean: clean
-	@rm -rf $(NAME)
+fclean : clean
+		@rm -rf $(NAME)
+		@printf "\033[0;33m./$(NAME) deleted\033[0m\n"
 
-re: fclean all
+re : fclean all
 
-.PHONY : all clean fclean
+
+.PHONY : all clean fclean re 
