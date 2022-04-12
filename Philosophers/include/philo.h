@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 15:22:31 by acerdan           #+#    #+#             */
-/*   Updated: 2022/04/12 11:06:47 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/04/12 17:06:50 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int			ft_dinner_end(t_param *param);
 void		*ft_philo(void *param);
 long		ft_get_time(void);
 void		ft_mutex_destroy(t_param *param);
-int			ft_take_first_fork(t_philo *philo);
-int			ft_take_second_fork(t_philo *philo);
+int			ft_first_fork(t_philo *philo);
+int			ft_second_fork(t_philo *philo);
 int			ft_think(t_philo *philo);
 int			ftime_to_eat(t_philo *philo);
 int			ftime_to_sleep(t_philo *philo);

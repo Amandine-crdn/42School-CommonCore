@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 16:49:00 by acerdan           #+#    #+#             */
-/*   Updated: 2022/04/12 12:02:48 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/04/12 17:58:41 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int	ft_launch_thread(t_param *param)
 	param->start_time = ft_get_time();
 	while (i < param->amount)
 	{
-		
-		//param->philos[i].last_meal = param->philos->start_time ;
 		if (pthread_create(&param->philos[i].thread, NULL,
 				ft_philo, &param->philos[i]) != 0)
 			return (0);
@@ -68,6 +66,7 @@ int	ft_init_s_philo(t_param *param)
 	int		i;
 	t_philo	philo;
 
+//si 1 ou 2 ou plus philo (fork)
 	i = 0;
 	param->philos = malloc(sizeof(t_philo) * param->amount);
 	if (!param->philos)

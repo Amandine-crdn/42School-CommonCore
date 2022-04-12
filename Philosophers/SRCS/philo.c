@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/22 14:28:35 by acerdan           #+#    #+#             */
-/*   Updated: 2022/03/21 14:40:48 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/04/12 17:46:55 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	ft_mutex_destroy(t_param *p)
 	i = 0;
 	while (i < p->amount)
 	{
-		pthread_mutex_unlock(&p->philos[i].fork);
-		pthread_mutex_destroy(&p->philos[i].fork);
+		pthread_mutex_unlock(&p->philos[i].fork_left);
+		pthread_mutex_destroy(&p->philos[i].fork_left);
 		i++;
 	}
 }
@@ -53,11 +53,11 @@ void	*ft_philo(void *data) // car void tout seul pas possible ?
 
 	philo = (t_philo *)data;
 	philo->start_time = ft_get_time();
-	printf("philo->start_time = %ld\n", philo->start_time);
-	pthread_mutex_lock(&philo->last_meal_m); //on bloque le temps pour le donner au last meal ?
-	philo->last_meal = ft_get_time();
-	printf("philo->last_meal = %ld\n",philo->last_meal);
-	pthread_mutex_unlock(&philo->last_meal_m);
+//	printf("philo->start_time = %ld\n", philo->start_time);
+	pthread_mutex_lock(&philo->p->philos->last_meal_m); //on bloque le temps pour le donner au last meal ?
+	philo->p->philos->last_meal = ft_get_time();
+	//printf("philo->last_meal = %ld\n",->p->philos->last_meal);
+	pthread_mutex_unlock(&philo->p->philos->last_meal_m);
 	while (1)
 	{
 		if (!ft_think(philo))
