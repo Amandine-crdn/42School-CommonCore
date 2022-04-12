@@ -6,27 +6,27 @@
 #    By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 15:41:05 by acerdan           #+#    #+#              #
-#    Updated: 2022/03/21 14:40:57 by acerdan          ###   ########.fr        #
+#    Updated: 2022/04/12 08:25:45 by acerdan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := philo
+NAME = philo
 
-DIR_SRCS := ./SRCS
-LST_SRCS := main.c			\
+DIR_SRCS = ./srcs
+LST_SRCS = main.c			\
 			monitoring.c	\
-			philo.c			\
+			core.c			\
 			actions.c		\
-			checkers.c
+			errors.c
 
-DIR_OBJS := ./.OBJS
-LST_OBJS := $(LST_SRCS:.c=.o)
+DIR_OBJS = ./objs
+LST_OBJS = $(LST_SRCS:.c=.o)
 
-SRCS := $(addprefix $(DIR_SRCS)/, $(LST_SRCS))
-OBJS := $(addprefix $(DIR_OBJS)/, $(LST_OBJS))
+SRCS = $(addprefix $(DIR_SRCS)/, $(LST_SRCS))
+OBJS = $(addprefix $(DIR_OBJS)/, $(LST_OBJS))
 
-CC := gcc -pthread
-CFLAGS := -Wall -Wextra -Werror 
+CC = gcc -pthread
+CFLAGS = -Wall -Wextra -Werror 
 
 $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c 
 		@mkdir -p $(DIR_OBJS)
