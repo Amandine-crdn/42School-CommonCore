@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/27 15:22:31 by acerdan           #+#    #+#             */
-/*   Updated: 2022/04/12 17:06:50 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/04/13 11:31:17 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_philo
 	pthread_mutex_t	stop_m;				
 	//reste
 	
-	pthread_t		thread; // ou??
+	pthread_t		thread;
 
 }	t_philo;
 

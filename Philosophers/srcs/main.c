@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/21 16:49:00 by acerdan           #+#    #+#             */
-/*   Updated: 2022/04/12 17:58:41 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/04/13 12:26:53 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_init_s_param(t_param *param, char **argv)
 {
 	param->amount = ft_atoi(argv[1]);
 	if (param->amount < 60)
-		param->tempo = 100;                       // what is tempo ?
+		param->tempo = 100;
 	else if (param->amount < 120)
 		param->tempo = 500;
 	else
@@ -42,9 +42,8 @@ int	ft_launch_thread(t_param *param)
 	param->start_time = ft_get_time();
 	while (i < param->amount)
 	{
-		if (pthread_create(&param->philos[i].thread, NULL,
-				ft_philo, &param->philos[i]) != 0)
-			return (0);
+		if (pthread_create(&param->philos[i].thread, NULL, ft_philo, &param->philos[i]) != 0)
+			return (-1);
 		i++;
 		usleep(100);
 	}
@@ -55,10 +54,10 @@ int	ft_launch_thread(t_param *param)
 	while (i < param->amount)
 	{
 		if (pthread_join(param->philos[i].thread, NULL) != 0)
-			return (0);
+			return (-1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	ft_init_s_philo(t_param *param)
@@ -99,8 +98,8 @@ int	main(int argc, char **argv)
 		return (0);
 	if (!ft_init_s_param(&param, argv) || !ft_init_s_philo(&param))
 		return (0);
-	if (!ft_launch_thread(&param))
-		return (0);
+	if (ft_launch_thread(&param) == -1)
+		puts("error");
 	ft_mutex_destroy(&param);
 	free(param.philos); // et free param ??
 	return (0);
