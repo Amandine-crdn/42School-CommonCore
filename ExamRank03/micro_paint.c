@@ -104,7 +104,7 @@ int     main(int argc, char **argv)
             {
                 if (ft_check(i, j, x, y, w, h) && c == 'R')
                     area[i][j] = symb;
-                if (ft_check(i, j, x, y, w, h) == 2&& c == 'r')
+                if (ft_check(i, j, x, y, w, h) == 2 && c == 'r')
                     area[i][j] = symb;
                 j++;
             }
