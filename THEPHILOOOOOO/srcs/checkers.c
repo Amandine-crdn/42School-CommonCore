@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checkers.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/18 08:03:02 by acerdan           #+#    #+#             */
+/*   Updated: 2022/04/18 08:06:55 by acerdan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/philosophers.h"
 
 long int	ft_atoi(const char *str)
@@ -42,8 +54,8 @@ int	ft_check_errors(int argc, char **argv)
 	i = 1;
 	while (i < argc)
 	{
-		if (ft_check_valid_arg(argv[i]) == 0 || ft_atoi(argv[i]) > INT_MAX
-		 || ft_atoi(argv[i]) < 0)
+		if (ft_check_valid_arg(argv[i]) == 0 || ft_atoi(argv[i]) > INT_MAX \
+			|| ft_atoi(argv[i]) < 0)
 			return (1);
 		i++;
 	}

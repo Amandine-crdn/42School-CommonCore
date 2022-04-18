@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/18 07:59:37 by acerdan           #+#    #+#             */
+/*   Updated: 2022/04/18 08:12:27 by acerdan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -25,11 +37,11 @@ typedef pthread_mutex_t	t_mutex;
 
 typedef struct s_args
 {
-	int	num_philos;
+	int	nb_of_philo;
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
-	int	num_meals;
+	int	nb_of_meal;
 }				t_args;
 
 typedef struct s_data
@@ -39,8 +51,6 @@ typedef struct s_data
 	t_args			args;
 	int				death;
 	long long int	start_program;
-	
-	
 }				t_data;
 
 typedef struct s_philo
@@ -72,6 +82,6 @@ long int	ft_atoi(const char *str);
 long long	get_time(void);
 void		ft_during(long long time_ms);
 void		print_mutex(t_philo *philo, char *mess);
-void	happy_end_print(t_philo *philo, char *mess);
+void		happy_end_print(t_philo *philo, char *mess);
 
 #endif
