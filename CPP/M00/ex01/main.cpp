@@ -13,25 +13,25 @@ int main(int argc, char **argv)
     {
         std::cout << "You can ADD, SEARCH or EXIT, it's your choice !" << std::endl;
         while (1)
-        {  
+        {   
             std::getline(std::cin, input);
-            if  (std::cin.eof() || input.compare(exit) == 0 && input.size() == exit.size())
+            if  (std::cin.eof() || input.compare(exit) == 0)
             {
                 std::cout << "\nGood bye !" << std::endl;
                 break ;
             }
-            else if  (input.compare(add) == 0) // ADD toto ne doit pas marcher //eof
+            else if  (input.compare(add) == 0)
             {
                 std::cout << "\nGo add one person !\n" << std::endl;
                 repertoire.add_contact();
             }
-            else if  (input.compare(search) == 0 && input.size() == search.size())
+            else if  (input.compare(search) == 0)
             {
                 std::cout << "\nYou search somebody ?\n" << std::endl;
                 repertoire.print_contact();
             }
+            std::cin.clear();
         }
     }
-    return 0;
-    
+    return 0; 
 }
