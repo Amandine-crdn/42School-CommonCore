@@ -2,17 +2,17 @@
 
 Zombie::Zombie()
 {
-     std::cout << "creator of : " << "Georges" << std::endl;
+     std::cout << "Creation of zombie" << std::endl;
 }
 
 Zombie::~Zombie()
 {
-    std::cout << _name << " destructor" << std::endl;
+    std::cout << _name << " : Destruction of this zombie if the array was not dynamic" << std::endl;
 }
 
 void Zombie::announce( void )
 {
-    std::cout << this->_name << ": BraiiiiiiinnnzzzZ..." << std::endl;
+    std::cout << this->_name << " : BraiiiiiiinnnzzzZ..." << std::endl;
 }
 
 void Zombie::setName(std::string name)
