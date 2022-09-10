@@ -1,111 +1,135 @@
 #include "PhoneBook.hpp"
 
-PhoneBook::PhoneBook(void)
+PhoneBook::PhoneBook() : _max_contact(0)
 {
-    u = 0;
-    return ;
 }
 
-PhoneBook::~PhoneBook(void)
+PhoneBook::~PhoneBook()
 {
-    return ;
 }
 
-
-std::string    ft_print_error(std::string error_msg, std::string field, std::string keyword)
+std::string PhoneBook::is_empty()
 {
-    while (field.empty())
+    std::string input;
+
+    while (std::getline(std::cin, input) && input.empty())
+        ;
+    if (std::cin.eof() == true)
+        exit(-9);
+    return (input);
+}
+
+int PhoneBook::value_index(int i, int choice)
+{  
+    if (choice == 0)
     {
-        std::cout << "You must write the " << keyword  << std::endl;
-        std::cout << error_msg; std::getline(std::cin, field);
+        if (i == 8)
+            return(0);
+        else
+            return (i);
     }
-    return (field);
-}
-
-void    PhoneBook::add_contact()
-{
-        std::string buff;
-        std::string name;
-        
-        if (this->u == 8)
-            this->u == 0;
-        std::cout << "first name : "; std::getline(std::cin, name); 
-        this->contact[this->u].first_name = ft_print_error("Please tape the first name : ", name, "first name");
-
-        std::cout << "last name : "; std::getline(std::cin, buff);
-        this->contact[this->u].last_name =ft_print_error("Please tape the last name : ", buff, "last name");
-
-        std::cout << "nickname : "; std::getline(std::cin, buff);
-        this->contact[this->u].nickname = ft_print_error("Please tape the nickname : ", buff, "nickname");
-        
-        std::cout << "phone number : "; std::getline(std::cin, buff); 
-        this->contact[this->u].phone_number = ft_print_error("Please tape the phone number : ", buff, "phone number");
-
-        std::cout << "darkest secret : "; std::getline(std::cin, buff);
-        this->contact[this->u].darkest_secret = ft_print_error("Please tape the darkest secret : ", buff, "darkest secret");
-        
-        this->u++;
-        std::cout << std::endl << name << " is added at your repertory\n" << std::endl;
-}
-
-std::string    ft_change(std::string str)
-{
-    if (str.size() > 10)
+    else if (choice == 1)
+    {
+        if (i < 8 && _max_contact < 8)
         {
-            str.resize(9);
-            str.push_back('.');
+            _max_contact++;
+            i++;
         }
-    return (str);
+        else if (i < 8 && _max_contact == 8)
+            i++;
+    }
+    return (i);
 }
 
-void    PhoneBook::print_contact(void)
+void PhoneBook::add_contact()
 {
-    int i = 0;
-    unsigned int number;
-    std::string str;
-    std::string copy;
+    std::string input;
+    static int i = _max_contact;
 
-    std::cout << std::endl;
-    std::cout << "|";
-    str = "index"; std::cout << std::setw(10) << str.substr(0,10) << "| ";
-    str = "first name"; std::cout << std::setw(10) << str.substr(0,10) << "| ";
-    str = "last name"; std::cout << std::setw(10) << str.substr(0,10) << "| ";
-    str = "nickname"; std::cout << std::setw(10) << str.substr(0,10) << "| " << std::endl;
-    std::cout << "|----------------------------------------------|" << std::endl;
+    i = value_index(i, 0);
+    
+    std::cout << "1.Tape firstname" << std::endl;
+    contact[i].setFirstname(is_empty());
 
-    while (i < this->u) 
+    std::cout << "2.Tape lastname" << std::endl;
+    contact[i].setLastname(is_empty());
+
+    std::cout << "3.Tape nickname" << std::endl;
+    contact[i].setNickname(is_empty());
+
+    std::cout << "4.Tape phone number" << std::endl;
+    contact[i].setPhone(is_empty());
+
+    std::cout << "5.Tape dark secret" << std::endl;
+    contact[i].setSecret(is_empty());
+
+    i = value_index(i, 1);
+}
+
+void PhoneBook::print_first()
+{    
+    std::cout << std::setw(10) << "index" << "|"
+    << std::setw(10) << "firstname" << "|"
+    << std::setw(10) << "lastname" << "|"
+    << std::setw(10) << "nickname" << std::endl;
+}
+
+std::string PhoneBook::replace(std::string key)
+{
+    std::string new_word;
+
+    new_word = key.substr(0, 10);
+    new_word = new_word.replace(9, 1, ".");
+    return (new_word);
+}
+
+bool PhoneBook::search()
+{
+    if (_max_contact == 0)
+        return (false);
+    print_first();
+    for(int y = 0; y < _max_contact; y++)
     {
-        std::cout << "|"; std::cout << std::setw(10) << i << "| ";
-        copy = ft_change(this->contact[i].first_name); std::cout << std::setw(10) << copy.substr(0,10) << "| ";
-        copy = ft_change(this->contact[i].last_name); std::cout << std::setw(10) << copy.substr(0,10) << "| ";
-        copy = ft_change(this->contact[i].nickname); std::cout << std::setw(10) << copy.substr(0,10) << "| \n" << std::endl;
-        i++;
-    }
+        std::string temp_firstname(contact[y].getFirstname());
+        std::string temp_lastname(contact[y].getLastname());
+        std::string temp_nickname(contact[y].getNickname());
 
-    if (this->u == 0)
-    {
-        std::cout << "Error : you havent contact, please ADD" << std::endl;
-        return ;
+        if (contact[y].getFirstname().size() >= 10)
+            temp_firstname = replace(temp_firstname);
+        if (contact[y].getLastname().size() >= 10)
+            temp_lastname = replace(temp_lastname);
+        if (contact[y].getNickname().size() >= 10)
+            temp_nickname = replace(temp_nickname);
+        std::cout << std::setw(10) << y << "|" << std::setw(10) << temp_firstname << "|" <<
+        std::setw(10) << temp_lastname << "|" << std::setw(10) << temp_nickname << std::endl;
     }
-    else
-        std::cout << std::endl << "Tape the index of the contact you wanna see" << std::endl;
-    std::cin >> number; 
-    std::cin.ignore();
+    return (true);
+}
+
+void PhoneBook::print_index() const
+{
+    int index;
+    
+    std::cout << "Choice index to print" << std::endl;
+    std::cin >> index;
     if (std::cin.fail())
-        std::cout << "Error : this repertory needs an int" << std::endl;
-    else if (std::cin.eof())
-         return ;
+    {
+        std::cout << "Not an int\n" << std::endl;
+        exit (-9);
+    }
     else
     {
-        if (number < this->u)
+        if (index >= 0 && index <= 8 && index < _max_contact)
         {
-            std::cout << "first name : " << this->contact[number].first_name << std::endl;
-            std::cout << "last name : " << this->contact[number].last_name << std::endl;
-            std::cout << "nickname : " << this->contact[number].nickname << std::endl;
-            std::cout << "phone number : " << this->contact[number].phone_number << std::endl;
-            std::cout << "darkest secret : " << this->contact[number].darkest_secret << std::endl;
+            std::cout << "Firstname: " << contact[index].getFirstname() << std::endl;
+            std::cout << "Lastname: " + contact[index].getLastname() << std::endl;    
+            std::cout << "Nickname: " + contact[index].getNickname() << std::endl;  
+            std::cout << "Phone Number: " + contact[index].getPhone() << std::endl;   
+            std::cout << "Darkest Secret: " + contact[index].getSecret() << std::endl;    
         }
         else
-            std::cout << "Error : " << number << " isn't exists in this repertory" << std::endl;
+            std::cout << "Contact doesn't exists" << std::endl;
+        std::cin.clear();
+        std::cin.ignore();
     }
 }

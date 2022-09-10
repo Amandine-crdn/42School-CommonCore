@@ -1,37 +1,29 @@
 #include "PhoneBook.hpp"
 
-int main(int argc, char **argv)
+int main()
 {
     PhoneBook repertoire;
-
-    std::string add ("ADD");
     std::string input;
-    std::string exit ("EXIT");
-    std::string search ("SEARCH");
 
-    if(argc == 1)
+    std::cout << "Opened" << std::endl;
+    while (1)
     {
-        std::cout << "You can ADD, SEARCH or EXIT, it's your choice !" << std::endl;
-        while (1)
-        {   
-            std::getline(std::cin, input);
-            if  (std::cin.eof() || input.compare(exit) == 0)
-            {
-                std::cout << "\nGood bye !" << std::endl;
-                break ;
-            }
-            else if  (input.compare(add) == 0)
-            {
-                std::cout << "\nGo add one person !\n" << std::endl;
-                repertoire.add_contact();
-            }
-            else if  (input.compare(search) == 0)
-            {
-                std::cout << "\nYou search somebody ?\n" << std::endl;
-                repertoire.print_contact();
-            }
-            std::cin.clear();
+        std::cout << "ADD, SEARCH or EXIT" << std::endl;
+        std::getline(std::cin, input);
+        if (input == "ADD")
+            repertoire.add_contact();
+        else if (input == "SEARCH")
+        {
+            if (repertoire.search() == false)
+                std::cerr << "Error : you havn't contact" << std::endl;
+            else
+                repertoire.print_index();
+        }
+        else if (input == "EXIT" || std::cin.eof())
+        {
+            std::cout << "Closed" << std::endl;
+            break ;
         }
     }
-    return 0; 
+    return (0);
 }
