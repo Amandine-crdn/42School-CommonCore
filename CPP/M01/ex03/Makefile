@@ -1,8 +1,8 @@
-SRCS	= main.cpp
+SRCS	= main.cpp Weapon.cpp HumanA.cpp HumanB.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
 
-NAME	= ex02
+NAME	= Changer_Nom
 
 CLANG	= c++
 
