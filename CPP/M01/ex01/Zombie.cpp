@@ -2,20 +2,24 @@
 
 Zombie::Zombie()
 {
-     std::cout << "Creation of zombie" << std::endl;
+	std::cout << "A Zombie is create" << std::endl;
+	return ;
 }
 
 Zombie::~Zombie()
 {
-    std::cout << _name << " : Destruction of this zombie if the array was not dynamic" << std::endl;
+	std::cout << "A Zombie is die" << std::endl;
+	return ;
 }
 
-void Zombie::announce( void )
-{
-    std::cout << this->_name << " : BraiiiiiiinnnzzzZ..." << std::endl;
-}
-
-void Zombie::setName(std::string name)
+void		Zombie::setName(std::string name)
 {
 	this->_name = name;
+	return ;
+}
+
+void	Zombie::announce() const
+{
+	std::cout << this->_name << ": BraiiiiiiinnnzzzZ..." << std::endl;
+	return ;
 }

@@ -2,9 +2,17 @@
 
 int main()
 {
-    Zombie* john = newZombie("John");
-    randomChump("Louis");
-    john->announce();
-    delete john;
+    std::string str;
+    Zombie* zombie;
+
+//sur la stack
+
+    randomChump("Nicolas");
+
+// sur la heap
+
+    zombie = newZombie("Thierry");
+    zombie->announce();
+    delete(zombie);
     return (0);
 }
