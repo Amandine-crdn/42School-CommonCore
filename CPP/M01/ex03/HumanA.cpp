@@ -12,5 +12,8 @@ HumanA::~HumanA()
 
 void HumanA::attack() const
 {
-    std::cout << this->_name << " attacks with their " << this->_myWeapon.getType() << std::endl;
+    if (this->_myWeapon.getType() == "")
+        std::cout << this->_name << " attacks with flower " << std::endl;
+    else
+        std::cout << this->_name << " attacks with their " << this->_myWeapon.getType() << std::endl;
 }
