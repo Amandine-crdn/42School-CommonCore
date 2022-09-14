@@ -2,7 +2,6 @@
 
 int main()
 {
-    std::string str;
     Zombie* zombie;
 
 //sur la stack
@@ -13,6 +12,6 @@ int main()
 
     zombie = newZombie("Thierry");
     zombie->announce();
-    delete(zombie);
+    delete zombie;
     return (0);
 }

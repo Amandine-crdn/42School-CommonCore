@@ -13,12 +13,6 @@ Harl::~Harl()
 void Harl::complain( std::string level_spe)
 {
     int i = 0;
-    void (Harl::*choice_function[])(void) = {
-        &Harl::debug,
-        &Harl::info,
-        &Harl::warning,
-        &Harl::error
-    };
 
     std::string choice_level[] = {
         "DEBUG",
@@ -26,15 +20,17 @@ void Harl::complain( std::string level_spe)
         "WARNING",
         "ERROR"
     };
-   
-    for(i = 0; level_spe != choice_level[i]; i++)
-        break;
+    
+    for(i = 0; level_spe != choice_level[i] && i < 4; i++);
+    
+    std::cout << "i = " << i << std::endl;
+    
     switch (i)
     {
-        case 0: (this->*choice_function[i++])();
-        case 1: (this->*choice_function[i++])();
-        case 2: (this->*choice_function[i++])();
-        case 3: (this->*choice_function[i++])(); break;
+        case 0: Harl::debug(); i++;
+        case 1: Harl::info(); i++;
+        case 2: Harl::warning(); i++;
+        case 3: Harl::error(); i++; break;
         default:
         {
             std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;

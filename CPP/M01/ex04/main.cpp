@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 //std::ios_base
-int main()
+int main() //exercice mal compris
 {
     std::string     filename = "test.txt";
     std::string     s1;

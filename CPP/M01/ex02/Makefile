@@ -2,7 +2,7 @@ SRCS	= main.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
 
-NAME	= ex02
+NAME	= Brain
 
 CLANG	= c++
 

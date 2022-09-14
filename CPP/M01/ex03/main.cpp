@@ -2,6 +2,8 @@
 #include "HumanA.hpp"
 #include "HumanB.hpp"
 
+//gerer le cas ou Human B n'a pas d'arme
+
 int main()
 {
     {

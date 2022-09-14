@@ -1,12 +1,7 @@
 #ifndef ZOMBIE_HPP
 #   define ZOMBIE_HPP
 
-#   define ERROR_INPUT -1 
-
-#   include <string>
-#   include <iomanip>
 #   include <iostream>
-#   include <stdlib.h>
 
 class Zombie {
 
