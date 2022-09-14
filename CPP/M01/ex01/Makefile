@@ -2,7 +2,7 @@ SRCS	= main.cpp Zombie.cpp zombieHorde.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
 
-NAME	= Zombie
+NAME	= ZombieHorde
 
 CLANG	= c++
 

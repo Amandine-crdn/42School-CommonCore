@@ -1,11 +1,11 @@
 #include <iostream>
-
+#include <string>
 class Harl {
 
     public:
         Harl();
         ~Harl();
-        void complain( std::string level );
+        void complain( std::string level_spe);
 
     private:
         void debug( void );

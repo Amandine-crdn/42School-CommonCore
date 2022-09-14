@@ -2,7 +2,7 @@ SRCS	= main.cpp Harl.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
 
-NAME	= harl
+NAME	= Harl
 
 CLANG	= c++
 

@@ -1,20 +1,16 @@
 #include "Harl.hpp"
 
-int main()
+int main(int argc, char **argv)
 {
-    Harl harl;
-   
-    int life = 10;
-
-    while (life)
+    if (argc == 2)
     {
-        harl.complain("DEBUG");
-        harl.complain("WARNING");
-        harl.complain("INFO");
-        harl.complain("ERROR");
-        std::cout << "--------" <<std::endl;
-        life--;
+        Harl harl;
+        std::string level_spe = argv[1];
+
+        harl.complain(level_spe);
     }
+    else
+        std::cout << "Need 1 param" << std::endl;
     
     return (0);
 }
