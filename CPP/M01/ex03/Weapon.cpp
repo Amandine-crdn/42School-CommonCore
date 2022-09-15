@@ -1,8 +1,10 @@
 #include "Weapon.hpp"
-Weapon::Weapon() : _type("flower")
+Weapon::Weapon()
 {
 
 }
+
+Weapon init("flower");
 
 Weapon::Weapon( std::string type ) : _type(type)
 {
