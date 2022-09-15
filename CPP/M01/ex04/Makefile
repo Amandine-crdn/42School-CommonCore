@@ -2,7 +2,7 @@ SRCS	= main.cpp
 
 OBJS	= $(SRCS:.cpp=.o)
 
-NAME	= ifstream
+NAME	= replace
 
 CLANG	= c++
 
