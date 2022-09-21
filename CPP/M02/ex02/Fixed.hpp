@@ -30,7 +30,7 @@
             bool operator==(Fixed const &op);
             bool operator!=(Fixed const &op);
             //arithmetie
-            Fixed& operator+(Fixed const &op);
+            Fixed operator+(Fixed const &op);
             Fixed& operator-(Fixed const &op);
             Fixed& operator*(Fixed const &op);
             Fixed& operator/(Fixed const &op);

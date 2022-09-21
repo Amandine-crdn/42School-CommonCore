@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:34:08 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/21 13:45:25 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/21 14:14:56 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int Fixed::getRawBits( void ) const
     return (_n);
 }
 
-Fixed& Fixed::operator=(Fixed const &op)
+Fixed& Fixed::operator=(Fixed const &op) //
 {
     if (&op != this)
         _n = op.getRawBits();
@@ -109,18 +109,14 @@ bool Fixed::operator!=(Fixed const &op)
 }
 
 //arithmetie operator
-Fixed&  Fixed::operator+(Fixed const &op)
+Fixed  Fixed::operator+(Fixed const &op)
 {
+    Fixed fixed;
    
-    std::cout << "ici : " << (op.getRawBits() >> 8) << ", _n = " << (_n >> 8) << std::endl;
-    _n =(int)(_n >> 8) + (int)(op.getRawBits() >> 8);
-     std::cout << "LA = " << _n << std::endl;
-     
-   // int const raw = _n;
-    //_n = ret.setRawBits( (_n >> 8) + (op.getRawBits() >> 8));
-    op.getRawBits();
-    return (*this);
+    fixed.setRawBits(this->getRawBits() + op.getRawBits());
+    return (fixed);
 }
+
 Fixed&  Fixed::operator-(Fixed const &op) 
 {
     Fixed ret;
