@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:34:08 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/21 14:24:28 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/21 15:42:38 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int Fixed::getRawBits( void ) const
     return (_n);
 }
 
-Fixed& Fixed::operator=(Fixed const &op) //
+Fixed& Fixed::operator=(Fixed const &op)
 {
     if (&op != this)
         _n = op.getRawBits();
@@ -44,14 +44,21 @@ void Fixed::setRawBits( int const raw )
 
 Fixed::Fixed(int const n_const)
 {
-    _n = n_const << _bits; 
+    if (n_const > 8388607 || n_const < -8388608)
+        throw std::runtime_error("failed to construct");
+    else
+        _n = n_const << _bits;
 }
 
 Fixed::Fixed(float const float_const)
 {
-    _n = (int)roundf(float_const * (1 << _bits));
+    if (float_const > 8388607.0f)
+        _n = (int)roundf(8388607 * (1 << _bits)); 
+    else if (float_const < -8388608.0f)
+        _n = (int)roundf(-8388608 * (1 << _bits));
+    else
+        _n = (int)roundf(float_const * (1 << _bits));
 }
-
 
 int Fixed::toInt( void ) const
 {
@@ -141,31 +148,31 @@ Fixed  Fixed::operator/(Fixed const &op)
 //incrementation and decrementation post et pre
 Fixed& Fixed::operator++( void )
 {
-    
+    std::cout << "AFTER op ++\n";
 	++_n;
 	return (*this);
 }
+Fixed Fixed::operator++( int )
+{
+    Fixed fixed = *this;
+    std::cout << "BEFORE ++ op\n";
+    ++*this;
+	return (*this);
+}
+
 Fixed& Fixed::operator--( void )
 {
 	--_n;
 	return (*this);
 }
-/*
-Fixed Fixed::++operator( int i )
+Fixed Fixed::operator--( int )
 {
-	Fixed ret(i);
-    ret.setRawBits(i);
-	ret.operator++();
-	return (ret);
+    Fixed fixed = *this;
+    --*this;
+	return (*this);
 }
-Fixed Fixed::operator--( int i )
-{
-	Fixed ret(i);
-    ret.setRawBits(i);
-	ret.operator--();
-	return (ret);
-}
-*/
+
+
 //min
 int Fixed::min(Fixed &op1, Fixed &op2)
 {
@@ -179,6 +186,7 @@ int Fixed::min(Fixed const &op1, Fixed const &op2)
         return (op1._n);
     return (op2._n);
 }
+
 //max
 int Fixed::max(Fixed &op1, Fixed &op2)
 {

@@ -35,16 +35,16 @@
             Fixed operator*(Fixed const &op);
             Fixed operator/(Fixed const &op);
             //incrementation
-            Fixed & operator ++ ( void ); //pre increment
-            Fixed & operator -- ( void ); //pre decrement
-           /* Fixed ++operator( int i );  //post increment
-            Fixed operator -- ( int i ); //post decrement*/
+            Fixed& operator ++ ( void ); 
+            Fixed& operator -- ( void );
+            Fixed operator++( int );
+            Fixed operator -- ( int );
             //static
             static int min(Fixed &op1, Fixed &op2);
-            static int min(Fixed const &op1, Fixed const &op2); // statique enonce ? utiite ?
+            static int min(Fixed const &op1, Fixed const &op2); // statique prk enonce ? utilite ?
             static int max(Fixed &op1, Fixed &op2);
             static int max(Fixed const &op1, Fixed const &op2);
-        
+
         private:
             int _n;
             const static int _bits = 8;

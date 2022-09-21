@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:34:08 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/21 13:28:30 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/21 15:43:31 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ void Fixed::setRawBits( int const raw )
 
 Fixed::Fixed(int const n_const) //left shift operator
 { 
+     if (n_const > 8388607 || n_const < -8388608)
+        throw std::runtime_error("failed to construct");
+    else
+        _n = n_const << _bits;
+
     std::cout << "Fixed::Fixed(int const n_const)" << std::endl;
     _n = n_const << _bits; //3328 decimal, et 101100000000 en binaire, 13(10) 1101(2)
     std::cout << _n << std::endl;
@@ -58,6 +63,11 @@ Fixed::Fixed(int const n_const) //left shift operator
 
 Fixed::Fixed(float const float_const)
 {
+     if (float_const > 8388607.0f || float_const < -8388608.0f)
+        throw std::runtime_error("failed to construct");
+    else
+       _n = (int)roundf(float_const * (1 << _bits));
+
     std::cout << "Fixed::Fixed(float const float_const)" << std::endl;
     _n = (int)roundf(float_const * (1 << _bits)); //2^8 = 256 precision
     std::cout << _n << std::endl;
