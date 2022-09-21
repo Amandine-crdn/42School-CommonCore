@@ -18,8 +18,8 @@
             //ex01
             Fixed(int const n_const);
             Fixed(float const float_const);
-            float toFloat( void ) const;
             int toInt( void ) const;
+            float toFloat( void ) const;
 
             //ex02
             //comparaison

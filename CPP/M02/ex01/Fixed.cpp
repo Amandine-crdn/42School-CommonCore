@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:34:08 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/21 13:19:30 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/21 13:28:30 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,18 +58,23 @@ Fixed::Fixed(int const n_const) //left shift operator
 
 Fixed::Fixed(float const float_const)
 {
+    std::cout << "Fixed::Fixed(float const float_const)" << std::endl;
     _n = (int)roundf(float_const * (1 << _bits)); //2^8 = 256 precision
+    std::cout << _n << std::endl;
 }
 
 float Fixed::toFloat( void ) const
 {
+    std::cout << "float Fixed::toFloat( void ) const" << std::endl;
+    std::cout << (float)_n / (float)(1 << _bits) << std::endl;
     return ((float)_n / (float)(1 << _bits));
 }
 
 int Fixed::toInt( void ) const
 {
-    std::cout << "Fixed::Fixed(int const n_const)" << std::endl;
-    return (_n >> _bits);
+    std::cout << "int Fixed::toInt( void ) const" << std::endl;
+    std::cout << (int)(_n >> _bits) << std::endl;
+    return ((int)(_n >> _bits));
 }
 
 std::ostream &operator<<(std::ostream &op, const Fixed  &a)

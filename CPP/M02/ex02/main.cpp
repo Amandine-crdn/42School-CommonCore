@@ -11,6 +11,15 @@ int main( void )
     // std::cout << a++ << std::endl;
     // std::cout << a << std::endl;
     // std::cout << Fixed::max( a, b ) << std::endl;
+    Fixed a(5);
+    Fixed d;
+    //test comparaison
+    std::cout << d.getRawBits() << std::endl;
+    std::cout << (d > a) <<  std::endl;
+    //test arithmetie
+    Fixed e(10);
+    std::cout << a.operator+(e) <<  std::endl;
+
    
     return 0;
 }

@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:34:08 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/21 13:15:32 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/21 13:45:25 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,15 @@ Fixed::Fixed(float const float_const)
     _n = (int)roundf(float_const * (1 << _bits));
 }
 
-float Fixed::toFloat( void ) const
-{
-    return ((float)_n / (float)(1 << _bits));
-}
 
 int Fixed::toInt( void ) const
 {
     return ((int)(_n >> _bits));
+}
+
+float Fixed::toFloat( void ) const
+{
+    return ((float)_n / (float)(1 << _bits));
 }
 
 std::ostream &operator<<(std::ostream &op, const Fixed  &a)
@@ -110,8 +111,14 @@ bool Fixed::operator!=(Fixed const &op)
 //arithmetie operator
 Fixed&  Fixed::operator+(Fixed const &op)
 {
-    Fixed ret;
-    ret.setRawBits(_n + op.getRawBits());
+   
+    std::cout << "ici : " << (op.getRawBits() >> 8) << ", _n = " << (_n >> 8) << std::endl;
+    _n =(int)(_n >> 8) + (int)(op.getRawBits() >> 8);
+     std::cout << "LA = " << _n << std::endl;
+     
+   // int const raw = _n;
+    //_n = ret.setRawBits( (_n >> 8) + (op.getRawBits() >> 8));
+    op.getRawBits();
     return (*this);
 }
 Fixed&  Fixed::operator-(Fixed const &op) 
