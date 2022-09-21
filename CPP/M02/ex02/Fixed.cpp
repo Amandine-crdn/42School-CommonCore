@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:34:08 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/21 14:14:56 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/21 14:24:28 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,30 +116,32 @@ Fixed  Fixed::operator+(Fixed const &op)
     fixed.setRawBits(this->getRawBits() + op.getRawBits());
     return (fixed);
 }
-
-Fixed&  Fixed::operator-(Fixed const &op) 
+Fixed  Fixed::operator-(Fixed const &op)
 {
-    Fixed ret;
-    ret.setRawBits(_n - op.getRawBits());
-    return (*this);
+    Fixed fixed;
+   
+    fixed.setRawBits(this->getRawBits() - op.getRawBits());
+    return (fixed);
 }
-Fixed&  Fixed::operator*(Fixed const &op) 
+Fixed  Fixed::operator*(Fixed const &op)
 {
-    Fixed ret;
-    std::cout << "appel " << std::endl;
-    ret.setRawBits(_n * op.getRawBits());
-    return (*this);
+    Fixed fixed;
+   
+    fixed.setRawBits(this->getRawBits() * op.getRawBits());
+    return (fixed);
 }
-Fixed&  Fixed::operator/(Fixed const &op) 
+Fixed  Fixed::operator/(Fixed const &op)
 {
-    Fixed ret;
-    ret.setRawBits(_n / op.getRawBits());
-    return (*this);
+    Fixed fixed;
+   
+    fixed.setRawBits(this->getRawBits() / op.getRawBits());
+    return (fixed);
 }
 
 //incrementation and decrementation post et pre
 Fixed& Fixed::operator++( void )
 {
+    
 	++_n;
 	return (*this);
 }
@@ -148,7 +150,8 @@ Fixed& Fixed::operator--( void )
 	--_n;
 	return (*this);
 }
-Fixed Fixed::operator++( int i )
+/*
+Fixed Fixed::++operator( int i )
 {
 	Fixed ret(i);
     ret.setRawBits(i);
@@ -162,7 +165,7 @@ Fixed Fixed::operator--( int i )
 	ret.operator--();
 	return (ret);
 }
-
+*/
 //min
 int Fixed::min(Fixed &op1, Fixed &op2)
 {

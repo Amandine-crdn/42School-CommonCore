@@ -31,14 +31,14 @@
             bool operator!=(Fixed const &op);
             //arithmetie
             Fixed operator+(Fixed const &op);
-            Fixed& operator-(Fixed const &op);
-            Fixed& operator*(Fixed const &op);
-            Fixed& operator/(Fixed const &op);
+            Fixed operator-(Fixed const &op);
+            Fixed operator*(Fixed const &op);
+            Fixed operator/(Fixed const &op);
             //incrementation
             Fixed & operator ++ ( void ); //pre increment
             Fixed & operator -- ( void ); //pre decrement
-            Fixed operator ++ ( int i );  //post increment
-            Fixed operator -- ( int i ); //post decrement
+           /* Fixed ++operator( int i );  //post increment
+            Fixed operator -- ( int i ); //post decrement*/
             //static
             static int min(Fixed &op1, Fixed &op2);
             static int min(Fixed const &op1, Fixed const &op2); // statique enonce ? utiite ?

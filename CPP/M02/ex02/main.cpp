@@ -11,16 +11,24 @@ int main( void )
     // std::cout << a++ << std::endl;
     // std::cout << a << std::endl;
     // std::cout << Fixed::max( a, b ) << std::endl;
-    Fixed a(5);
-    //std::cout << a << std::endl;
-   // Fixed d;
-    //test comparaison
-    // std::cout << d.getRawBits() << std::endl;
-    // std::cout << (d > a) <<  std::endl;
-    //test arithmetie
-    Fixed e(10);
+    /////////////////
     
+    //test constructeur
+    Fixed a(5);
+    std::cout << a << std::endl;
+    std::cout << a.getRawBits() << std::endl;
+    //test comparaison
+    Fixed d;
+    std::cout << d.getRawBits() << std::endl;
+    std::cout << (d > a) <<  std::endl;
+    // test arithmetie
+    Fixed e(10);
     std::cout << a + e << std::endl;
-   
+    std::cout << a << std::endl; // valeur non changer
+    std::cout << a.getRawBits() << std::endl;
+     std::cout << "coucou\n";
+    // test incrementation
+    a.operator++();
+    std::cout << a.getRawBits() << std::endl;
     return 0;
 }
