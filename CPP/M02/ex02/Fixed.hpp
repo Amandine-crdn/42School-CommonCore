@@ -40,10 +40,10 @@
             Fixed operator++( int );
             Fixed operator -- ( int );
             //static
-            static int min(Fixed &op1, Fixed &op2);
-            static int min(Fixed const &op1, Fixed const &op2); // statique prk enonce ? utilite ?
-            static int max(Fixed &op1, Fixed &op2);
-            static int max(Fixed const &op1, Fixed const &op2);
+            static Fixed& min(Fixed &op1, Fixed &op2);
+            static const Fixed&  min(Fixed const &op1, Fixed const &op2); // statique prk enonce ? utilite ?
+            static Fixed& max(Fixed &op1, Fixed &op2);
+            static const Fixed& max(Fixed const &op1, Fixed const &op2);
 
         private:
             int _n;

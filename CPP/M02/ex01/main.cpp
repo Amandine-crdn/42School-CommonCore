@@ -2,7 +2,7 @@
 
 int main( void )
 {
-   /* Fixed a;
+    Fixed a;
     Fixed const b( 10 );
     Fixed const c( 42.42f );
     Fixed const d( b );
@@ -15,10 +15,5 @@ int main( void )
     std::cout << "b is " << b.toInt() << " as integer" << std::endl;
     std::cout << "c is " << c.toInt() << " as integer" << std::endl;
     std::cout << "d is " << d.toInt() << " as integer" << std::endl;
-    *//////
-    Fixed e(13); //Fixed::Fixed(int const n_const)
-    e.toInt();//int Fixed::toInt( void ) const
-    Fixed f(13.5f); //Fixed::Fixed(float const float_const)
-    f.toFloat(); //float Fixed::toFloat( void ) const
     return 0;
 }
