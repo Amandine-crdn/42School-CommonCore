@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:34:08 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/21 17:33:43 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/22 13:35:48 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,36 @@ void Fixed::setRawBits( int const raw )
 
 //ex01
 
-Fixed::Fixed(int const n_const) //left shift operator
+int Fixed::ft_power2(int i, int power){
+    int res = 1;
+
+    for(int y = 0; y < power; y++)
+        res *= i;
+    return (res);
+}
+
+Fixed::Fixed(int const n_const)
 { 
-    if (n_const > 8388607 || n_const < -8388608)
-        throw std::runtime_error("failed to construct");
-    else
-        this->_n = n_const << _bits;
-        
     std::cout << "Int constructor called" << std::endl;
-    this->_n = n_const << _bits; //3328 decimal, et 101100000000 en binaire, 13(10) 1101(2)
+    if (n_const > 8388607 || n_const < -8388608)
+    {
+        std::cout << "no permission to use this value" << std::endl;
+        exit(-1);
+    }
+    else
+        this->_n = n_const * ft_power2(2, _bits);
 }
 
 Fixed::Fixed(float const float_const)
 {
-     if (float_const > 8388607.0f || float_const < -8388608.0f)
-        throw std::runtime_error("failed to construct");
-    else
-      this-> _n = (int)roundf(float_const * (1 << _bits));
-
     std::cout << "Float constructor called" << std::endl;
-   this-> _n = (int)roundf(float_const * (1 << _bits)); //2^8 = 256 precision
+    if (float_const > 8388607.0f || float_const < -8388608.0f)
+    {
+        std::cout << "no permission to use this value" << std::endl;
+        exit(-1);
+    }
+    else
+      this-> _n = (int)roundf(float_const * ft_power2(2, _bits));
 }
 
 float Fixed::toFloat( void ) const
@@ -77,11 +87,11 @@ float Fixed::toFloat( void ) const
 
 int Fixed::toInt( void ) const
 {
-    return ((int)(this->_n >> _bits));
+    return ((int)(this->_n / 256));
 }
 
-std::ostream &operator<<(std::ostream &op, const Fixed  &a)
+std::ostream &operator<<(std::ostream &os, const Fixed &fixed)
 {
-	op << a.toFloat();
-	return (op);
+	os << fixed.toFloat();
+	return (os);
 }

@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 12:34:08 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/21 17:32:12 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/22 13:47:54 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int Fixed::getRawBits( void ) const
 Fixed& Fixed::operator=(Fixed const &op)
 {
     if (&op != this)
-        _n = op.getRawBits();
+        this->_n = op.getRawBits();
     return (*this);
 }
 
@@ -42,24 +42,30 @@ void Fixed::setRawBits( int const raw )
     this->_n = raw;
 }
 
+//ex01
+
+int Fixed::ft_power2(int i, int power){
+    int res = 1;
+
+    for(int y = 0; y < power; y++)
+        res *= i;
+    return (res);
+}
+
 Fixed::Fixed(int const n_const)
-{
+{ 
     if (n_const > 8388607 || n_const < -8388608)
-        throw std::runtime_error("failed to construct");
-    this->_n = n_const << _bits;
+        exit(-1);
+    else
+        this->_n = n_const * ft_power2(2, _bits);
 }
 
 Fixed::Fixed(float const float_const)
 {
-     if (float_const > 8388607.0f || float_const < -8388608.0f)
-        throw std::runtime_error("failed to construct");
+    if (float_const > 8388607.0f || float_const < -8388608.0f)
+        exit(-1);
     else
-        this->_n = (int)roundf(float_const * (1 << _bits));
-}
-
-int Fixed::toInt( void ) const
-{
-    return ((int)(this->_n >> _bits));
+      this-> _n = (int)roundf(float_const * ft_power2(2, _bits));
 }
 
 float Fixed::toFloat( void ) const
@@ -67,11 +73,17 @@ float Fixed::toFloat( void ) const
     return ((float)this->_n / (float)(1 << _bits));
 }
 
-std::ostream &operator<<(std::ostream &op, const Fixed  &a)
+int Fixed::toInt( void ) const
 {
-	op << a.toFloat();
-	return (op);
+    return ((int)(this->_n / 256));
 }
+
+std::ostream &operator<<(std::ostream &os, const Fixed &fixed)
+{
+	os << fixed.toFloat();
+	return (os);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //ex02
 //comparaison operator
@@ -117,7 +129,7 @@ Fixed  Fixed::operator+(Fixed const &op)
 {
     Fixed fixed;
    
-    fixed.setRawBits((this->getRawBits() + op.getRawBits()) >> this->_bits);
+    fixed.setRawBits(((this->getRawBits() + op.getRawBits())) / 256);
     return (fixed);
 }
 Fixed  Fixed::operator-(Fixed const &op)
@@ -131,14 +143,14 @@ Fixed  Fixed::operator*(Fixed const &op)
 {
     Fixed fixed = *this;
    
-    fixed.setRawBits((this->getRawBits() * op.getRawBits()) >> this->_bits);
+    fixed.setRawBits((this->getRawBits() * op.getRawBits()) / ft_power2(2, _bits));
     return (fixed);
 }
 Fixed  Fixed::operator/(Fixed const &op)
 {
     Fixed fixed;
    
-    fixed.setRawBits((this->getRawBits() / op.getRawBits()) >> this->_bits);
+    fixed.setRawBits((this->getRawBits() / op.getRawBits()) >> (1 * this->_bits));
     return (fixed);
 }
 
