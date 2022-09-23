@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   FragTrap.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acerdan   <acerdan@student.42.fr    >      +#+  +:+       +#+        */
+/*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/22 11:08:40 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/23 10:43:29 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ FragTrap::FragTrap(){
 
 FragTrap::FragTrap(std::string name) {
     this->_name = name;
-    std::cout << "FragTrap Constructor with name : " << this->_name << std::endl << std::endl;
+    this->_hit = 100;
+    this->_energy = 100;
+    this->_attack_damage = 30;
+    std::cout << "FragTrap Constructor : " << this->_name << " is created" << std::endl << std::endl;
 }
 
 FragTrap::~FragTrap(){
@@ -28,7 +31,12 @@ FragTrap::~FragTrap(){
 FragTrap& FragTrap::operator=(FragTrap const &op){
     std::cout << "FragTrap Operator=" << std::endl;
     if (&op != this)
-        *this = op;
+    {
+        this->_name = _name;
+        this->_hit = 100;
+        this->_energy = 100;
+        this->_attack_damage = 30;
+    }
     return (*this);
 }
 
