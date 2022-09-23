@@ -6,7 +6,7 @@
 /*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/22 14:15:23 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/23 10:37:38 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,14 @@
 
 int main()
 {
-    ClapTrap player1("Rockie");
-    ScavTrap player2("Dragon"); //copy de class, declarer avec les 2 constructeurs
+    ClapTrap player1("Rockie"); std::cout << player1 << std::endl;
+    ScavTrap player2("Dragon"); std::cout << player2 << std::endl;
 
-    player1.attack("Dragon");
-    player2.takeDamage(4294967295);
-    player2.beRepaired(10);
+    player1.attack("Dragon"); std::cout << player1 << std::endl;
+    player2.takeDamage(99); std::cout << player2 << std::endl;
+    player2.beRepaired(12); std::cout << player2 << std::endl;
+    player2.guardGuate();
     player2.attack("Rockie");
-    player1.takeDamage(10);
-    player1.beRepaired(5);
-    player2.attack("Rockie");
-    player1.takeDamage(10);
-    player2.guardGuate(); // impossible de l'appeler avec player1 (ClapTrap)
-
+    player1.takeDamage(20); std::cout << player1 << std::endl;
     return (0);
 }

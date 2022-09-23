@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ScavTrap.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acerdan   <acerdan@student.42.fr    >      +#+  +:+       +#+        */
+/*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/22 10:50:18 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/23 10:38:36 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
     #include <iostream>
     #include "ClapTrap.hpp"
+    
 class ScavTrap : public ClapTrap {
 
     public :

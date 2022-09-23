@@ -3,22 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ScavTrap.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acerdan   <acerdan@student.42.fr    >      +#+  +:+       +#+        */
+/*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/22 10:50:18 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/23 10:38:20 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScavTrap.hpp"
 
-ScavTrap::ScavTrap(){
-    std::cout << "ScavTrap Constructor" << std::endl;
+ScavTrap::ScavTrap() : ClapTrap() {
+    std::cout << "ScavTrap Default Constructor" << std::endl;
 }
 
-ScavTrap::ScavTrap(std::string name) {
+ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
     this->_name = name;
-    std::cout << "ScavTrap Constructor with name : " << this->_name << std::endl << std::endl;
+    this->_hit = 100;
+    this->_energy = 50;
+    this->_attack_damage = 20;
+    std::cout << "ScavTrap Constructor: " << this->_name << " is created" << std::endl << std::endl;
 }
 
 ScavTrap::~ScavTrap(){
@@ -28,7 +31,12 @@ ScavTrap::~ScavTrap(){
 ScavTrap& ScavTrap::operator=(ScavTrap const &op){
     std::cout << "ScavTrap Operator=" << std::endl;
     if (&op != this)
-        *this = op; //tester si ca marche
+    {
+        this->_name = _name;
+        this->_hit = 100;
+        this->_energy = 50;
+        this->_attack_damage = 20;
+    }
     return (*this);
 }
 
@@ -38,15 +46,13 @@ ScavTrap::ScavTrap(ScavTrap const &copy){
 }
 
 void ScavTrap::attack(const std::string& target){
-    if (this->_energy > 0 && this->_hit > 0)
+    if (this->_hit <= 0 || this->_energy <= 0)
+       std::cout << "I'm sorry.. " << this->_name << " ScavTrap can't attack"<< std::endl;
+    else
     {
         this->_energy--;
         std::cout << "ScavTrap " << this->_name << " attacks " << target << ", causing " << this->_attack_damage << " points of damage" << std::endl;
     }
-    else if (this->_hit <= 0)
-        std::cout << "I'm sorry.. " << this->_name << " can't attack cause he's die..\n" << std::endl;
-    else
-        std::cout << "I'm sorry.. " << this->_name << " can't attack cause he'd not enought point" << std::endl;
 }
 
 void ScavTrap::guardGuate(){
