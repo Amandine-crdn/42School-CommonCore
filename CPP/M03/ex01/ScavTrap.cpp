@@ -3,21 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ScavTrap.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acerdan   <acerdan@student.42.fr    >      +#+  +:+       +#+        */
+/*   By: acerdan <acerdan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1970/01/01 01:00:00 by acerdan           #+#    #+#             */
-/*   Updated: 2022/09/22 10:47:19 by acerdan          ###   ########.fr       */
+/*   Updated: 2022/09/22 14:54:51 by acerdan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScavTrap.hpp"
 
-ScavTrap::ScavTrap(){
+ScavTrap::ScavTrap() : ClapTrap() {
+    this->_name = ("no_name");
+    this->_hit = 100;
+    this->_energy = 50;
+    this->_attack_damage = 20;
     std::cout << "ScavTrap Constructor" << std::endl;
 }
 
-ScavTrap::ScavTrap(std::string name) {
+ScavTrap::ScavTrap(std::string name) : ClapTrap(name) {
     this->_name = name;
+    this->_hit = 100;
+    this->_energy = 50;
+    this->_attack_damage = 20;
     std::cout << "ScavTrap Constructor with name : " << this->_name << std::endl << std::endl;
 }
 
@@ -28,7 +35,7 @@ ScavTrap::~ScavTrap(){
 ScavTrap& ScavTrap::operator=(ScavTrap const &op){
     std::cout << "ScavTrap Operator=" << std::endl;
     if (&op != this)
-        *this = op; //tester si ca marche
+        *this = op;
     return (*this);
 }
 
@@ -38,6 +45,8 @@ ScavTrap::ScavTrap(ScavTrap const &copy){
 }
 
 void ScavTrap::attack(const std::string& target){
+    //std::cout << "energy = " << _energy << std::endl;
+    std::cout << "******** " << _name << ", hit = " << _hit << std::endl;
     if (this->_energy > 0 && this->_hit > 0)
     {
         this->_energy--;
