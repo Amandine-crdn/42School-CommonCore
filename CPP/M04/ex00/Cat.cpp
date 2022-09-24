@@ -1,27 +1,27 @@
-#include "WrongCat.hpp"
+#include "Cat.hpp"
 
-WrongCat::WrongCat() {
-    this->type = "WrongCat";
+Cat::Cat() {
+    this->type = "Cat";
     std::cout << this->getType() << " Constructor" << std::endl;
 }
 
-WrongCat::~WrongCat() {
+Cat::~Cat() {
     std::cout << this->getType() << " Destructor" << std::endl;
 }
 
-WrongCat::WrongCat( WrongCat &cpy ) : WrongAnimal() {
+Cat::Cat( Cat const &cpy ) : Animal() {
     this->type = cpy.type; 
     std::cout << this->getType() << " Copy Constructor" << std::endl;
 }
 
-WrongCat& WrongCat::operator=( WrongCat &op ) {
-    std::cout << this->getType() << " becomes ";
+Cat& Cat::operator=( Cat const &op ) {
+   std::cout << this->getType() << " becomes ";
     if (op.getType() != this->getType())
         this->setType(op.type);
     std::cout << this->getType() << " by Surcharge d'Assignator" << std::endl;
     return (*this);
 }
 
-void WrongCat::makeSound() const{ 
-    std::cout << "The " << this->getType() << " is Meowing" << std::endl;
+void Cat::makeSound() const{ 
+    std::cout << " is Meowing" << std::endl;
 }

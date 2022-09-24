@@ -13,7 +13,7 @@ class Animal {
 
         void setType(std::string change);
         std::string getType() const;
-        void makeSound() const;
+        virtual void makeSound() const;
 
     protected :
         std::string type;

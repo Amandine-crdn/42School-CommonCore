@@ -1,27 +1,27 @@
-#include "Cat.hpp"
+#include "Dog.hpp"
 
-Cat::Cat() {
-    this->type = "Cat";
+Dog::Dog() {
+    this->type = "Dog";
     std::cout << this->getType() << " Constructor" << std::endl;
 }
 
-Cat::~Cat() {
+Dog::~Dog() {
     std::cout << this->getType() << " Destructor" << std::endl;
 }
 
-Cat::Cat( Cat const &cpy ) : Animal() {
+Dog::Dog( Dog const &cpy ) : Animal() {
     this->type = cpy.type; 
     std::cout << this->getType() << " Copy Constructor" << std::endl;
 }
 
-Cat& Cat::operator=( Cat const &op ) {
-   std::cout << this->getType() << " becomes ";
+Dog& Dog::operator=( Dog const &op ) {
+    std::cout << this->getType() << " becomes ";
     if (op.getType() != this->getType())
         this->setType(op.type);
     std::cout << this->getType() << " by Surcharge d'Assignator" << std::endl;
     return (*this);
 }
 
-void Cat::makeSound() const{ 
-    std::cout << "The " << this->getType() << " is Meowing" << std::endl;
+void Dog::makeSound() const{ 
+    std::cout << " is Wouaaaf" << std::endl;
 }
