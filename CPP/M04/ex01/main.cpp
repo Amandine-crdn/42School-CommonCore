@@ -3,14 +3,14 @@
 
 int main()
 {
-    std::cout << "1/" << std::endl;
+    /*std::cout << "1/" << std::endl;
     const Animal* j = new Dog();
     std::cout << "2/" << std::endl;
     const Animal* i = new Cat();
     std::cout << "3/" << std::endl;
     delete j;//should not create a leak
     std::cout << "4/" << std::endl;
-    delete i;
+    delete i;*/
 
     /*
          //MES TESTS 
@@ -35,22 +35,22 @@ int main()
     }*/
 
 
-    /*
-        std::cout << "----- copies profondes -------" << std::endl;
     
-    std::cout << "***** COUCOU INFO *****\n";
+    /*    std::cout << "\n----- copies profondes -------" << std::endl;
+    
+    std::cout << "\n***** COUCOU INFO *****\n";
     Dog coucou;
     coucou.setBrain("J'aime me balader");
     coucou.setBrain("J'adore manger mes croquettes");
     coucou.getBrain(); // affiche le contenu du tableau de _brain dans Dog
-    std::cout << "***** COPY INFO *****\n";
+    std::cout << "\n***** COPY INFO *****\n";
     Dog copy(coucou); // copy profonde
     copy.getBrain();
     std::cout << copy.getType() << std::endl;
-    std::cout << "***** EGAL INFO ******\n";
+    std::cout << "\n***** EGAL INFO ******\n";
     Dog egal;
     egal = coucou;
     egal.getBrain();
-    std::cout << "----- Destructions -------" << std::endl;*/
+    std::cout << "\n----- Destructions -------" << std::endl;*/
     return 0;
 }

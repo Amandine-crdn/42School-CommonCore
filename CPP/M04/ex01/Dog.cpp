@@ -13,21 +13,22 @@ Dog::~Dog() {
 }
 
 Dog::Dog( Dog const &cpy ) {
+    std::cout << this->getType() << " by Dog Copy Constructor" << std::endl;
+    //copy des attributs
     this->type = cpy.type;
     this->_value = cpy._value;
-    std::cout << this->getType() << " by Dog Copy Constructor" << std::endl;
+    //copy de Brain *
     this->_brain = new Brain();
-    *this = cpy;
-    // for (int i = 0; this->_brain->ideas[i].size(); i++)
-    // this->_brain->ideas[i] = cpy._brain->ideas[i];
+    for (int i = 0; i <= getValue(); i++)
+    this->_brain->ideas[i] = cpy._brain->ideas[i];
 }
 
 Dog& Dog::operator=( Dog const &op ) {
     std::cout << this->getType() << " becomes ";
-
-    if (op.getType() != this->getType())
-        this->setType(op.type);
-    this->_value = op._value; //si different blablba
+    //attributs
+    this->setType(op.type);
+    this->_value = op._value;
+    //Brain *
     for (int i = 0; i <= getValue(); i++)
     this->_brain->ideas[i] = op._brain->ideas[i];
 
