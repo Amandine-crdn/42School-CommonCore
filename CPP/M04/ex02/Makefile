@@ -1,8 +1,8 @@
-SRCS	= main.cpp  Brain.cpp Animal.cpp Dog.cpp Cat.cpp 
+SRCS	= main.cpp  Brain.cpp AAnimal.cpp Dog.cpp Cat.cpp 
 
 OBJS	= $(SRCS:.cpp=.o)
 
-NAME	= Brainz
+NAME	= Abstract
 
 CLANG	= c++
 

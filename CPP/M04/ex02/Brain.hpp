@@ -6,8 +6,8 @@
 class Brain {
 
     private:
-        static const int _nb_ideas = 100; //prk static const
-        
+        const static int _nb_ideas = 100;
+
     public :
         Brain();
         ~Brain();
