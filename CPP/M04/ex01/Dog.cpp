@@ -42,10 +42,13 @@ void Dog::makeSound() const{
 
 void Dog::setBrain( std::string idea )
 {
-    static int i = 0; //fin 
-	 _brain->ideas[i] = idea;
-     i++;
-    setValue(i);
+    static int i = 0; 
+    if (i != 100)
+    {
+        _brain->ideas[i] = idea;
+        i++;
+        setValue(i);      
+    }
 }
 
 void Dog::getBrain() const

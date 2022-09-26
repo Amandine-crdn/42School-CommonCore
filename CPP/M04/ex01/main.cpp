@@ -36,7 +36,7 @@ int main()
 
 
     
-    /*    std::cout << "\n----- copies profondes -------" << std::endl;
+        std::cout << "\n----- copies profondes -------" << std::endl;
     
     std::cout << "\n***** COUCOU INFO *****\n";
     Dog coucou;
@@ -51,6 +51,6 @@ int main()
     Dog egal;
     egal = coucou;
     egal.getBrain();
-    std::cout << "\n----- Destructions -------" << std::endl;*/
+    std::cout << "\n----- Destructions -------" << std::endl;
     return 0;
 }

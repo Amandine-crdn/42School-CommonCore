@@ -14,9 +14,14 @@ class Cat : public Animal {
         Cat& operator=(Cat const &op);
         
         void makeSound() const;
-    
+        void setBrain( std::string idea );
+        void getBrain() const;
+        void setValue(int i);
+        int  getValue() const;
+
     private:
         Brain *_brain;
+        int    _value;
 };
 
 #endif
