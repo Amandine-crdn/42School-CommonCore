@@ -2,25 +2,25 @@
 
 Cat::Cat() {
     this->type = "Cat";
+    std::cout << "Cat Constructor" << std::endl;
     this->_brain = new Brain();
-    std::cout << this->getType() << " Constructor" << std::endl;
 }
 
 Cat::~Cat() {
-    std::cout << this->getType() << " Destructor" << std::endl;
-    delete _brain;
+    delete this->_brain;
+    std::cout << "Cat Destructor" << std::endl;
 }
 
 Cat::Cat( Cat const &cpy ) : Animal() {
     this->type = cpy.type; 
-    std::cout << this->getType() << " Copy Constructor" << std::endl;
+    std::cout << this->getType() << " by Cat Copy Constructor" << std::endl;
 }
 
 Cat& Cat::operator=( Cat const &op ) {
    std::cout << this->getType() << " becomes ";
     if (op.getType() != this->getType())
         this->setType(op.type);
-    std::cout << this->getType() << " by Surcharge d'Assignator" << std::endl;
+    std::cout << this->getType() << " by Cat Surcharge d'Assignator" << std::endl;
     return (*this);
 }
 
