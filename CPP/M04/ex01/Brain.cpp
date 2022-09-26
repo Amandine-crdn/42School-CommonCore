@@ -9,16 +9,16 @@ Brain::~Brain() {
 }
 
 Brain::Brain( Brain const &cpy ) {
-    for (int i = 0; i < this->_nb_ideas; i++)
-    this->ideas[i] = cpy.ideas[i];
+    // for (int i = 0; i < this->_nb_ideas; i++)
+    // this->ideas[i] = cpy.ideas[i];
+    *this = cpy;
     std::cout << "Brain Copy Constructor" << std::endl;
 }
 
 Brain& Brain::operator=( Brain const &op ) {
     if (this != &op)
     {
-       for (int i = 0; i < this->_nb_ideas; i++)
-       this->ideas[i] = op.ideas[i];
+        *this = op;
     }
     std::cout << "Brain Assignement operator" << std::endl;
     return (*this);

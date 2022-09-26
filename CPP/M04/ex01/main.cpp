@@ -2,7 +2,7 @@
 #include "Cat.hpp"
 
 int main()
-{/*
+{
     std::cout << "1/" << std::endl;
     const Animal* j = new Dog();
     std::cout << "2/" << std::endl;
@@ -12,7 +12,8 @@ int main()
     std::cout << "4/" << std::endl;
     delete i;
 
-     MES TESTS 
+    /*
+         //MES TESTS 
     
     int total = 5;
     Animal *tab[total];
@@ -31,10 +32,12 @@ int main()
     {
         delete tab[total - 1];
         total --;
-    }
-*/
-    std::cout << "----- copies profondes -------" << std::endl;
+    }*/
 
+
+    /*
+        std::cout << "----- copies profondes -------" << std::endl;
+    
     std::cout << "***** COUCOU INFO *****\n";
     Dog coucou;
     coucou.setBrain("J'aime me balader");
@@ -46,7 +49,8 @@ int main()
     std::cout << copy.getType() << std::endl;
     std::cout << "***** EGAL INFO ******\n";
     Dog egal;
-    egal = copy;
-
+    egal = coucou;
+    egal.getBrain();
+    std::cout << "----- Destructions -------" << std::endl;*/
     return 0;
 }

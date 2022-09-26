@@ -14,6 +14,7 @@ Dog::~Dog() {
 
 Dog::Dog( Dog const &cpy ) {
     this->type = cpy.type;
+    this->_value = cpy._value;
     std::cout << this->getType() << " by Dog Copy Constructor" << std::endl;
     this->_brain = new Brain();
     *this = cpy;
@@ -26,8 +27,8 @@ Dog& Dog::operator=( Dog const &op ) {
 
     if (op.getType() != this->getType())
         this->setType(op.type);
-    
-    for (int i = 0; this->_brain->ideas[i].size(); i++)
+    this->_value = op._value; //si different blablba
+    for (int i = 0; i <= getValue(); i++)
     this->_brain->ideas[i] = op._brain->ideas[i];
 
     std::cout << this->getType() << " by Dog Surcharge d'Assignator" << std::endl;
@@ -43,6 +44,7 @@ void Dog::setBrain( std::string idea )
     static int i = 0; //fin 
 	 _brain->ideas[i] = idea;
      i++;
+    setValue(i);
 }
 
 void Dog::getBrain() const
