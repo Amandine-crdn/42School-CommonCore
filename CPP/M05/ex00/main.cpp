@@ -3,7 +3,7 @@
 int main()
 {
     try {
-        Bureaucrat agent("agent", 150);
+        Bureaucrat agent("agent", 155);
         /* OU
             agent.setGrade(i); // usage setters
             agent.setName("agent");
@@ -12,7 +12,7 @@ int main()
             SANS RIEN
         */
        // std::cout << "avant : " << agent.getGrade() << std::endl; // usage getter
-        agent.operator-(); //le fait baisser en grade (augmente de 1)
+       // agent.operator-(); //le fait baisser en grade (augmente de 1)
         //std::cout << "apres : "  << agent.getGrade() << std::endl;
     }
     catch (std::exception &e){

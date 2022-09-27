@@ -12,11 +12,9 @@ class Bureaucrat {
         Bureaucrat &operator=(Bureaucrat const &op);
         Bureaucrat(const std::string name, int grade);
 
-        //getter et setter
+        //getters
         const std::string getName() const;
         int getGrade() const;
-        void setName(const std::string name);
-        void setGrade(int grade);
 
         //incrementation, decrementation
         void operator-();

@@ -2,35 +2,20 @@
 
 int main()
 {
-    int i = 0; // pour try
-    Bureaucrat agent("agent");
-   
-    Bureaucrat::GradeTooHighException tooHight; // NOT USE ex00 ex01 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    Bureaucrat::GradeTooLowException tooLow;
-    agent.setGrade(10); //avec et sans cette ligne a tester
-    std::cout << agent << std::endl; // ma surcharge d'operateur <<
-    try {
-        //exemple 1 i = 150
-        /*agent.setGrade(i); // usage setter
-        std::cout << "avant : " << agent.getGrade() << std::endl; // usage getter
-        agent.operator-(); //le fait baisser en grade (augmente de 1)
-        std::cout << "apres : "  << agent.getGrade() << std::endl;*/
-        
-        // exemple 2 i = 1
-        /*agent.setGrade(i);
-        std::cout << "avant : " << agent.getGrade() << std::endl;
-        agent.operator+(); //le fait augmenter en grade (baisse de 1)
-        std::cout << "apres : "  << agent.getGrade() << std::endl;*/
-
-        if (agent.getGrade() < 1 || agent.getGrade() > 150) {
-            throw std::exception();
-        }
-        else {
-            agent.setGrade(i);
-        }
+    try
+    {
+        std::cout << "1\n";
+        Bureaucrat bureaucrat("Etienne", 42);
+        std::cout << "2\n";
+        Form secret("secret", 10, 10);
+        std::cout << secret << std::endl;
+        bureaucrat.signForm(secret);
+        std::cout << "3\n";
+        Form nomalForm("nomalForm", 120, 120);
     }
-    catch (std::exception e){
-        std::cerr << "Error not valid grade" << std::endl;
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
     }
     
     return (0);

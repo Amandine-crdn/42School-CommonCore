@@ -1,47 +1,44 @@
 #ifndef FORM_HPP
 #   define FORM_HPP
+
 #   include <iostream>
 #   include <stdexcept>
+#   include "Bureaucrat.hpp"
+
+class Bureaucrat ;
 
 class Form {
 
     public :
         Form();
         ~Form();
-        Form(Form &cp);
-        Form &operator=(Form &op);
-        Form(std::string name);
+        Form(Form const &cp);
+        Form &operator=(Form const &op);
+        Form(std::string name, const int gts, const int gte);
 
-        //getter et setter
-        std::string getName() const;//const std::string du coup
-        int getGrade() const;
-        void setName(std::string name);
-        void setGrade(int grade);
+        //getters
+        const std::string getName() const;
+        int getGradetosign() const; //ne veut pas de const int ?
+        int getGradetoexec() const;
+        bool getSigned() const;
 
-        //incrementation, decrementation
-        void operator-();
-        void operator+();
+        //functions
+        int beSigned(const Bureaucrat &b);
 
         //class exception
-        class GradeTooHighException { //faut-il leur creer des constructeur et destructeur ? (pas cooplenne ok)
+        class GradeTooHighException : public std::exception {
             public :
-                virtual const char * what() const throw()
-                {
-                    return ("PROBLEME HIGHT");
-                }
+                virtual const char * what() const throw();
         };
-        class GradeTooLowException {
+        class GradeTooLowException : public std::exception {
             public :
-                virtual const char * what() const throw()
-                {
-                    return ("PROBLEME LOW");
-                }
+                virtual const char * what() const throw();
         };
 
     private :
-        std::string _name; //const string attendu par le sujet
-        const int _gradetosign; //const int ici
-        const int _gradetoexec; //const int ici
+        const std::string _name;
+        const int _gradetosign;
+        const int _gradetoexec; // diff ??
         bool _signed;
 
 };

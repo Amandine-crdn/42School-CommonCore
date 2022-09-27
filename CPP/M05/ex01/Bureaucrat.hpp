@@ -2,45 +2,43 @@
 #   define BUREAUCRAT_HPP
 #   include <iostream>
 #   include <stdexcept>
+#   include "Form.hpp"
+
+class Form;
 
 class Bureaucrat {
 
     public :
         Bureaucrat();
         ~Bureaucrat();
-        Bureaucrat(Bureaucrat &cp);
-        Bureaucrat &operator=(Bureaucrat &op);
-        Bureaucrat(std::string name);
+        Bureaucrat(Bureaucrat const &cp);
+        Bureaucrat &operator=(Bureaucrat const &op);
+        Bureaucrat(const std::string name, int grade);
 
-        //getter et setter
-        std::string getName() const;//const std::string du coup
+        //function
+        void signForm(Form &form);
+
+        //getters
+        const std::string getName() const;
         int getGrade() const;
-        void setName(std::string name);
-        void setGrade(int grade);
 
         //incrementation, decrementation
         void operator-();
         void operator+();
 
         //class exception
-        class GradeTooHighException {
+        class GradeTooHighException : public std::exception {
             public :
-                virtual const char * what() const throw()
-                {
-                    return ("PROBLEME HIGHT");
-                }
+                virtual const char * what() const throw();
         };
-        class GradeTooLowException {
+        class GradeTooLowException : public std::exception {
             public :
-                virtual const char * what() const throw()
-                {
-                    return ("PROBLEME LOW");
-                }
+                virtual const char * what() const throw();
         };
-    private :
-        std::string _name; //const string attendu par le sujet
-        int _grade;
 
+    private :
+        const std::string _name;
+        int _grade;
 };
 
 //surcharge d'operateur d'insertion
