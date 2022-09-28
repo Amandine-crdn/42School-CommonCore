@@ -71,7 +71,7 @@ void AForm::execute(Bureaucrat const &executor) const {
         else if (!this->getName().compare("ShrubberyCreationForm"))
             std::cout << "j'implemente un fichier <target> dans le repertoire courant \
             pour faire une foret d'arbre en ASCII a linterieur" << std::endl;
-        else if (!this->getName().compare("ShrubberyCreationForm"))
+        else if (!this->getName().compare("RobotomyRequestForm"))
             std::cout << "Fait des bruits de perceuse. Ensuite, informe que la <target> a été robotomisée \
             avec succès 1/2 fois. Dans le cas contraire, informe que lopération a échoué." << std::endl;
     }
