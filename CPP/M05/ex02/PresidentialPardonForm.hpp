@@ -18,6 +18,9 @@ class PresidentialPardonForm : public AForm { //que retirer, que mettre en virtu
         
         //getter
         std::string getTarget() const;
+
+        void execute(Bureaucrat const &executor) const;
+        void ft_ask_scuze() const;
     
     private:
         std::string _target;

@@ -67,32 +67,3 @@ void AForm::beSigned(const Bureaucrat &b){
     else
         this->_signed = true;
 }
-
-/*
-void AForm::execute(Bureaucrat const &executor) const {
-    if (this->getSigned() == true && executor.getGrade() <= this->_gradetoexec)
-    {
-        if (!this->getName().compare("PresidentialPardonForm"))
-            AForm::ft_ask_scuze();
-        else if (!this->getName().compare("ShrubberyCreationForm"))
-            AForm::ft_forest();
-        else if (!this->getName().compare("RobotomyRequestForm"))
-            AForm::ft_robotize();
-    }
-    else if (this->getSigned() == false)
-        throw AForm::NotSignedException();
-    else if (executor.getGrade() > this->_gradetoexec)
-        throw AForm::GradeTooLowException();
-}
-
-
-void AForm::ft_robotize() const {
-    std::cout << "Fait des bruits de perceuse. Ensuite, informe que la <target> a été robotomisée \
-            avec succès 1/2 fois. Dans le cas contraire, informe que lopération a échoué." << std::endl;
-}
-
-void AForm::ft_ask_scuze() const {
-    std::cout << "j'implemente une fonction pour executer le pardon presidentielle" << std::endl;
-}
-
-*/

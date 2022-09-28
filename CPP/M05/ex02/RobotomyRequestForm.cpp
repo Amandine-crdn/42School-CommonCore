@@ -31,3 +31,20 @@ std::ostream &operator<<(std::ostream &os, const RobotomyRequestForm &p){
     "Grade to exec : " << p.getGradetoexec() << std::endl;
     return (os);
 }
+
+void RobotomyRequestForm::ft_robotize() const {
+ std::cout << "Fait des bruits de perceuse. Ensuite, informe que la <target> a été robotomisée \
+avec succès 1/2 fois. Dans le cas contraire, informe que lopération a échoué." << std::endl;
+}
+
+void RobotomyRequestForm::execute(Bureaucrat const &executor) const {
+    if (this->getSigned() == true && executor.getGrade() <= this->getGradetoexec())
+    {
+        if (!this->getName().compare("RobotomyRequestForm"))
+            RobotomyRequestForm::ft_robotize();
+    }
+    else if (this->getSigned() == false)
+        throw AForm::NotSignedException();
+    else if (executor.getGrade() > this->getGradetoexec())
+        throw AForm::GradeTooLowException();
+}
