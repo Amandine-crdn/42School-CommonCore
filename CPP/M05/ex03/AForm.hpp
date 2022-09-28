@@ -22,7 +22,8 @@ class AForm {
         int getGradetosign() const;
         int getGradetoexec() const;
         bool getSigned() const;
-        
+        virtual std::string getTarget() const = 0;
+
         //functions
         void beSigned(const Bureaucrat &b);
         virtual void execute(Bureaucrat const &executor) const = 0;
