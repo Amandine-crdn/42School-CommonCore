@@ -7,7 +7,7 @@ Bureaucrat::~Bureaucrat(){}
 Bureaucrat::Bureaucrat(Bureaucrat const &cp) : _name(cp._name), _grade(cp._grade) {}
 
 Bureaucrat& Bureaucrat::operator=(Bureaucrat const &op) {
-    this->_grade = op._grade;
+    this->_grade = op._grade; // et name ?
     return (*this);
 }
 Bureaucrat::Bureaucrat(const std::string name, int grade) : _name(name), _grade(grade) {
@@ -27,12 +27,12 @@ int Bureaucrat::getGrade() const{
 
 //incrementation, decrementation
 void Bureaucrat::operator-(){
-    if (this->_grade >= 150) // ne peut pas descendre en dessous de 150
+    if (this->_grade >= 150)
 		throw Bureaucrat::GradeTooLowException();
     else
         this->_grade++;
 }
-void Bureaucrat::operator+(){ // ne peut pas augmenter au dessus de 1
+void Bureaucrat::operator+(){
     if (this->_grade <= 1)
 		throw Bureaucrat::GradeTooHighException();
     else

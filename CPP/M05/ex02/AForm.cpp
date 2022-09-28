@@ -4,13 +4,6 @@ AForm::AForm() : _name("no_name"), _gradetosign(0), _gradetoexec(0) , _signed(fa
 
 AForm::~AForm(){}
 
-AForm::AForm(AForm const &cp) : _name(cp._name), _gradetosign(cp._gradetosign), _gradetoexec(cp._gradetoexec), _signed(cp._signed) {}
-
-AForm& AForm::operator=(AForm const &op) {
-    this->_signed = op._signed; // les autres pas possibles ?
-    //a remplir idem copy
-    return (*this);
-}
 AForm::AForm(const std::string name, const int gts, const int gte) : _name(name), _gradetosign(gts), _gradetoexec(gte), _signed(false) {
     if (this->_gradetosign < 1 || this->_gradetoexec < 1)
 		throw AForm::GradeTooHighException();
@@ -18,11 +11,18 @@ AForm::AForm(const std::string name, const int gts, const int gte) : _name(name)
 		throw AForm::GradeTooLowException();
 }
 
+//copy
+AForm::AForm(AForm const &cp) : _name(cp._name), _gradetosign(cp._gradetosign), _gradetoexec(cp._gradetoexec), _signed(cp._signed) {}
+AForm& AForm::operator=(AForm const &op) {
+    this->_signed = op.getSigned();
+    return (*this);
+}
+
 //getters
 const std::string AForm::getName() const {
     return (this->_name);
 } 
-int AForm::getGradetosign() const { // ne veut pas de retour const int prk ??
+int AForm::getGradetosign() const {
     return (this->_gradetosign);
 }
 int AForm::getGradetoexec() const {

@@ -42,13 +42,11 @@ void Bureaucrat::operator+(){ // ne peut pas augmenter au dessus de 1
 }
 
 //exeptions
-const char* Bureaucrat::GradeTooHighException::what() const throw()
-{
+const char* Bureaucrat::GradeTooHighException::what() const throw(){
 	return ("GradeTooHighException: Grade too high!");
 }
 
-const char* Bureaucrat::GradeTooLowException::what() const throw()
-{
+const char* Bureaucrat::GradeTooLowException::what() const throw(){
 	return ("GradeTooLowException: Grade too low!");
 }
 
@@ -56,13 +54,4 @@ const char* Bureaucrat::GradeTooLowException::what() const throw()
 std::ostream &operator<<(std::ostream &os, const Bureaucrat &b){
     os << b.getName() << ", bureaucrat grade " << b.getGrade() << std::endl;
     return (os);
-}
-
-//function
-void Bureaucrat::signForm(Form &form) {
-    if (form.beSigned(*this) == 1)
-        std::cout << this->_name << " signed " << form.getName() << std::endl; 
-    else
-        std::cout << this->_name << " couldn't signed " << form.getName() <<
-        " because his grade is : " << this->_grade << std::endl; 
 }

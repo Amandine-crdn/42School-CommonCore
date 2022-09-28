@@ -4,7 +4,17 @@
 
 int main()
 {
-    srand((unsigned)time(0));
+     /* TEST DE COPY + OPERATOR EGAL */std::cout << "\n0/ ***** TEST DE COPY + OPERATOR EGAL **** \n\n";
+
+    PresidentialPardonForm cc("jardin");
+    std::cout << cc << std::endl;
+    PresidentialPardonForm copy = cc;
+    std::cout << copy << std::endl;
+    PresidentialPardonForm copy2 = copy;
+    std::cout << copy2 << std::endl;
+
+
+   srand((unsigned)time(0));
     try
     {
         std::cout << "\n ***** Initialisation des personnages ****\n\n";

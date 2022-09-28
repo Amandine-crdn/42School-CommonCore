@@ -27,12 +27,12 @@ int Bureaucrat::getGrade() const{
 
 //incrementation, decrementation
 void Bureaucrat::operator-(){
-    if (this->_grade >= 150) // ne peut pas descendre en dessous de 150
+    if (this->_grade >= 150)
 		throw Bureaucrat::GradeTooLowException();
     else
         this->_grade++;
 }
-void Bureaucrat::operator+(){ // ne peut pas augmenter au dessus de 1
+void Bureaucrat::operator+(){
     if (this->_grade <= 1)
 		throw Bureaucrat::GradeTooHighException();
     else

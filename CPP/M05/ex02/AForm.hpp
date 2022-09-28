@@ -19,7 +19,7 @@ class AForm {
 
         //getters
         const std::string getName() const;
-        int getGradetosign() const; //ne veut pas de const int ?
+        int getGradetosign() const;
         int getGradetoexec() const;
         bool getSigned() const;
 
@@ -30,7 +30,7 @@ class AForm {
         void setSigned();
 
         //functions
-        void beSigned(const Bureaucrat &b); //virtual ??
+        void beSigned(const Bureaucrat &b);
         virtual void execute(Bureaucrat const &executor) const = 0;
 
         //class exception

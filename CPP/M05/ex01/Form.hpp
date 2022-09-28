@@ -18,7 +18,7 @@ class Form {
 
         //getters
         const std::string getName() const;
-        int getGradetosign() const; //ne veut pas de const int ?
+        int getGradetosign() const;
         int getGradetoexec() const;
         bool getSigned() const;
 

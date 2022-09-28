@@ -5,19 +5,17 @@ RobotomyRequestForm::RobotomyRequestForm() : AForm("RobotomyRequestForm", 72, 45
 
 RobotomyRequestForm::~RobotomyRequestForm(){}
 
-RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const &cp) {
-    this->_target = cp._target;
-}
-
-RobotomyRequestForm& RobotomyRequestForm::operator=(RobotomyRequestForm const &op) {
-
-    //*this = op; //suffisant ?
-    this->_target = op._target;
-    return (*this);
-}
 RobotomyRequestForm::RobotomyRequestForm(std::string target) : AForm("RobotomyRequestForm", 25, 5), _target(target) {
 }
 
+//copy
+RobotomyRequestForm::RobotomyRequestForm(RobotomyRequestForm const &cp) : AForm("RobotomyRequestForm", 25, 5), _target(cp.getTarget()) {}
+RobotomyRequestForm& RobotomyRequestForm::operator=(RobotomyRequestForm const &op) {
+    this->_target = op.getTarget();
+    return (*this);
+}
+
+//getter
 std::string RobotomyRequestForm::getTarget() const{
     return (this->_target);
 }

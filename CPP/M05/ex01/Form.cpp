@@ -7,8 +7,7 @@ Form::~Form(){}
 Form::Form(Form const &cp) : _name(cp._name), _gradetosign(cp._gradetosign), _gradetoexec(cp._gradetoexec), _signed(cp._signed) {}
 
 Form& Form::operator=(Form const &op) {
-    this->_signed = op._signed; // les autres pas possibles ?
-    //a remplir idem copy
+    this->_signed = op._signed;
     return (*this);
 }
 Form::Form(const std::string name, const int gts, const int gte) : _name(name), _gradetosign(gts), _gradetoexec(gte), _signed(false) {
@@ -22,7 +21,7 @@ Form::Form(const std::string name, const int gts, const int gte) : _name(name), 
 const std::string Form::getName() const {
     return (this->_name);
 } 
-int Form::getGradetosign() const { // ne veut pas de retour const int prk ??
+int Form::getGradetosign() const {
     return (this->_gradetosign);
 }
 int Form::getGradetoexec() const {
@@ -33,13 +32,11 @@ bool Form::getSigned() const {
 }
 
 //exeptions
-const char* Form::GradeTooHighException::what() const throw()
-{
+const char* Form::GradeTooHighException::what() const throw(){
 	return ("Form : GradeTooHighException: Grade too high!");
 }
 
-const char* Form::GradeTooLowException::what() const throw()
-{
+const char* Form::GradeTooLowException::what() const throw(){
 	return ("Form : GradeTooLowException: Grade too low!");
 }
 
