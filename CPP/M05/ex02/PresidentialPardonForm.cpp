@@ -22,7 +22,6 @@ std::string PresidentialPardonForm::getTarget() const{
     return (this->_target);
 }
 
-
 //surcharge d'operateur d'insertion
 std::ostream &operator<<(std::ostream &os, const PresidentialPardonForm &p){
      os << "Name : " << p.getName() << std::endl << 

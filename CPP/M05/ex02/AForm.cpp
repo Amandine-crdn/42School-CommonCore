@@ -68,8 +68,13 @@ void AForm::execute(Bureaucrat const &executor) const {
     {
         if (!this->getName().compare("PresidentialPardonForm"))
             std::cout << "j'implemente une fonction pour executer le pardon presidentielle" << std::endl;
-
-    } 
+        else if (!this->getName().compare("ShrubberyCreationForm"))
+            std::cout << "j'implemente un fichier <target> dans le repertoire courant \
+            pour faire une foret d'arbre en ASCII a linterieur" << std::endl;
+        else if (!this->getName().compare("ShrubberyCreationForm"))
+            std::cout << "Fait des bruits de perceuse. Ensuite, informe que la <target> a été robotomisée \
+            avec succès 1/2 fois. Dans le cas contraire, informe que lopération a échoué." << std::endl;
+    }
     else
         std::cout << "The form is not signed or the grade is too low" << std::endl;
 }
