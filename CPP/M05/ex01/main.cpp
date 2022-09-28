@@ -4,14 +4,20 @@ int main()
 {
     try
     {
-        std::cout << "1\n";
         Bureaucrat bureaucrat("Etienne", 42);
-        std::cout << "2\n";
-        Form secret("secret", 10, 10);
+        std::cout << bureaucrat << std::endl;
+        Form secret("secret", 42, 42);
         std::cout << secret << std::endl;
+        secret.beSigned(bureaucrat); //hide to allow else signform
         bureaucrat.signForm(secret);
-        std::cout << "3\n";
-        Form nomalForm("nomalForm", 120, 120);
+        Form strangeForm("strangeForm", 120, 120);
+        strangeForm.beSigned(bureaucrat);
+        std::cout << strangeForm << std::endl;
+        bureaucrat.signForm(strangeForm);
+        Form onlyBoss("onlyBoss", 1, 1);
+        std::cout << onlyBoss << std::endl;
+        onlyBoss.beSigned(bureaucrat);
+
     }
     catch(const std::exception& e)
     {

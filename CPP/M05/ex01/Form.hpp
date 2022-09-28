@@ -23,7 +23,7 @@ class Form {
         bool getSigned() const;
 
         //functions
-        int beSigned(const Bureaucrat &b);
+        void beSigned(const Bureaucrat &b);
 
         //class exception
         class GradeTooHighException : public std::exception {
@@ -38,7 +38,7 @@ class Form {
     private :
         const std::string _name;
         const int _gradetosign;
-        const int _gradetoexec; // diff ??
+        const int _gradetoexec;
         bool _signed;
 
 };

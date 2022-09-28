@@ -1,6 +1,6 @@
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat() : _name("Etienne"), _grade (0) {}
+Bureaucrat::Bureaucrat() : _name("no name"), _grade (0) {}
 
 Bureaucrat::~Bureaucrat(){}
 
@@ -13,7 +13,7 @@ Bureaucrat& Bureaucrat::operator=(Bureaucrat const &op) {
 Bureaucrat::Bureaucrat(const std::string name, int grade) : _name(name), _grade(grade) {
     if (this->_grade < 1)
 		throw Bureaucrat::GradeTooHighException();
-	if (this->_grade > 150)
+	else if (this->_grade > 150)
 		throw Bureaucrat::GradeTooLowException();
 }
 
@@ -27,25 +27,27 @@ int Bureaucrat::getGrade() const{
 
 //incrementation, decrementation
 void Bureaucrat::operator-(){
-    this->_grade++;
-    if (this->_grade > 150)
+    if (this->_grade >= 150) // ne peut pas descendre en dessous de 150
 		throw Bureaucrat::GradeTooLowException();
+    else
+        this->_grade++;
 }
-void Bureaucrat::operator+(){
-    this->_grade--;
-    if (this->_grade < 1)
+void Bureaucrat::operator+(){ // ne peut pas augmenter au dessus de 1
+    if (this->_grade <= 1)
 		throw Bureaucrat::GradeTooHighException();
+    else
+        this->_grade--;
 }
 
 //exeptions
 const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
-	return ("GradeTooHighException: Grade too high!");
+	return ("Bureaucrat : GradeTooHighException: Grade too high!");
 }
 
 const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
-	return ("GradeTooLowException: Grade too low!");
+	return ("Bureaucrat : GradeTooLowException: Grade too low!");
 }
 
 //surcharge d'operateur d'insertion
@@ -56,9 +58,9 @@ std::ostream &operator<<(std::ostream &os, const Bureaucrat &b){
 
 //function
 void Bureaucrat::signForm(Form &form) {
-    if (form.beSigned(*this) == 1)
+    if (form.getSigned() == true)
         std::cout << this->_name << " signed " << form.getName() << std::endl; 
     else
         std::cout << this->_name << " couldn't signed " << form.getName() <<
-        " because his grade is : " << this->_grade << std::endl; 
+        " because he doesn't have the form in his hands may be!"<< std::endl; 
 }

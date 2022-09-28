@@ -12,10 +12,10 @@ Form& Form::operator=(Form const &op) {
     return (*this);
 }
 Form::Form(const std::string name, const int gts, const int gte) : _name(name), _gradetosign(gts), _gradetoexec(gte), _signed(false) {
-    if (gts > 15 || gte > 10) // 1 < gts < 15 && 5 < gte < 10
-        throw Form::GradeTooLowException();
-    if (gts < 1 || gte < 5)
-        throw Form::GradeTooHighException();
+    if (this->_gradetosign < 1 || this->_gradetoexec < 1)
+		throw Form::GradeTooHighException();
+    else if (this->_gradetosign > 150 || this->_gradetoexec > 150)
+		throw Form::GradeTooLowException();
 }
 
 //getters
@@ -35,12 +35,12 @@ bool Form::getSigned() const {
 //exeptions
 const char* Form::GradeTooHighException::what() const throw()
 {
-	return ("GradeTooHighException: Grade too high!");
+	return ("Form : GradeTooHighException: Grade too high!");
 }
 
 const char* Form::GradeTooLowException::what() const throw()
 {
-	return ("GradeTooLowException: Grade too low!");
+	return ("Form : GradeTooLowException: Grade too low!");
 }
 
 
@@ -53,8 +53,11 @@ std::ostream &operator<<(std::ostream &os, const Form &b){
     return (os);
 }
 
-int Form::beSigned(const Bureaucrat &b){
-    if (b.getGrade() < 15 && b.getGrade() > 1)
-        return (1);
-    return (0);
+void Form::beSigned(const Bureaucrat &b){
+    if (b.getGrade() > this->_gradetoexec || b.getGrade() > this->_gradetosign)
+        throw Form::GradeTooLowException();
+    else if (b.getGrade() < 1)
+        throw Form::GradeTooHighException();
+    else
+        this->_signed = true;
 }
