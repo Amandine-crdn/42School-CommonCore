@@ -33,9 +33,13 @@ std::ostream &operator<<(std::ostream &os, const RobotomyRequestForm &p){
 }
 
 void RobotomyRequestForm::ft_robotize() const {
- std::cout << "Fait des bruits de perceuse. Ensuite, informe que la <target> a été robotomisée \
-avec succès 1/2 fois. Dans le cas contraire, informe que lopération a échoué." << std::endl;
-}
+    std::cout << " * drill sounds *\n";
+
+    if ((std::rand() % 2) == 0)
+        std::cout << this->getTarget() << " was robotized" << std::endl;
+    else
+        std::cout << this->getTarget() << " wasn't robotized... fail" << std::endl;
+}   
 
 void RobotomyRequestForm::execute(Bureaucrat const &executor) const {
     if (this->getSigned() == true && executor.getGrade() <= this->getGradetoexec())

@@ -4,7 +4,8 @@
 #   include <iostream>
 #   include <stdexcept>
 #   include "Bureaucrat.hpp"
-
+#   include <ctime> 
+#   include <cstdlib> 
 class Bureaucrat ;
 
 class RobotomyRequestForm : public AForm {

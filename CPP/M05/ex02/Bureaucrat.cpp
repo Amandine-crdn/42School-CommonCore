@@ -40,13 +40,11 @@ void Bureaucrat::operator+(){ // ne peut pas augmenter au dessus de 1
 }
 
 //exeptions
-const char* Bureaucrat::GradeTooHighException::what() const throw()
-{
+const char* Bureaucrat::GradeTooHighException::what() const throw(){
 	return ("Bureaucrat : GradeTooHighException: Grade too high!");
 }
 
-const char* Bureaucrat::GradeTooLowException::what() const throw()
-{
+const char* Bureaucrat::GradeTooLowException::what() const throw(){
 	return ("Bureaucrat : GradeTooLowException: Grade too low!");
 }
 
@@ -57,10 +55,22 @@ std::ostream &operator<<(std::ostream &os, const Bureaucrat &b){
 }
 
 //function
-void Bureaucrat::signAForm(AForm &AForm) {
+void Bureaucrat::signForm(AForm &AForm) {
     if (AForm.getSigned() == true)
         std::cout << this->_name << " signed " << AForm.getName() << std::endl; 
     else
         std::cout << this->_name << " couldn't signed " << AForm.getName() <<
         " because he doesn't have the AForm in his hands may be!"<< std::endl; 
+}
+
+void Bureaucrat::executeForm(AForm const &form){
+    if (this->getGrade() <= form.getGradetoexec() && form.getSigned() == true)
+        std::cout << this->getName() << " executed " << form.getName() << std::endl;
+    else
+    {
+        std::cout << this->getName() << " can't executed " << form.getName() << std::endl;
+        std::cout << "He must have a grade more higher than " << form.getGradetoexec() <<
+        " cause he have a grade at : " << this->getGrade() << std::endl;
+        std::cout << "You can change bureaucrat" << std::endl;
+    }
 }

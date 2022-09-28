@@ -16,7 +16,8 @@ class Bureaucrat {
         Bureaucrat(const std::string name, int grade);
 
         //function
-        void signAForm(AForm &AForm);
+        void signForm(AForm &AForm);
+        void executeForm(AForm const &form);
 
         //getters
         const std::string getName() const;

@@ -32,9 +32,8 @@ std::ostream &operator<<(std::ostream &os, const PresidentialPardonForm &p){
     return (os);
 }
 
-
 void PresidentialPardonForm::ft_ask_scuze() const {
-    std::cout << "j'implemente une fonction pour executer le pardon presidentielle" << std::endl;
+    std::cout << this->getTarget() << " has forgived by Zaphod Beeblebrox." << std::endl;
 }
 
 void PresidentialPardonForm::execute(Bureaucrat const &executor) const {
