@@ -18,6 +18,9 @@ class ShrubberyCreationForm : public AForm {
         
         //getter
         std::string getTarget() const;
+
+        void execute(Bureaucrat const &executor) const;
+        void ft_forest() const;
     
     private:
         std::string _target;

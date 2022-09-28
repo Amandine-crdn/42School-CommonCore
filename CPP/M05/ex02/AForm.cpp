@@ -33,16 +33,21 @@ bool AForm::getSigned() const {
 }
     
 //exeptions
-const char* AForm::GradeTooHighException::what() const throw()
-{
+const char* AForm::GradeTooHighException::what() const throw(){
 	return ("AForm : GradeTooHighException: Grade too high!");
 }
 
-const char* AForm::GradeTooLowException::what() const throw()
-{
+const char* AForm::GradeTooLowException::what() const throw(){
 	return ("AForm : GradeTooLowException: Grade too low!");
 }
 
+const char* AForm::NotSignedException::what() const throw(){
+	return ("AForm : NotSignedException: The form is not signed!");
+}
+
+const char* AForm::ErrorOpen::what() const throw(){
+	return ("AForm : ErrorOpen: The form meet difficults, the jober can't create a file!");
+}
 
 //surcharge d'operateur d'insertion
 std::ostream &operator<<(std::ostream &os, const AForm &b){
@@ -63,18 +68,31 @@ void AForm::beSigned(const Bureaucrat &b){
         this->_signed = true;
 }
 
+/*
 void AForm::execute(Bureaucrat const &executor) const {
-    if (this->getSigned() == 1 && executor.getGrade() <= this->_gradetoexec)
+    if (this->getSigned() == true && executor.getGrade() <= this->_gradetoexec)
     {
         if (!this->getName().compare("PresidentialPardonForm"))
-            std::cout << "j'implemente une fonction pour executer le pardon presidentielle" << std::endl;
+            AForm::ft_ask_scuze();
         else if (!this->getName().compare("ShrubberyCreationForm"))
-            std::cout << "j'implemente un fichier <target> dans le repertoire courant \
-            pour faire une foret d'arbre en ASCII a linterieur" << std::endl;
+            AForm::ft_forest();
         else if (!this->getName().compare("RobotomyRequestForm"))
-            std::cout << "Fait des bruits de perceuse. Ensuite, informe que la <target> a été robotomisée \
-            avec succès 1/2 fois. Dans le cas contraire, informe que lopération a échoué." << std::endl;
+            AForm::ft_robotize();
     }
-    else
-        std::cout << "The form is not signed or the grade is too low" << std::endl;
+    else if (this->getSigned() == false)
+        throw AForm::NotSignedException();
+    else if (executor.getGrade() > this->_gradetoexec)
+        throw AForm::GradeTooLowException();
 }
+
+
+void AForm::ft_robotize() const {
+    std::cout << "Fait des bruits de perceuse. Ensuite, informe que la <target> a été robotomisée \
+            avec succès 1/2 fois. Dans le cas contraire, informe que lopération a échoué." << std::endl;
+}
+
+void AForm::ft_ask_scuze() const {
+    std::cout << "j'implemente une fonction pour executer le pardon presidentielle" << std::endl;
+}
+
+*/

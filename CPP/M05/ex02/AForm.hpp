@@ -4,6 +4,7 @@
 #   include <iostream>
 #   include <stdexcept>
 #   include "Bureaucrat.hpp"
+#   include <fstream>
 
 class Bureaucrat ;
 
@@ -30,7 +31,7 @@ class AForm {
 
         //functions
         void beSigned(const Bureaucrat &b); //virtual ??
-        void execute(Bureaucrat const &executor) const; //new fonctions
+        virtual void execute(Bureaucrat const &executor) const = 0;
 
         //class exception
         class GradeTooHighException : public std::exception {
@@ -41,12 +42,21 @@ class AForm {
             public :
                 virtual const char * what() const throw();
         };
+        class NotSignedException : public std::exception {
+            public :
+                virtual const char * what() const throw();
+        };
+        class ErrorOpen : public std::exception {
+            public :
+                virtual const char * what() const throw();
+        };
 
     private :
         const std::string _name;
         const int _gradetosign;
         const int _gradetoexec;
         bool _signed;
+
 
 };
 
