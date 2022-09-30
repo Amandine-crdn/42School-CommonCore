@@ -1,14 +1,10 @@
 #include "Conversion.hpp"
 
 Conversion::Conversion(char const *s){
-	if (Conversion::isDouble(s) == true)
-		;
-	else if (Conversion::isFloat(s) == true) 
-		;
-	else if (Conversion::isInt(s) == true)
-		;
-	else if (Conversion::isChar(s) == true)
-		;
+	if (Conversion::isDouble(s) == true);
+	else if (Conversion::isFloat(s) == true) ;
+	else if (Conversion::isInt(s) == true);
+	else if (Conversion::isChar(s) == true);
 	else
 	{
 		std::cout << "char: impossible" << std::endl;
@@ -109,8 +105,7 @@ bool Conversion::isInt(char const *s){
 }
 
 bool Conversion::isChar(char const *s){
-	if (s && s[1])
-		;
+	if (s && s[1]);
 	else
 	{
 		std::cout << "char: '" << s[0] << "'" << std::endl;
