@@ -5,7 +5,7 @@
 # include <cstdlib>
 # include <cmath>
 # include <climits>
-# include <iomanip> // checker les necessaires
+# include <iomanip>
 #include <cfloat>
 
 
@@ -14,7 +14,7 @@ class Conversion
 	public:
         Conversion() {};
 		Conversion(char const *s);
-		Conversion(Conversion const &cpy); // operateur pas tous ecrit
+		Conversion(Conversion const &cpy);
 		Conversion &operator=(Conversion const &op);
 		~Conversion() {};
 
