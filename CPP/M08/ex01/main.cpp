@@ -7,7 +7,7 @@ int main()
 {
     /* FIRST TEST FOR TAB */
   
-    /*Span test(3);
+    Span test(3);
 
     try {
         std::cout << test.getCount() << std::endl;
@@ -33,7 +33,7 @@ int main()
     {
         std::cout << "Other exeption" << std::endl;
     }
-*/
+
 
 
     /* NEXT LEVEL TEST FOR TAB */
