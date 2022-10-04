@@ -19,8 +19,9 @@ class Span {
 
         //fonction membre
         void addNumber( unsigned int nbAdd );
-        //int shortestSpan();
-        //int longestSpan();
+        
+        int longestSpan();
+        int shortestSpan();
 
         //getters
         int getCount( void ) const;

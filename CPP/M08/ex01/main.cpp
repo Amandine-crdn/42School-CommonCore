@@ -7,41 +7,47 @@ int main()
 {
     /* FIRST TEST FOR TAB */
   
-  Span test(3);
+    /*Span test(3);
 
-  try {
-    std::cout << test.getCount() << std::endl;
-    test.addNumber(10);
-    std::cout << test.getCount() << std::endl;
-    test.addNumber(20);
-    std::cout << test.getCount() << std::endl;
-    test.addNumber(50);
-    //std::cout << test.getCount() << std::endl; // exeption
-    //test.addNumber(10);
-    std::cout << std::endl;
-     std::cout << test << std::endl;
-    
+    try {
+        std::cout << test.getCount() << std::endl;
+        test.addNumber(10);
+        std::cout << test.getCount() << std::endl;
+        test.addNumber(20);
+        std::cout << test.getCount() << std::endl;
+        test.addNumber(50);
+        //std::cout << test.getCount() << std::endl; // exeption
+        //test.addNumber(10);
+        std::cout << std::endl;
+        std::cout << test << std::endl;
+    }
+    catch (Span::NoMoreException &e)
+    {
+        std::cout << "Span : NoMoreException: is full" << std::endl;
+    }
+    catch (Span::InconnuValue &e)
+    {
+        std::cout << "Span : InconnuValue: sorry is not permissed" << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cout << "Other exeption" << std::endl;
+    }*/
 
+    /* NEXT LEVEL TEST FOR TAB */
 
-
-            // test.addNumber(20);
-            // test.addNumber(30);
-            // std::cout << test.getValueTab(2) << std::endl;
-           // std::cout << test << std::endl; 
-  }
-  catch (Span::NoMoreException &e)
-  {
-    std::cout << "Span : NoMoreException: is full" << std::endl;
-  }
-  catch (Span::InconnuValue &e)
-  {
-    std::cout << "Span : InconnuValue: sorry is not permissed" << std::endl;
-  }
-  catch (std::exception &e)
-  {
-     std::cout << "Other exeption" << std::endl;
-  }
-
+    Span test(3);
+    test.addNumber(19);
+    test.addNumber(15);
+    test.addNumber(18);
+    try {
+        std::cout << test.longestSpan() << std::endl;
+        std::cout << test.shortestSpan() << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cout << "Other exeption" << std::endl;
+    }
 
 return (0);
 }
