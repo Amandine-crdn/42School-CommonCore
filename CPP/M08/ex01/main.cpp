@@ -34,20 +34,45 @@ int main()
         std::cout << "Other exeption" << std::endl;
     }*/
 
-    /* NEXT LEVEL TEST FOR TAB */
 
-    Span test(3);
-    test.addNumber(19);
-    test.addNumber(15);
-    test.addNumber(18);
-    try {
-        std::cout << test.longestSpan() << std::endl;
+
+    /* NEXT LEVEL TEST FOR TAB */
+      /*  Span test(3);
+        test.addNumber(19); // hide one and two
+        test.addNumber(15);
+        test.addNumber(18);
+      */  
+    /* TEST MAIN ENONCE */
+    
+        /*test.addNumber(6);
+        Span test(5);
+        test.addNumber(3);
+        test.addNumber(17);
+        test.addNumber(9);
+        test.addNumber(11);*/
+    /*try {
         std::cout << test.shortestSpan() << std::endl;
+        std::cout << test.longestSpan() << std::endl;
     }
     catch (std::exception &e)
     {
-        std::cout << "Other exeption" << std::endl;
-    }
+        std::cout << "Catching exeption" << std::endl;
+    }*/
 
+
+
+
+    /* ITERATOR ADD */
+    static const int forAll = 17;
+    Span test(forAll);
+    std::vector<int> vec;
+    int list[forAll] = {1, 600, 33, -9, 0, 13, 740, 2, 3, 4, 5, 80, 90, 70, 700, 9000, 11};
+    
+    for(int i = 0; i != forAll; i++)
+    vec.push_back(list[i]);
+    
+    test.addLotof(vec);
+    std::cout << test << std::endl;
+    
 return (0);
 }

@@ -27,13 +27,17 @@ void Span::addNumber( unsigned int nbAdd ){
     }
 }   
 
-int Span::longestSpan() { 
+int Span::longestSpan() {
+    if (this->getCount() <= 1)
+        throw Span::NoPossible();
     int min = *min_element(_tab.begin(), _tab.end());
     int max = *max_element(_tab.begin(), _tab.end());
     return (max - min);
 }
 
  int Span::shortestSpan (){
+    if (this->getCount() <= 1)
+        throw Span::NoPossible();
     std::vector<int> stock[_max];
     int res = 0;
     for (std::vector<int>::iterator it = _tab.begin(); it != (_tab.end() - 1); it++)
@@ -47,6 +51,11 @@ int Span::longestSpan() {
     int min = *min_element(stock->begin(), stock->end());
     return (min);
  }
+
+void Span::addLotof(std::vector<int> &p){
+    for(std::vector<int>::iterator begin = p.begin(); begin != p.end(); begin++)
+    this->addNumber(*begin);
+}
 
 //getters
 int  Span::getCount( void ) const {
@@ -65,6 +74,10 @@ const char* Span::NoMoreException::what() const throw(){
 const char* Span::InconnuValue::what() const throw(){
 	return ("Span : InconnuValue: sorry is not permissed");
 }
+const char* Span::NoPossible::what() const throw(){
+	return ("Span : NoPossible: sorry is not possible, not enought value");
+}
+
 
 //ostream surcharge operator
 std::ostream &operator<<(std::ostream &os, Span const &sp){
@@ -72,3 +85,4 @@ std::ostream &operator<<(std::ostream &os, Span const &sp){
     os << "tab[" << i << "] = " << sp.getValueTab(i) << std::endl;
     return (os);
 }
+

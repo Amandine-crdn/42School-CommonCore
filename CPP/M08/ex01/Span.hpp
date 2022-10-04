@@ -19,9 +19,11 @@ class Span {
 
         //fonction membre
         void addNumber( unsigned int nbAdd );
-        
+
         int longestSpan();
         int shortestSpan();
+
+        void addLotof(std::vector<int> &p);
 
         //getters
         int getCount( void ) const;
@@ -36,6 +38,11 @@ class Span {
             public :
                 const char * what() const throw();
         };
+        class NoPossible : public std::exception {
+            public :
+                const char * what() const throw();
+        };
+
 
     private :
         Span();
