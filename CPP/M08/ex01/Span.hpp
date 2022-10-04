@@ -13,9 +13,9 @@ class Span {
     public :
         Span(unsigned int N);
         ~Span();
-        // Span(Span const &cpy);
+        Span(Span const &cpy);
 
-        // Span &operator=(Span const &op);
+        Span &operator=(Span const &op);
 
         //fonction membre
         void addNumber( unsigned int nbAdd );
@@ -46,7 +46,7 @@ class Span {
 
     private :
         Span();
-        const unsigned int  _max;
+        unsigned int  _max;
         std::vector<int>    _tab;
         unsigned int        _count;
 

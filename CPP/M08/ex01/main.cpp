@@ -32,16 +32,16 @@ int main()
     catch (std::exception &e)
     {
         std::cout << "Other exeption" << std::endl;
-    }*/
-
+    }
+*/
 
 
     /* NEXT LEVEL TEST FOR TAB */
-      /*  Span test(3);
+        /*Span test(3);
         test.addNumber(19); // hide one and two
         test.addNumber(15);
-        test.addNumber(18);
-      */  
+        test.addNumber(18);*/
+        
     /* TEST MAIN ENONCE */
     
         /*test.addNumber(6);
@@ -50,20 +50,20 @@ int main()
         test.addNumber(17);
         test.addNumber(9);
         test.addNumber(11);*/
-    /*try {
+   /* try {
         std::cout << test.shortestSpan() << std::endl;
         std::cout << test.longestSpan() << std::endl;
     }
     catch (std::exception &e)
     {
         std::cout << "Catching exeption" << std::endl;
-    }*/
-
+    }
+*/
 
 
 
     /* ITERATOR ADD */
-    static const int forAll = 17;
+   /* static const int forAll = 17;
     Span test(forAll);
     std::vector<int> vec;
     int list[forAll] = {1, 600, 33, -9, 0, 13, 740, 2, 3, 4, 5, 80, 90, 70, 700, 9000, 11};
@@ -72,7 +72,18 @@ int main()
     vec.push_back(list[i]);
     
     test.addLotof(vec);
-    std::cout << test << std::endl;
-    
+    std::cout << test << std::endl;*/
+
+
+    /* TEST CONSTRUCTEUR PAR COPIE + operator=*/
+
+   /* Span copy(test);
+    std::cout << "copy = \n" << copy << std::endl;
+    std::cout << "copy.getCount = " << copy.getCount() << std::endl;
+
+    Span egal(copy);
+    std::cout << "egal = \n" << egal << std::endl;
+    std::cout << "egal.getCount = " << egal.getCount() << std::endl;*/
+
 return (0);
 }

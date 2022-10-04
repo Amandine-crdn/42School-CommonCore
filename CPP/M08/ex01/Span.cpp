@@ -8,13 +8,23 @@ Span::Span(unsigned int N)
 Span::~Span(){
     
 }
-// Span::Span(Span const &cpy){
-    
-// }
+Span::Span(Span const &cpy) : _max(cpy._max), _count(cpy._count) {
+    for (int i = 0; i < this->getCount(); i++)
+    this->_tab.push_back(cpy._tab[i]);
+}
 
-// Span &Span::operator=(Span const &op){
-    
-// }
+Span &Span::operator=(Span const &op){
+    if (this != &op)
+    {
+        this->_count = op.getCount();
+        
+        for (int i = 0; i < this->getCount(); i++)
+        this->_tab.push_back(op._tab[i]);
+
+        this->_max = op._max;
+    }
+    return (*this);
+}
 
 //functions
 void Span::addNumber( unsigned int nbAdd ){
