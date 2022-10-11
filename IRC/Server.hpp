@@ -7,26 +7,35 @@
 #include <netinet/in.h>
 #include <unistd.h>
 #include <arpa/inet.h> 
+#include <vector>
+#include <cstring>
+
 class Server {
 
     public :
         Server();
         ~Server();
-        void init_server();
-
-        int getNewSocket();
+        void init_server(const char *port, const char *password);
+        void error(std::string error);
+        //serverfd
         int getServerFd();
-        /*
         void setServerFd(int server_fd);
-
+        //newsocket
+        int getNewSocket();
         void setNewSocket(int new_socket);
-        */
+        //password
+        std::string getPassword();
+        void setPassword(std::string password);
+        
+
+        
 
     private :
 
         int server_fd, new_socket;
         sockaddr_in my_addr;
         socklen_t peer_addr_size;
+        std::string password;
 
 };
 
