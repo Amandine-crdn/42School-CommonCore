@@ -15,6 +15,7 @@
 #include <ctime>
 
 #include "User.hpp"
+
 class User;
 
 class Server {
@@ -35,15 +36,15 @@ class Server {
         //serverfd
         int getServerFd() const;
         void setServerFd(int server_fd);
-    
+
         //password
         std::string getPassword() const;
         void setPassword(std::string password);
+
         //pollfds
         std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
         
-
     private :
 
         //init

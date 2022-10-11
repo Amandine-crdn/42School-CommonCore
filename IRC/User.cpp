@@ -8,24 +8,18 @@ User::~User(){
     std::cout << "User Destructor called" << std::endl;
 }
 
-void User::addBufferToMessages(char *buffer, size_t read_size)
+void User::addMessages(char *buffer, size_t read_size)
 {
-    std::vector<std::string> _inputMessages; 
-	std::string _inputMessagesBuffer; 
-	std::string _outputMessage; 
-    int pos;
-	std::string bufferString;
-
-	bufferString.insert(0, buffer, read_size);
-	_inputMessagesBuffer += bufferString;
-	while ((pos = _inputMessagesBuffer.find(DELIMITER)) != -1)
-	{
-		_inputMessages.push_back(_inputMessagesBuffer.substr(0, pos));
-		_inputMessagesBuffer.clear();
-	}
+	std::string buftemp;
+	buftemp.insert(0, buffer, read_size);
+	this->setMsg(buftemp);
 }
 
 /* getters and setters */
+
+//msg protocol
+std::string User::getMsg() const{ return this->message_protocole; }
+void User::setMsg(std::string msg) { this->message_protocole = msg; };
 
 //username
 void User::setUserName(std::string user_name){this->user_name = user_name;}

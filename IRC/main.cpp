@@ -8,16 +8,13 @@ int main(int argc, const char **argv)
     server.init_server(argv[1], argv[2]);
     
     while (1){
-        //poll + accept
-        server.connect();
-        //server.intercept(); //protocole msg 
+        server.connect(); //poll + accept
+        server.intercept(); //protocole msg 
     }
-   
 
-    // closing the connected socket
-    close(server.getServerFd());
-    // closing the listening socket
-    shutdown(server.getServerFd(), SHUT_RDWR);
+    //1 ou les 2 ?
+    close(server.getServerFd()); // closing the connected socket
+    shutdown(server.getServerFd(), SHUT_RDWR); // closing the listening socket
     std::cout << "close" << std::endl;
 
 }

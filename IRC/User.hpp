@@ -19,7 +19,7 @@ class User {
 
         /* methodes */
 
-        void addBufferToMessages(char *buffer, size_t read_size);
+        void addMessages(char *buffer, size_t read_size);
 
         /* getters and setters */
 
@@ -29,11 +29,16 @@ class User {
         //nickname
         void setNickName(std::string nick_name);
         std::string getNickName();
+        //msg protocole
+        std::string getMsg() const;
+        void setMsg(std::string msg);
     
     private :
 
         std::string nick_name;
         std::string user_name;
+        //message protocole
+        std::string message_protocole;
 };
 
 #endif
