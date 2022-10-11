@@ -8,7 +8,22 @@ User::~User(){
     std::cout << "User Destructor called" << std::endl;
 }
 
+void User::addBufferToMessages(char *buffer, size_t read_size)
+{
+    std::vector<std::string> _inputMessages; 
+	std::string _inputMessagesBuffer; 
+	std::string _outputMessage; 
+    int pos;
+	std::string bufferString;
 
+	bufferString.insert(0, buffer, read_size);
+	_inputMessagesBuffer += bufferString;
+	while ((pos = _inputMessagesBuffer.find(DELIMITER)) != -1)
+	{
+		_inputMessages.push_back(_inputMessagesBuffer.substr(0, pos));
+		_inputMessagesBuffer.clear();
+	}
+}
 
 /* getters and setters */
 

@@ -10,11 +10,12 @@ int main(int argc, const char **argv)
     while (1){
         //poll + accept
         server.connect();
+        //server.intercept(); //protocole msg 
     }
    
 
     // closing the connected socket
-    close(server.getNewSocket());
+    close(server.getServerFd());
     // closing the listening socket
     shutdown(server.getServerFd(), SHUT_RDWR);
     std::cout << "close" << std::endl;

@@ -11,6 +11,8 @@
 #include <cstring>
 #include <poll.h>
 #include <map>
+#include <fcntl.h>
+#include <ctime>
 
 #include "User.hpp"
 class User;
@@ -26,27 +28,26 @@ class Server {
         void init_server(const char *port, const char *password);
         void error(std::string error);
         void connect();
+        void intercept();
 
         /* getters and setters */
 
         //serverfd
-        int getServerFd();
+        int getServerFd() const;
         void setServerFd(int server_fd);
-        //newsocket
-        int getNewSocket();
-        void setNewSocket(int new_socket);
+    
         //password
-        std::string getPassword();
+        std::string getPassword() const;
         void setPassword(std::string password);
         //pollfds
-        std::vector<pollfd> getPollFds();
+        std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
         
 
     private :
 
         //init
-        int server_fd, new_socket;
+        int server_fd;
         sockaddr_in my_addr;
         socklen_t peer_addr_size;
         std::string password;

@@ -25,46 +25,75 @@ void Server::init_server(const char *port, const char *password)
     if (bind(this->getServerFd(),(struct sockaddr *) &this->my_addr, sizeof(this->my_addr)) == -1)
         this->error("error bind()") ;
     //listen
-    if (listen(this->getServerFd(), 1) == -1) // 1 : file d'attente
-        this->error("error listen()");    
+    if (listen(this->getServerFd(), 5) == -1) // 5 : file d'attente
+        this->error("error listen()"); //getter servername need
+    std::cout << ">" << this->server_name << "< starting on port >" << atoi(port) << "< with password >" << this->getPassword() << "<" << std::endl;
 }
 
 void Server::connect()
 {
-    //poll
-    pollfd poll_struct;
-    poll_struct.fd = this->getNewSocket();
-    poll_struct.events = POLLIN;
-    this->getPollFds().clear();
-    this->setPollFds(poll_struct);
-
-    //ajouter une liste d'attente de socket de tous les User
-    std::map<int, User>::iterator itu;
-    for (itu = users_list.begin(); itu != users_list.end(); itu++)
-    {
-        poll_struct.fd = itu->first;
-        this->setPollFds(poll_struct);
-    }
-
-    //wait for an event
-    switch (poll(&(this->getPollFds()[0]), this->getPollFds().size(), 300)) // BLOCKS untill a fd is available + set max ping to -1 ??
-	{
-        case 0 : std::cout << "temp d'attente depasser" << std::endl; break ;
-        case -1 : this->error("error: poll()"); break ;
-	}
-    
     int temp_fd;
-    if (this->getPollFds()[0].revents == POLLIN) //si il y a des donnees en attente
-    {
-        // accept connection and get the fd
-        temp_fd = accept(this->getServerFd(), (struct sockaddr *) &this->my_addr, &this->peer_addr_size);
-        if (temp_fd == -1)
-            this->error("error accept()");
-        std::cout << "New user accepted with fd: " << temp_fd << std::endl;
-    }
+	pollfd poll_struct;
+    srand(time(0));
+	poll_fds.clear();
+	poll_struct.fd = this->getServerFd();
+	poll_struct.events = POLLIN;
+	poll_fds.push_back(poll_struct);
+
+	for (std::map<int, User>::iterator itb = users_list.begin(); itb != users_list.end(); itb++)
+	{
+		poll_struct.fd = itb->first;
+		poll_fds.push_back(poll_struct);
+	}
+
+	if (poll(&(poll_fds[0]), poll_fds.size(), rand()) == -1)
+        this->error("error: poll()");
+
+	if (poll_fds[0].revents == POLLIN)
+	{
+		/*Accepting and creating new user*/
+		temp_fd = accept(this->getServerFd(), (sockaddr *)&my_addr, &peer_addr_size); // accept connection and get the fd
+		users_list[temp_fd];												// create a user (without calling constructor twice)
+		if (temp_fd == -1)
+		    this->error("error: accept()");
+		std::cout << "New user accepted with fd: " << temp_fd << std::endl;
+	}
 }
+/*
+void Server::intercept()
+{
+    char buffer[BUFFER_SIZE];
 
-
+    std::vector<pollfd>::iterator itp;
+    for (itp = this->getPollFds().begin() + 1; itp != this->getPollFds().end(); itp++)
+    {
+        int read_size;
+        //pret a lire message du User
+        if (itp->revents == POLLIN)
+        {
+            //buffer.clear();
+            read_size = recv(itp->fd, buffer, BUFFER_SIZE, 0);
+            std::cout << read_size << std::endl;
+            switch(read_size)
+            {
+                case -1 : this->error("error recv()"); break;
+                case 0 : // user: /exit => User dosconnected.
+                {
+                    getpeername(itp->fd, (struct sockaddr *) &this->my_addr, (socklen_t *)&peer_addr_size);
+                    std::cout << "Host disconnected , ip " << inet_ntoa(my_addr.sin_addr) << " , port " << ntohs(my_addr.sin_port) << std::endl;
+                    close(itp->fd);
+                    this->users_list.erase(itp->fd);
+                    std::cout << "host closed and erased" << std::endl;
+                }; break; 
+                default :
+                {
+                    this->users_list[itp->fd].addBufferToMessages(buffer, read_size);
+                    std::cout << "COucou" << std::endl; break;
+                }
+            }
+        }
+    }
+}   */
 
 /* getters and setters */
 
@@ -72,18 +101,14 @@ void Server::connect()
 void Server::setPollFds(pollfd poll_fd){
     this->poll_fds.push_back(poll_fd);
 }
-std::vector<pollfd> Server::getPollFds(){
+std::vector<pollfd> Server::getPollFds() const {
     return (this->poll_fds);
 }
 
 //serverfd
 void Server::setServerFd(int server_fd){ this->server_fd = server_fd;}
-int Server::getServerFd(){return (this->server_fd);}
-
-//newsocket
-int Server::getNewSocket(){return (this->new_socket);}
-void Server::setNewSocket(int new_socket){this->new_socket = new_socket;}
+int Server::getServerFd() const {return (this->server_fd);}
 
 //password
-std::string  Server::getPassword(){return (this->password);}
+std::string  Server::getPassword() const {return (this->password);}
 void  Server::setPassword(std::string password){this->password = password;}

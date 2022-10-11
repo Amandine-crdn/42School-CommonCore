@@ -1,10 +1,14 @@
 #ifndef USER_HPP
 #define USER_HPP
 
+#define BUFFER_SIZE 4096
+#define DELIMITER "\r\n"
+
 #include <iostream>
 #include <vector>
 #include <cstring>
 #include <poll.h>
+
 
 class User {
 
@@ -12,6 +16,10 @@ class User {
 
         User();
         ~User();
+
+        /* methodes */
+
+        void addBufferToMessages(char *buffer, size_t read_size);
 
         /* getters and setters */
 
