@@ -5,10 +5,14 @@ int main(int argc, const char **argv)
     Server server;
     if (argc != 3)
        server.error("need this format: /ircserv <port> <password>");
-    
     server.init_server(argv[1], argv[2]);
-    while (1) ;
+    
+    while (1){
+        //poll + accept
+        server.connect();
+    }
    
+
     // closing the connected socket
     close(server.getNewSocket());
     // closing the listening socket
