@@ -1,119 +1,25 @@
 #include "Server.hpp"
 
-Server::Server(){
-    std::cout << "Server Constructor called" << std::endl; }
-
-Server::~Server(){
-    std::cout << "Server Destructor called" << std::endl; }
-
-void Server::init_server(const char *port, const char *password)
-{
-	std::cout << "----- init_server ------" << std::endl;
-    //check port
-    if (!atoi(port))
-        this->error("error port");
-    this->my_addr.sin_port = htons(atoi(port));
-    this->my_addr.sin_family = AF_INET;
-    this->my_addr.sin_addr.s_addr =  htonl(INADDR_ANY);
-    this->setPassword(password);
-    //socket
-    this->setServerFd(socket(AF_INET, SOCK_STREAM, 0));
-    if (this->getServerFd() == -1)
-        this->error("error socket()");
-    //bind
-    if (bind(this->getServerFd(),(struct sockaddr *) &this->my_addr, sizeof(this->my_addr)) == -1)
-        this->error("error bind()") ;
-    //listen
-    if (listen(this->getServerFd(), 5) == -1) // 5 : file d'attente
-        this->error("error listen()"); //getter servername need
-    std::cout << ">" << this->server_name << "< starting on port >" << atoi(port) << "< with password >" << this->getPassword() << "<" << std::endl;
-}
-
-void Server::connect()
-{
-	std::cout << "----- connect ------" << std::endl;
-    int temp_fd;
-	pollfd poll_struct;
-    srand(time(0));
-	poll_fds.clear();
-	poll_struct.fd = this->getServerFd();
-	poll_struct.events = POLLIN;
-	poll_fds.push_back(poll_struct);
-	for (std::map<int, User>::iterator itb = users_list.begin(); itb != users_list.end(); itb++){
-		poll_struct.fd = itb->first;
-		poll_fds.push_back(poll_struct);}
-	if (poll(&(poll_fds[0]), poll_fds.size(), rand()) == -1)
-        this->error("error: poll()");
-	if (poll_fds[0].revents == POLLIN){
-		// accept connection and get the fd to create new user
-		temp_fd = accept(this->getServerFd(), (sockaddr *)&my_addr, &peer_addr_size); 
-		users_list[temp_fd]; // create a user (without calling constructor twice)
-		if (temp_fd == -1)
-		    this->error("error: accept()");
-		std::cout << "New user accepted with fd: " << temp_fd << std::endl;}
-}
-
-void Server::intercept()
-{
-	std::cout << "----- intercept ------" << std::endl;
-
-   	char buffer[BUFFER_SIZE];
-	int sizeRead;
-
-	//Check if users's fd is sending new data
-	for (std::vector<pollfd>::iterator itb = ++poll_fds.begin(); itb != poll_fds.end(); itb++) { // skipping the master socket
-		//Users fd is ready, lets read 
-		if (itb->revents == POLLIN) {
-			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
-			if (sizeRead == -1) // recv error
-				this->error("error: recv()");
-			else if (sizeRead == 0) // recv size = 0 : nothing to read anymore. User dosconnected.
-				this->disconnected(users_list[itb->fd]);
-			else { // read message protocole
-                users_list[itb->fd].addMessages(buffer, sizeRead);
-				users_list[itb->fd].setFd(itb->fd);
-                std::cout << "User with fd[" << itb->fd << "] send : \n" << users_list[itb->fd].getMsg() << std::endl;
-				checker(users_list[itb->fd], users_list[itb->fd].getMsg()); }}}
-}   
-
-void Server::checker(User &user, std::string message_protocole)
+void Server::checker(User &user, std::vector<std::string> messages)
 {
 	std::cout << "----- checker ------" << std::endl;
 
 	switch (user.getFirstConnexion())
 	{
-		case true : this->firstConnexion(user, message_protocole); commandResponces(user, "RPL_WELCOME"); break ;
-		case false : dispatcher(user, message_protocole); break ;
+		case true : this->firstConnexion(user, messages); commandResponces(user, "RPL_WELCOME"); break ;
+		//case false : dispatcher(user, message_protocole); break ;
 	}
 	 
 }
 
 void Server::commandResponces(User &user, std::string cmd)
 {
+	(void)cmd;
 	std::stringstream result; 
 
 	result << "001" << " ";
 	result << ":Welcome to the Internet Relay Chat Network, " << user.getNickName();
 	result << DELIMITER;
-/*
-	///
-	result << 002;
-	result << "Your host is " << this->server_name <<", running version 1.0";
-	result << DELIMITER;
-
-
-	///
-	result << 003;
-	result << "This server was created 12/10/2022";
-	result << DELIMITER;
-
-	///
-	result << 004;
-	result << DELIMITER;
-
-	///
-	result << 005;
-	result << DELIMITER;*/
 
 	user._outputMessage += result.str();
 	send(user.getFd(), user._outputMessage.c_str(), user._outputMessage.size(), 0); 
@@ -150,22 +56,67 @@ void Server::disconnected(User &user)
 	users_list.erase(user.getFd());
 }
 
-void Server::firstConnexion(User &user, std::string message_protocole)
+static std::vector<std::string> split(std::string msg)
+{
+	std::vector<std::string> temp;
+	temp.clear(); // verifier si utile
+	int increm = 0;
+	int mem = 0;
+	std::string::iterator it;
+
+	for(it = msg.begin(); it != msg.end(); it++)
+	{
+		if (*it == ' ') {
+			temp.push_back(msg.substr(mem , increm - mem));
+			/*std::cout << "2.increm = " << increm << std::endl;
+			std::cout << "2.mem = " << mem << std::endl;*/
+			increm++;
+			mem = increm; 
+			//std::cout << "2.new mem = " << mem << std::endl;
+		}
+		else
+			increm++;
+		/*std::cout << "1.increm = " << increm << std::endl;
+		std::cout << "1.increm ++= " << increm << std::endl;*/
+
+	}
+/*	std::cout << "increm= " << increm << std::endl;
+	std::cout << "mem = " << mem << std::endl;*/
+
+	if (it == msg.end())
+		temp.push_back(msg.substr(mem , increm - mem));
+	for (std::vector<std::string>::iterator itv = temp.begin() ; itv != temp.end(); itv++)
+	std::cout << "temp = >" << *itv << "<" << std::endl; 
+
+	return (temp);
+}
+// /connect localhost 6667 coco
+
+void Server::firstConnexion(User &user, std::vector<std::string> messages) 
 {
 	std::string password;
 	std::string nickname;
 	std::string username;
 	std::size_t end;
+ 
 
-	//PASS
-	switch((message_protocole.find("PASS"))){
+	for (std::vector<std::string>::iterator it = messages.begin() ; it != messages.end(); it++)
+	{
+		std::cout << "vector_message_protocole = >" << *it << "<" << std::endl; 
+		std::string msg = *it;
+		std::vector<std::string> data;
+		data = split(msg);
+
+	
+	//PASS 
+	switch((msg.find("PASS"))){
 			case std::string::npos : {
 				std::cout << "Please give a password" << std::endl;
 				this->disconnected(user);
 				return ; }
 			default : {
-				end = message_protocole.find("NICK") - 7 - message_protocole.find("PASS");
-				password = message_protocole.substr(message_protocole.find("PASS") + 5, end);
+				end = msg.find("NICK") - 7 - msg.find("PASS");
+				password = msg.substr(msg.find("PASS") + 5, end);
 				if (password == this->getPassword())
 					std::cout << "great password" << std::endl;
 				else {
@@ -173,8 +124,8 @@ void Server::firstConnexion(User &user, std::string message_protocole)
 					this->disconnected(user);
 					return ; }}}
 	//NICK
-	end = message_protocole.find("USER") - 7 - message_protocole.find("NICK");
-	nickname = message_protocole.substr(message_protocole.find("NICK") + 5, end);
+	end = msg.find("USER") - 7 - msg.find("NICK");
+	nickname = msg.substr(msg.find("NICK") + 5, end);
 	if (nickname.size() > 9) {
 		std::cout << "Please tape '/set NICK <nickname>' cause it has more than 9 characters >"<< nickname << "<" <<  std::endl;
 		this->disconnected(user); return ;}
@@ -184,25 +135,11 @@ void Server::firstConnexion(User &user, std::string message_protocole)
 			std::cout << "You have the same Nickname than aan other user, please change : >" << itv->second.getNickName() << "<" << std::endl;
 			this->disconnected(user); return ; }}
 	//USER
-	end = message_protocole.find(DELIMITER) - message_protocole.find("USER");
-	username = message_protocole.substr(message_protocole.find("USER") + 5, end);
+	end = msg.find(DELIMITER) - msg.find("USER");
+	username = msg.substr(msg.find("USER") + 5, end);
 	
 	user.setNickName(nickname); 
 	user.setUserName(username);
-	user.setFirstConnexion(false);
+	user.setFirstConnexion(false);}
 }
-
-/* getters and setters */
-
-//pollfds
-void Server::setPollFds(pollfd poll_fd){ this->poll_fds.push_back(poll_fd); }
-std::vector<pollfd> Server::getPollFds() const { return this->poll_fds; }
-
-//serverfd
-void Server::setServerFd(int server_fd){ this->server_fd = server_fd;}
-int Server::getServerFd() const { return this->server_fd; }
-
-//password
-std::string  Server::getPassword() const { return this->password; }
-void  Server::setPassword(std::string password) { this->password = password; }
 

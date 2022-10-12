@@ -30,24 +30,25 @@ class User {
         void setNickName(std::string nick_name);
         std::string getNickName();
         //msg protocole
-        std::string getMsg() const;
-        void setMsg(std::string msg);
+        std::vector<std::string> getMsg() const;
+        void setMsg(char *buffer, size_t read_size);
         //first_connexion
         bool getFirstConnexion() const;
         void setFirstConnexion(bool choice);
         //fd
         int getFd() const;
         void setFd(int fd);
+        //fd
     
         std::string _outputMessage; //to set private + getter
     private :
 
         std::string nick_name;
         std::string user_name;
-        //message protocole
-        std::string message_protocole;
         bool first_connexion;
         int fd;
+        //message protocole
+        std::vector<std::string> vector_message_protocole;
 };
 
 #endif

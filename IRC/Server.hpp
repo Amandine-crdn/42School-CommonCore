@@ -33,9 +33,9 @@ class Server {
         void intercept();
         void sendMessage();
         void commandResponces(User &user, std::string cmd);
-        void checker(User &user, std::string message_protocole);
+        void checker(User &user, std::vector<std::string> messages);
         void disconnected(User &user);
-        void firstConnexion(User &user, std::string message_protocole);
+        void firstConnexion(User &user, std::vector<std::string> messages);
         void dispatcher(User &user, std::string message_protocole);
 
         /* getters and setters */

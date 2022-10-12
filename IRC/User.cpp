@@ -5,20 +5,29 @@ User::User() : first_connexion(true) {
 
 User::~User(){
     std::cout << "User Destructor called" << std::endl; }
-
-
 /* methods */
 
-void User::addMessages(char *buffer, size_t read_size) {
-	std::string buftemp;
-	buftemp.insert(0, buffer, read_size);
-	this->setMsg(buftemp); }
+
 
 /* getters and setters */
 
 //msg protocol
-std::string User::getMsg() const{ return this->message_protocole; }
-void User::setMsg(std::string msg) { this->message_protocole = msg; };
+void User::setMsg(char *buffer, size_t read_size) {
+	int pos;
+	std::string bufferString;
+	std::string temp;
+
+	bufferString.insert(0, buffer, read_size);
+	temp += bufferString;
+	while ((pos = temp.find(DELIMITER)) != -1) {
+		vector_message_protocole.push_back(temp.substr(0, pos));
+		temp = temp.erase(0, pos + sizeof(DELIMITER) - 1); }
+
+	for (std::vector<std::string>::iterator it = vector_message_protocole.begin() ; it != vector_message_protocole.end(); it++)
+	std::cout << "vector_message_protocole = >" << *it << "<" << std::endl;
+}
+
+std::vector<std::string> User::getMsg() const{ return this->vector_message_protocole; } 
 
 //username
 void User::setUserName(std::string user_name){ this->user_name = user_name; }
