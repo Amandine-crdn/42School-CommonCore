@@ -30,9 +30,10 @@ class Server {
         void error(std::string error);
         void connect();
         void intercept();
-        void dispatcher(User &user, std::string message_protocole);
+        void checker(User &user, std::string message_protocole);
         void disconnected(User &user);
         void firstConnexion(User &user, std::string message_protocole);
+        void dispatcher(User &user, std::string message_protocole);
 
         /* getters and setters */
 

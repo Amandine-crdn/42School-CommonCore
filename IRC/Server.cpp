@@ -73,17 +73,24 @@ void Server::intercept()
                 users_list[itb->fd].addMessages(buffer, sizeRead);
 				users_list[itb->fd].setFd(itb->fd);
                 std::cout << "User with fd[" << itb->fd << "] send : \n" << users_list[itb->fd].getMsg() << std::endl;
-				dispatcher(users_list[itb->fd], users_list[itb->fd].getMsg()); }}}
+				checker(users_list[itb->fd], users_list[itb->fd].getMsg()); }}}
 }   
+
+void Server::checker(User &user, std::string message_protocole)
+{
+	std::cout << "----- checker ------" << std::endl;
+
+	switch (user.getFirstConnexion())
+	{
+		case true : this->firstConnexion(user, message_protocole); break ;
+		case false : dispatcher(user, message_protocole); break ;
+	}
+}
 
 void Server::dispatcher(User &user, std::string message_protocole)
 {
-	if (user.getFirstConnexion() == true)
-		this->firstConnexion(user, message_protocole);
-	/*else
-	{
 	
-	}*/
+
 }
 
 void Server::disconnected(User &user)
