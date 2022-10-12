@@ -82,15 +82,64 @@ void Server::checker(User &user, std::string message_protocole)
 
 	switch (user.getFirstConnexion())
 	{
-		case true : this->firstConnexion(user, message_protocole); break ;
+		case true : this->firstConnexion(user, message_protocole); commandResponces(user, "RPL_WELCOME"); break ;
 		case false : dispatcher(user, message_protocole); break ;
 	}
+	 
+}
+
+void Server::commandResponces(User &user, std::string cmd)
+{
+	std::stringstream result; 
+
+	result << "001" << " ";
+	result << ":Welcome to the Internet Relay Chat Network, " << user.getNickName();
+	result << DELIMITER;
+/*
+	///
+	result << 002;
+	result << "Your host is " << this->server_name <<", running version 1.0";
+	result << DELIMITER;
+
+
+	///
+	result << 003;
+	result << "This server was created 12/10/2022";
+	result << DELIMITER;
+
+	///
+	result << 004;
+	result << DELIMITER;
+
+	///
+	result << 005;
+	result << DELIMITER;*/
+
+	user._outputMessage += result.str();
+	send(user.getFd(), user._outputMessage.c_str(), user._outputMessage.size(), 0); 
+	//result.clear();
+	//this->sendMessage();
 }
 
 void Server::dispatcher(User &user, std::string message_protocole)
 {
-	
+	(void)user;
+	(void)message_protocole;
+}
 
+void Server::sendMessage(void)
+{
+	std::cout << "----- sendMessage ------" << std::endl;
+	for (std::map<int, User>::iterator itb = users_list.begin(); itb != users_list.end(); itb++)
+	{
+		if (itb->second._outputMessage.size() > 0)
+			std::cout << "Sending fd: " << itb->first << " : >" << itb->second._outputMessage << "<" << std::endl;
+
+		if(send(itb->first, itb->second._outputMessage.c_str(), itb->second._outputMessage.length(), 0) == -1)
+			std::cout << "Send error " << std::endl; 
+		// std::cout << "Finished sending User._outputMessage to fd : " << itb->first << std::endl;
+		itb->second._outputMessage.clear();
+	}
 }
 
 void Server::disconnected(User &user)
@@ -105,6 +154,7 @@ void Server::firstConnexion(User &user, std::string message_protocole)
 {
 	std::string password;
 	std::string nickname;
+	std::string username;
 	std::size_t end;
 
 	//PASS
@@ -133,8 +183,12 @@ void Server::firstConnexion(User &user, std::string message_protocole)
 		if (nickname == itv->second.getNickName()) {
 			std::cout << "You have the same Nickname than aan other user, please change : >" << itv->second.getNickName() << "<" << std::endl;
 			this->disconnected(user); return ; }}
-	user.setNickName(nickname); // bienvenue WLM MSG //<< "[!<user>@<host>]" << std::endl;
-	std::cout << " : Welcome to the " << this->server_name << " Network," << nickname << std::endl;
+	//USER
+	end = message_protocole.find(DELIMITER) - message_protocole.find("USER");
+	username = message_protocole.substr(message_protocole.find("USER") + 5, end);
+	
+	user.setNickName(nickname); 
+	user.setUserName(username);
 	user.setFirstConnexion(false);
 }
 

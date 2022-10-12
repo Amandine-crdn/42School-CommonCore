@@ -39,6 +39,7 @@ class User {
         int getFd() const;
         void setFd(int fd);
     
+        std::string _outputMessage; //to set private + getter
     private :
 
         std::string nick_name;

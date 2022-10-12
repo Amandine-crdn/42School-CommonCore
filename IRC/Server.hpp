@@ -13,6 +13,7 @@
 #include <map>
 #include <fcntl.h>
 #include <ctime>
+#include <sstream>
 
 #include "User.hpp"
 
@@ -30,6 +31,8 @@ class Server {
         void error(std::string error);
         void connect();
         void intercept();
+        void sendMessage();
+        void commandResponces(User &user, std::string cmd);
         void checker(User &user, std::string message_protocole);
         void disconnected(User &user);
         void firstConnexion(User &user, std::string message_protocole);
