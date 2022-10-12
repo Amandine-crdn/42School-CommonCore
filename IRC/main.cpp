@@ -9,7 +9,7 @@ int main(int argc, const char **argv)
     
     while (1){
         server.connect(); //poll + accept
-        server.intercept(); //protocole msg 
+        server.intercept(); //protocole msg
     }
 
     //1 ou les 2 ?

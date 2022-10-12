@@ -32,6 +32,12 @@ class User {
         //msg protocole
         std::string getMsg() const;
         void setMsg(std::string msg);
+        //first_connexion
+        bool getFirstConnexion() const;
+        void setFirstConnexion(bool choice);
+        //fd
+        int getFd() const;
+        void setFd(int fd);
     
     private :
 
@@ -39,6 +45,8 @@ class User {
         std::string user_name;
         //message protocole
         std::string message_protocole;
+        bool first_connexion;
+        int fd;
 };
 
 #endif
