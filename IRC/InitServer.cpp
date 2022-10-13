@@ -23,9 +23,13 @@ void Server::init_server(const char *port, const char *password)
         this->error("error socket()");
     if (bind(this->getServerFd(),(struct sockaddr *) &this->my_addr, sizeof(this->my_addr)) == -1)
         this->error("error bind()") ;
-    if (listen(this->getServerFd(), 5) == -1) // 5 : file d'attente
-        this->error("error listen()"); //getter servername need
-    std::cout << ">" << this->server_name << "< starting on port >" << atoi(port) << "< with password >" << this->getPassword() << "<" << std::endl;
+    if (listen(this->getServerFd(), 5) == -1) { // 5 : file d'attente
+        this->error("error listen()"); }
+	
+	std::cout << "🌞   🌞   🌞   🌞   🌞   🌞   🌞   🌞   🌞   🌞   🌞   🌞   🌞   🌞" << std::endl;
+    std::cout << std::endl;
+	std::cout << "🌺 🌺 🌺 " << this->server_name << " starting on port " << atoi(port) << " with password " << this->getPassword() << " 🌺 🌺 🌺" << std::endl;
+	std::cout << std::endl;
 }
 
 void Server::connect()
