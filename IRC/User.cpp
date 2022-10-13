@@ -58,3 +58,7 @@ void User::setFirstConnexion(bool choice) { this->first_connexion = choice; }
 //fd
 void User::setFd(int fd) { this->fd = fd; }
 int User::getFd() const { return this->fd; }
+
+ //MODE +i visibility
+bool User::getVisibility() const { return this->visibility; }
+void User::setVisibility(bool choice) { this->visibility = choice; }

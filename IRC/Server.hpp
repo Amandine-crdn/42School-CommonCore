@@ -1,6 +1,7 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+
 #   include <iostream>
 #   include <sys/socket.h>
 #   include <errno.h>
@@ -16,6 +17,7 @@
 #   include <sstream>
 
 #   include "User.hpp"
+#   include "ClientMessage.hpp"
 
 class User;
 
@@ -33,7 +35,7 @@ class Server {
         void connect();
         void intercept();
         void sendMessage();
-        void commandResponces(User &user, std::string cmd);
+        void clientMessage(User &user, std::string cmd);
         void checker(User &user, std::vector<std::string> messages);
         void disconnected(User &user);
         void firstConnexion(User &user, std::vector<std::string> messages);
@@ -46,7 +48,9 @@ class Server {
         std::string passCmd(User &user, std::vector<std::string> data);
         std::string nickCmd(User &user, std::vector<std::string> data);
         std::string userCmd(std::vector<std::string> data);
+        void modeCmd(User &user, std::vector<std::string> data);
 
+        
         /*------- utils -------*/
 
         std::vector<std::string> split(std::string msg);

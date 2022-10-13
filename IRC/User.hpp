@@ -39,6 +39,9 @@ class User {
         //fd
         int getFd() const;
         void setFd(int fd);
+        //MODE +i visibility
+        bool getVisibility() const;
+        void setVisibility(bool choice);
     
     private :
 
@@ -48,6 +51,8 @@ class User {
         int fd;
         //message protocole
         std::vector<std::string> vector_message_protocole;
+        //MODE +i
+        bool visibility;
 };
 
 #endif

@@ -4,7 +4,9 @@ void Server::checker(User &user, std::vector<std::string> messages)
 {
 	switch (user.getFirstConnexion())
 	{
-		case true : this->firstConnexion(user, messages); commandResponces(user, "RPL_WELCOME"); break ;
+		case true : {
+			this->firstConnexion(user, messages);
+			clientMessage(user, RPL_WELCOME); break ; }
 		case false : dispatcher(user, messages); break ;
 	}
 }
@@ -48,8 +50,27 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 
 void Server::dispatcher(User &user, std::vector<std::string> messages)
 {
+	std::vector<std::string>::iterator itm;
 	(void)user;
-	(void)messages;
+
+	for (itm = messages.begin() ; itm != messages.end(); itm++)
+	{
+		std::string msg = *itm;
+		std::vector<std::string> data = this->split(msg);
+		
+		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
+		if (data[0].compare("MODE") == 0)
+			modeCmd(user, data);
+		
+
+		data.clear();
+	}
+		
+	
+
+	messages.clear();
+	std::cout << std::endl;
+
 }
 
 

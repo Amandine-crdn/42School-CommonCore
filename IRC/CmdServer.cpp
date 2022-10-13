@@ -49,3 +49,21 @@ std::string Server::userCmd(std::vector<std::string> data)
 
     return username;
 }
+
+void Server::modeCmd(User &user, std::vector<std::string> data)
+{
+	bool correspondance = false;
+	std::map<int, User>::iterator itv;
+    for (itv = users_list.begin(); itv != users_list.end(); itv++) {
+    	if (data[1] == itv->second.getNickName()) {
+			correspondance = true; }}
+
+	if (data[0].compare("MODE") == 0 && correspondance == false)
+		clientMessage(user, ERR_NOSUCHNICK);
+	else if (data[0].compare("MODE") == 0 && data[1].compare(user.getNickName()) != 0)
+		clientMessage(user, ERR_USERSDONTMATCH);
+	else if (data[0].compare("MODE") == 0 && data[1].compare(user.getNickName()) == 0 && \
+		data[2].compare("+i") == 0) {
+		clientMessage(user, RPL_UMODEIS);
+		user.setVisibility(false); }
+}

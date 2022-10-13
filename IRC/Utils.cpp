@@ -1,22 +1,5 @@
 #   include "Server.hpp"
 
-void Server::commandResponces(User &user, std::string cmd)
-{
-	(void)cmd;
-	std::stringstream result; 
-	std::string response;
-
-	result << "001" << " ";
-	result << user.getNickName() << " :👏 Welcome to the Internet Relay Chat Network." ;
-	result << DELIMITER;
-
-	response += result.str();
-	send(user.getFd(), response.c_str(), response.size(), 0); 
-	//result.clear();
-	//response.clear();
-	//this->sendMessage();
-}
-
 std::vector<std::string> Server::split(std::string msg)
 {
 	std::vector<std::string> temp;
