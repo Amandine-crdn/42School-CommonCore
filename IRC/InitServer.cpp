@@ -1,4 +1,4 @@
-#include "Server.hpp"
+#	include "Server.hpp"
 
 Server::Server(){
     std::cout << "Server Constructor called" << std::endl; }
@@ -77,18 +77,14 @@ void Server::intercept()
 
 /* ------ getters and setters ----- */
 
-//pollfds
 void Server::setPollFds(pollfd poll_fd){ this->poll_fds.push_back(poll_fd); }
 std::vector<pollfd> Server::getPollFds() const { return this->poll_fds; }
 
-//serverfd
 void Server::setServerFd(int server_fd){ this->server_fd = server_fd;}
 int Server::getServerFd() const { return this->server_fd; }
 
-//password
 std::string  Server::getPassword() const { return this->password; }
 void  Server::setPassword(std::string password) { this->password = password; }
 
-//list channel
 std::vector<std::string> Server::getChannelList() const { return this->channels_list; }
 void Server::setChannelList(std::string new_channel) { this->channels_list.push_back(new_channel); }

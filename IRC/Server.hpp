@@ -1,6 +1,8 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+#   define BUFFER_SIZE 4096
+#   define DELIMITER "\r\n"
 
 #   include <iostream>
 #   include <sys/socket.h>
@@ -28,7 +30,7 @@ class Server {
         Server();
         ~Server();
 
-        /*------  methods server ------ */
+        /*------  methods Server ------ */
 
         void init_server(const char *port, const char *password);
         void error(std::string error);
@@ -42,42 +44,25 @@ class Server {
         void dispatcher(User &user, std::vector<std::string> messages);
 
 
-
-        /*------  methods cmd ------ */
-
-        std::string passCmd(User &user, std::vector<std::string> data, bool first);
-        std::string nickCmd(User &user, std::vector<std::string> data, bool first);
-        std::string userCmd(User &user,std::vector<std::string> data, bool first);
-        void modeCmd(User &user, std::vector<std::string> data);
-        void quitCmd(User &user, std::vector<std::string> data);
-        void pingCmd(User &user, std::vector<std::string> data);
-        void joinCmd(User &user, std::vector<std::string> data);
-
-
         /*------- utils -------*/
 
         std::vector<std::string> split(std::string msg, char delimiter);
 
 
-        /* getters and setters */
+        /*------ getters and setters ----- */
 
-        //serverfd
         int getServerFd() const;
         void setServerFd(int server_fd);
-
-        //password
         std::string getPassword() const;
         void setPassword(std::string password);
-
-        //pollfds
         std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
-
-        // channel_list
         std::vector<std::string> getChannelList() const;
         void setChannelList(std::string new_channel);
         
-    private :
+
+
+    protected :
 
         //init
         int server_fd;
@@ -93,6 +78,16 @@ class Server {
         //all channel
         std::vector<std::string> channels_list;
 
+
+        /*------  virtual methods CmdServer ------ */
+
+        virtual std::string passCmd(User &user, std::vector<std::string> data, bool first);
+        virtual std::string nickCmd(User &user, std::vector<std::string> data, bool first);
+        virtual std::string userCmd(User &user,std::vector<std::string> data, bool first);
+        virtual void modeCmd(User &user, std::vector<std::string> data);
+        virtual void quitCmd(User &user, std::vector<std::string> data);
+        virtual void pingCmd(User &user, std::vector<std::string> data);
+        virtual void joinCmd(User &user, std::vector<std::string> data);
 };
 
 #endif

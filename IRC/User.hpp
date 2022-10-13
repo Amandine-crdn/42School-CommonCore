@@ -1,15 +1,7 @@
 #ifndef USER_HPP
 #define USER_HPP
 
-#define BUFFER_SIZE 4096
-#define DELIMITER "\r\n"
-
-#include <iostream>
-#include <vector>
-#include <cstring>
-#include <poll.h>
-#include "Server.hpp"
-
+#   include "Server.hpp"
 
 class User {
 
@@ -18,32 +10,25 @@ class User {
         User();
         ~User();
 
-        /* methodes */
+        /* ----- methodes ----- */
 
         void addMessages(char *buffer, size_t read_size);
         void eraseMsg();
 
-        /* getters and setters */
+        /* ----- getters and setters ----- */
 
-        //username
         void setUserName(std::string user_name);
         std::string getUserName();
-        //nickname
         void setNickName(std::string nick_name);
         std::string getNickName();
-        //msg protocole
         std::vector<std::string> getMsg() const;
         void setMsg(char *buffer, size_t read_size);
-        //first_connexion
         bool getFirstConnexion() const;
         void setFirstConnexion(bool choice);
-        //fd
         int getFd() const;
         void setFd(int fd);
-        //MODE +i visibility
         bool getVisibility() const;
         void setVisibility(bool choice);
-        // channel_list
         std::vector<std::string> getChannelList() const;
         void setChannelList(std::string new_channel);
 
@@ -54,7 +39,6 @@ class User {
         std::string user_name;
         bool first_connexion;
         int fd;
-        //message protocole
         std::vector<std::string> vector_message_protocole;
         //MODE +i
         bool visibility;

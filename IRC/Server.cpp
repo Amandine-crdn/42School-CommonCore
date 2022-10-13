@@ -10,8 +10,6 @@ void Server::checker(User &user, std::vector<std::string> messages)
 		case false : dispatcher(user, messages); break ;
 	}
 }
-#include <thread>
-#include <chrono>
 
 void Server::firstConnexion(User &user, std::vector<std::string> messages) 
 {
@@ -28,7 +26,7 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
 
 		if (data[0].compare("PASS") == 0) {
-			if (this->passCmd(user, data, 1) == "" ) { 
+			if (this->passCmd(user, data, 1) == "" ) {
 				this->disconnected(user); return ; }}
 		else if (data[0].compare("NICK") == 0) {
 			nickname = this->nickCmd(user, data, 1);
@@ -80,14 +78,11 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 		 
 		data.clear();
 	}
-		
-	
 
 	messages.clear();
 	std::cout << std::endl;
 
 }
-
 
 // /connect localhost 6667 coco
 

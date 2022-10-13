@@ -21,18 +21,18 @@ std::vector<std::string> Server::split(std::string msg, char delimiter)
 	return temp;
 }
 
-/*
-void Server::sendMessage(void)
+void Server::error(std::string error) //change for error send ?
 {
-	std::cout << "----- sendMessage ------" << std::endl;
-	for (std::map<int, User>::iterator itb = users_list.begin(); itb != users_list.end(); itb++)
-	{
-		if (itb->second._outputMessage.size() > 0)
-			std::cout << "Sending fd: " << itb->first << " : >" << itb->second._outputMessage << "<" << std::endl;
+    //close and exit
+    std::cout << "🔥 " << error << std::endl; //cf norme des erreurs
+    
+    // close tous les fd poll ??  close(itp->fd); ?
 
-		if(send(itb->first, itb->second._outputMessage.c_str(), itb->second._outputMessage.length(), 0) == -1)
-			std::cout << "Send error " << std::endl; 
-		// std::cout << "Finished sending User._outputMessage to fd : " << itb->first << std::endl;
-		itb->second._outputMessage.clear();
-	}
-}*/
+    // closing the connected socket   /// nned des 2 ?
+    close(this->getServerFd());
+    // closing the listening socket
+    shutdown(this->getServerFd(), SHUT_RDWR);
+    std::cout << "close with error" << std::endl;
+    // prk destructor server no called when close ?
+    exit (-1);
+}
