@@ -7,7 +7,7 @@ void Server::commandResponces(User &user, std::string cmd)
 	std::string response;
 
 	result << "001" << " ";
-	result << user.getNickName() << ":Welcome to the Internet Relay Chat Network, " ;
+	result << user.getNickName() << " :👏 Welcome to the Internet Relay Chat Network." ;
 	result << DELIMITER;
 
 	response += result.str();
