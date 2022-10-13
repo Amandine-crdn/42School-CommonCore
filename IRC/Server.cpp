@@ -68,78 +68,73 @@ static std::vector<std::string> split(std::string msg)
 	{
 		if (*it == ' ') {
 			temp.push_back(msg.substr(mem , increm - mem));
-			/*std::cout << "2.increm = " << increm << std::endl;
-			std::cout << "2.mem = " << mem << std::endl;*/
 			increm++;
-			mem = increm; 
-			//std::cout << "2.new mem = " << mem << std::endl;
+			mem = increm;
 		}
 		else
 			increm++;
-		/*std::cout << "1.increm = " << increm << std::endl;
-		std::cout << "1.increm ++= " << increm << std::endl;*/
-
 	}
-/*	std::cout << "increm= " << increm << std::endl;
-	std::cout << "mem = " << mem << std::endl;*/
-
 	if (it == msg.end())
 		temp.push_back(msg.substr(mem , increm - mem));
-	for (std::vector<std::string>::iterator itv = temp.begin() ; itv != temp.end(); itv++)
-	std::cout << "temp = >" << *itv << "<" << std::endl; 
-
 	return (temp);
 }
+
 // /connect localhost 6667 coco
 
 void Server::firstConnexion(User &user, std::vector<std::string> messages) 
 {
-	std::string password;
-	std::string nickname;
-	std::string username;
-	std::size_t end;
- 
+	std::string password = ""; //if password == "" after ALL return this and disconneted ?
+	std::string nickname = "";
+	std::string username = "";
 
-	for (std::vector<std::string>::iterator it = messages.begin() ; it != messages.end(); it++)
+	std::vector<std::string>::iterator itm;
+
+	for (itm = messages.begin() ; itm != messages.end(); itm++)
 	{
-		std::cout << "vector_message_protocole = >" << *it << "<" << std::endl; 
-		std::string msg = *it;
-		std::vector<std::string> data;
-		data = split(msg);
-
+		std::cout << "vector_message_protocole = >" << *itm << "<" << std::endl; 
+		std::string msg = *itm;
+		std::vector<std::string> data = split(msg);
+		msg.clear();
+		std::cout << "data[0] = " << data[0] << std::endl;
+		
+		//PASS
+		if (data[0].compare("PASS") == 0) {
+			password = data[1];
+			if (password == this->getPassword())
+				std::cout << "great password" << std::endl;
+			else {
+				std::cout << "Invalid password" << std::endl;
+				this->disconnected(user); return ; }}
+		//NICK
+		else if (data[0].compare("NICK") == 0) {
+			nickname = data[1];
+			if (nickname.size() > 9) {
+				std::cout << "Please tape '/set NICK <nickname>' cause it has more than 9 characters >"<< nickname << "<" <<  std::endl;
+				this->disconnected(user); return ;}
+			else {
+				std::map<int, User>::iterator itv;
+				for (itv = users_list.begin(); itv != users_list.end(); itv++) {
+					if (nickname == itv->second.getNickName()) {
+						std::cout << "You have the same Nickname than aan other user, please change : >" << itv->second.getNickName() << "<" << std::endl;
+						this->disconnected(user); return ; }}}}
+		//USER
+		else if (data[0].compare("USER") == 0)
+		{
+			std::vector<std::string>::iterator d;
+			for (d = ++data.begin(); d != data.end(); d++)
+			username.append(*d);
+		}
 	
-	//PASS 
-	switch((msg.find("PASS"))){
-			case std::string::npos : {
-				std::cout << "Please give a password" << std::endl;
-				this->disconnected(user);
-				return ; }
-			default : {
-				end = msg.find("NICK") - 7 - msg.find("PASS");
-				password = msg.substr(msg.find("PASS") + 5, end);
-				if (password == this->getPassword())
-					std::cout << "great password" << std::endl;
-				else {
-					std::cout << "Invalid password" << std::endl;
-					this->disconnected(user);
-					return ; }}}
-	//NICK
-	end = msg.find("USER") - 7 - msg.find("NICK");
-	nickname = msg.substr(msg.find("NICK") + 5, end);
-	if (nickname.size() > 9) {
-		std::cout << "Please tape '/set NICK <nickname>' cause it has more than 9 characters >"<< nickname << "<" <<  std::endl;
-		this->disconnected(user); return ;}
-	std::map<int, User>::iterator itv;
-	for (itv = users_list.begin(); itv != users_list.end(); itv++) {
-		if (nickname == itv->second.getNickName()) {
-			std::cout << "You have the same Nickname than aan other user, please change : >" << itv->second.getNickName() << "<" << std::endl;
-			this->disconnected(user); return ; }}
-	//USER
-	end = msg.find(DELIMITER) - msg.find("USER");
-	username = msg.substr(msg.find("USER") + 5, end);
-	
-	user.setNickName(nickname); 
-	user.setUserName(username);
-	user.setFirstConnexion(false);}
-}
-
+		data.clear();
+	}
+		
+	if (nickname == "" || password == "" || username == "") {
+	{
+		std::cout << "ICI" << std::endl;
+		this->disconnected(user); return ;}}
+	else {
+		user.setNickName(nickname); 
+		user.setUserName(username);
+		user.setFirstConnexion(false);
+		messages.clear(); return ; } //return necessaire ?
+	}
