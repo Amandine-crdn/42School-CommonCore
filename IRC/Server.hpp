@@ -45,12 +45,12 @@ class Server {
 
         /*------  methods cmd ------ */
 
-        std::string passCmd(User &user, std::vector<std::string> data);
-        std::string nickCmd(User &user, std::vector<std::string> data);
-        std::string userCmd(std::vector<std::string> data);
+        std::string passCmd(User &user, std::vector<std::string> data, bool first);
+        std::string nickCmd(User &user, std::vector<std::string> data, bool first);
+        std::string userCmd(User &user,std::vector<std::string> data, bool first);
         void modeCmd(User &user, std::vector<std::string> data);
 
-        
+
         /*------- utils -------*/
 
         std::vector<std::string> split(std::string msg);

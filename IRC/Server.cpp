@@ -10,6 +10,8 @@ void Server::checker(User &user, std::vector<std::string> messages)
 		case false : dispatcher(user, messages); break ;
 	}
 }
+#include <thread>
+#include <chrono>
 
 void Server::firstConnexion(User &user, std::vector<std::string> messages) 
 {
@@ -24,15 +26,16 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 		std::vector<std::string> data = this->split(msg);
 		
 		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
+	
 		if (data[0].compare("PASS") == 0){
-			if (this->passCmd(user, data) == ""){
+			if (this->passCmd(user, data, 1) == "" ){ 
 				this->disconnected(user); return ; }}
 		else if (data[0].compare("NICK") == 0) {
-			nickname = this->nickCmd(user, data);
+			nickname = this->nickCmd(user, data, 1);
 			if (nickname == "") {
 				this->disconnected(user); return ; }}
 		else if (data[0].compare("USER") == 0)
-			username = this->userCmd(data);
+			username = this->userCmd(user, data, 1);
 
 		data.clear();
 	}
@@ -59,10 +62,16 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 		std::vector<std::string> data = this->split(msg);
 		
 		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
+
 		if (data[0].compare("MODE") == 0)
 			modeCmd(user, data);
+		else if (data[0].compare("PASS") == 0)
+			passCmd(user, data, 0);
+		else if (data[0].compare("NICK") == 0)
+			nickCmd(user, data, 0);
+		else if (data[0].compare("userhost") == 0)
+			userCmd(user, data, 0);
 		
-
 		data.clear();
 	}
 		
