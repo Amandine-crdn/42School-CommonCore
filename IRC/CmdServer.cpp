@@ -37,7 +37,7 @@ std::string Server::nickCmd(User &user, std::vector<std::string> data, bool firs
 		std::map<int, User>::iterator itv;
 		for (itv = users_list.begin(); itv != users_list.end(); itv++) {
 			if (nickname == itv->second.getNickName()) {
-				std::cout << "🥶 " << std::endl;
+				std::cout << "🥶 " << std::endl; // message erreur ne se voit pas??
 				this->clientMessage(user, ERR_NICKNAMEINUSE);
 				if (first == true) {
 					this->disconnected(user); return ""; }}}}
@@ -93,11 +93,37 @@ void Server::pingCmd(User &user, std::vector<std::string> data)
 	std::stringstream result; 
 	std::string response;
 
-	std::cout << "🌱 " << std::endl;
 	if (data.size() == 1)
 		clientMessage(user, ERR_NEEDMOREPARAMS);
 	else { // comment etre sur que cela repond bien au ping ?
 		result << server_name << " PONG :" << data[1] << DELIMITER; 
 		response += result.str();
 		send(user.getFd(), response.c_str(), response.size(), 0); }
+}
+
+void Server::joinCmd(User &user, std::vector<std::string> data)
+{
+	std::vector<std::string>::iterator itd;
+	std::vector<std::string>::iterator itc;
+	std::vector<std::string>::iterator itu;
+
+	std::vector<std::string> new_data = this->split(data[1], ',');
+	
+	// 1 check si la liste des input  existe dans la liste des channels
+	for (itd = new_data.begin(); itd != new_data.end(); itd++) {
+		bool correspondance = false;
+		for (itc = this->getChannelList().begin(); itc != this->getChannelList().end(); itc++) {			
+			if (*itd == *itc) {
+				std::cout << "find !" << std::endl; // check sil existe pour le user pour le add
+				correspondance = true;
+				for (itu = user.getChannelList().begin(); itu != user.getChannelList().end() && *itd != *itu; itu++) ;
+				if (itu != user.getChannelList().end()) {
+					std::cout << "add for this user = " << *itu << std::endl;
+					user.setChannelList(*itd); }} //channel is add to channellist for this user
+
+		if (correspondance == false) {
+			// thischannel <channel_name> is created now
+			// <nickname> you join thischannel <channel_name>
+			std::cout << "not find => " << *itd << std::endl;
+			this->setChannelList(*itd); }}} //channel is add to channellist for server
 }

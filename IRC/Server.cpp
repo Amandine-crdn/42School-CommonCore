@@ -23,7 +23,7 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 	for (itm = messages.begin() ; itm != messages.end(); itm++)
 	{
 		std::string msg = *itm;
-		std::vector<std::string> data = this->split(msg);
+		std::vector<std::string> data = this->split(msg, ' ');
 		
 		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
 
@@ -59,7 +59,7 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 	for (itm = messages.begin() ; itm != messages.end(); itm++)
 	{
 		std::string msg = *itm;
-		std::vector<std::string> data = this->split(msg);
+		std::vector<std::string> data = this->split(msg, ' ');
 		
 		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
 
@@ -75,7 +75,9 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 			quitCmd(user, data);
 		else if (data[0].compare("PING") == 0)
 			pingCmd(user, data);
-		
+		else if (data[0].compare("JOIN") == 0)
+			joinCmd(user, data);
+		 
 		data.clear();
 	}
 		

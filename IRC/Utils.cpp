@@ -1,6 +1,6 @@
 #   include "Server.hpp"
 
-std::vector<std::string> Server::split(std::string msg)
+std::vector<std::string> Server::split(std::string msg, char delimiter)
 {
 	std::vector<std::string> temp;
 	int increm = 0;
@@ -9,7 +9,7 @@ std::vector<std::string> Server::split(std::string msg)
 
 	for(it = msg.begin(); it != msg.end(); it++)
 	{
-		if (*it == ' ') {
+		if (*it == delimiter) {
 			temp.push_back(msg.substr(mem , increm - mem));
 			mem = ++increm;
 		}

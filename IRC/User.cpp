@@ -40,7 +40,6 @@ void User::setMsg(char *buffer, size_t read_size)
 
 	for (std::vector<std::string>::iterator it = vector_message_protocole.begin() ; it != vector_message_protocole.end(); it++)
 	std::cout << "⌛  🖥️  IRSSI = >" << *it << "<" << std::endl;
-	std::cout << std::endl;
 }
 
 //username
@@ -59,6 +58,10 @@ void User::setFirstConnexion(bool choice) { this->first_connexion = choice; }
 void User::setFd(int fd) { this->fd = fd; }
 int User::getFd() const { return this->fd; }
 
- //MODE +i visibility
+//MODE +i visibility
 bool User::getVisibility() const { return this->visibility; }
 void User::setVisibility(bool choice) { this->visibility = choice; }
+
+//list channel
+std::vector<std::string> User::getChannelList() const { return this->channels_list; }
+void User::setChannelList(std::string new_channel) { this->channels_list.push_back(new_channel); }

@@ -89,3 +89,6 @@ int Server::getServerFd() const { return this->server_fd; }
 std::string  Server::getPassword() const { return this->password; }
 void  Server::setPassword(std::string password) { this->password = password; }
 
+//list channel
+std::vector<std::string> Server::getChannelList() const { return this->channels_list; }
+void Server::setChannelList(std::string new_channel) { this->channels_list.push_back(new_channel); }

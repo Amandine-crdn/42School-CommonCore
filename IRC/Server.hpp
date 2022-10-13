@@ -51,12 +51,12 @@ class Server {
         void modeCmd(User &user, std::vector<std::string> data);
         void quitCmd(User &user, std::vector<std::string> data);
         void pingCmd(User &user, std::vector<std::string> data);
-
+        void joinCmd(User &user, std::vector<std::string> data);
 
 
         /*------- utils -------*/
 
-        std::vector<std::string> split(std::string msg);
+        std::vector<std::string> split(std::string msg, char delimiter);
 
 
         /* getters and setters */
@@ -72,6 +72,10 @@ class Server {
         //pollfds
         std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
+
+        // channel_list
+        std::vector<std::string> getChannelList() const;
+        void setChannelList(std::string new_channel);
         
     private :
 
@@ -85,6 +89,9 @@ class Server {
         //connect
         std::vector<pollfd> poll_fds;
         std::map<int, User> users_list;
+
+        //all channel
+        std::vector<std::string> channels_list;
 
 };
 

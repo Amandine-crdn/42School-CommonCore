@@ -8,6 +8,7 @@
 #include <vector>
 #include <cstring>
 #include <poll.h>
+#include "Server.hpp"
 
 
 class User {
@@ -42,6 +43,10 @@ class User {
         //MODE +i visibility
         bool getVisibility() const;
         void setVisibility(bool choice);
+        // channel_list
+        std::vector<std::string> getChannelList() const;
+        void setChannelList(std::string new_channel);
+
     
     private :
 
@@ -53,6 +58,8 @@ class User {
         std::vector<std::string> vector_message_protocole;
         //MODE +i
         bool visibility;
+        //channel_list for one user
+        std::vector<std::string> channels_list;
 };
 
 #endif
