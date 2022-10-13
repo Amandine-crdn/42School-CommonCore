@@ -3,7 +3,7 @@
 void Server::error(std::string error)
 {
     //close and exit
-    std::cout << error << std::endl; //cf norme des erreurs
+    std::cout << "🔥 " << error << std::endl; //cf norme des erreurs
     
     // close tous les fd poll ??  close(itp->fd); ?
 

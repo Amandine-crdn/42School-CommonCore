@@ -1,15 +1,12 @@
-#include "Server.hpp"
+#   include "Server.hpp"
 
 void Server::checker(User &user, std::vector<std::string> messages)
 {
-	std::cout << "----- checker ------" << std::endl;
-
 	switch (user.getFirstConnexion())
 	{
 		case true : this->firstConnexion(user, messages); commandResponces(user, "RPL_WELCOME"); break ;
 		//case false : dispatcher(user, message_protocole); break ;
 	}
-	 
 }
 
 void Server::commandResponces(User &user, std::string cmd)
@@ -76,65 +73,44 @@ static std::vector<std::string> split(std::string msg)
 	}
 	if (it == msg.end())
 		temp.push_back(msg.substr(mem , increm - mem));
-	return (temp);
+	return temp;
 }
 
 // /connect localhost 6667 coco
 
 void Server::firstConnexion(User &user, std::vector<std::string> messages) 
 {
-	std::string password = ""; //if password == "" after ALL return this and disconneted ?
+	std::vector<std::string>::iterator itm;
+	std::string password = "";
 	std::string nickname = "";
 	std::string username = "";
 
-	std::vector<std::string>::iterator itm;
-
 	for (itm = messages.begin() ; itm != messages.end(); itm++)
 	{
-		std::cout << "vector_message_protocole = >" << *itm << "<" << std::endl; 
 		std::string msg = *itm;
 		std::vector<std::string> data = split(msg);
-		msg.clear();
-		std::cout << "data[0] = " << data[0] << std::endl;
 		
-		//PASS
-		if (data[0].compare("PASS") == 0) {
-			password = data[1];
-			if (password == this->getPassword())
-				std::cout << "great password" << std::endl;
-			else {
-				std::cout << "Invalid password" << std::endl;
+		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
+		if (data[0].compare("PASS") == 0){
+			if (this->passCmd(user, data) == ""){
 				this->disconnected(user); return ; }}
-		//NICK
 		else if (data[0].compare("NICK") == 0) {
-			nickname = data[1];
-			if (nickname.size() > 9) {
-				std::cout << "Please tape '/set NICK <nickname>' cause it has more than 9 characters >"<< nickname << "<" <<  std::endl;
-				this->disconnected(user); return ;}
-			else {
-				std::map<int, User>::iterator itv;
-				for (itv = users_list.begin(); itv != users_list.end(); itv++) {
-					if (nickname == itv->second.getNickName()) {
-						std::cout << "You have the same Nickname than aan other user, please change : >" << itv->second.getNickName() << "<" << std::endl;
-						this->disconnected(user); return ; }}}}
-		//USER
+			nickname = this->nickCmd(user, data);
+			if (nickname == "") {
+				this->disconnected(user); return ; }}
 		else if (data[0].compare("USER") == 0)
-		{
-			std::vector<std::string>::iterator d;
-			for (d = ++data.begin(); d != data.end(); d++)
-			username.append(*d);
-		}
-	
+			username = this->userCmd(data);
+
 		data.clear();
 	}
 		
-	if (nickname == "" || password == "" || username == "") {
-	{
-		std::cout << "ICI" << std::endl;
-		this->disconnected(user); return ;}}
+	if (nickname == "" || username == "") {
+		this->disconnected(user); }
 	else {
 		user.setNickName(nickname); 
 		user.setUserName(username);
 		user.setFirstConnexion(false);
-		messages.clear(); return ; } //return necessaire ?
-	}
+		/*messages.clear(); */}
+	messages.clear();
+	std::cout << std::endl;
+}

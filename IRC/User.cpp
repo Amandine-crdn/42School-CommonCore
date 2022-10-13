@@ -24,7 +24,8 @@ void User::setMsg(char *buffer, size_t read_size) {
 		temp = temp.erase(0, pos + sizeof(DELIMITER) - 1); }
 
 	for (std::vector<std::string>::iterator it = vector_message_protocole.begin() ; it != vector_message_protocole.end(); it++)
-	std::cout << "vector_message_protocole = >" << *it << "<" << std::endl;
+	std::cout << "⌛  🖥️  IRSSI = >" << *it << "<" << std::endl;
+	std::cout << std::endl;
 }
 
 std::vector<std::string> User::getMsg() const{ return this->vector_message_protocole; } 

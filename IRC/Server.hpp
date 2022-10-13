@@ -1,21 +1,21 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include <iostream>
-#include <sys/socket.h>
-#include <errno.h>
-#include <netinet/in.h>
-#include <unistd.h>
-#include <arpa/inet.h> 
-#include <vector>
-#include <cstring>
-#include <poll.h>
-#include <map>
-#include <fcntl.h>
-#include <ctime>
-#include <sstream>
+#   include <iostream>
+#   include <sys/socket.h>
+#   include <errno.h>
+#   include <netinet/in.h>
+#   include <unistd.h>
+#   include <arpa/inet.h> 
+#   include <vector>
+#   include <cstring>
+#   include <poll.h>
+#   include <map>
+#   include <fcntl.h>
+#   include <ctime>
+#   include <sstream>
 
-#include "User.hpp"
+#   include "User.hpp"
 
 class User;
 
@@ -26,7 +26,8 @@ class Server {
         Server();
         ~Server();
 
-        //method
+        /*------  methods server ------ */
+
         void init_server(const char *port, const char *password);
         void error(std::string error);
         void connect();
@@ -37,6 +38,16 @@ class Server {
         void disconnected(User &user);
         void firstConnexion(User &user, std::vector<std::string> messages);
         void dispatcher(User &user, std::string message_protocole);
+
+
+
+        /*------  methods cmd ------ */
+
+        std::string passCmd(User &user, std::vector<std::string> data);
+        std::string nickCmd(User &user, std::vector<std::string> data);
+        std::string userCmd(std::vector<std::string> data);
+
+
 
         /* getters and setters */
 
@@ -52,7 +63,7 @@ class Server {
         std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
         
-    private :
+    protected :
 
         //init
         int server_fd;
