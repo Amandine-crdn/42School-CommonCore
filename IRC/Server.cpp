@@ -26,9 +26,9 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 		std::vector<std::string> data = this->split(msg);
 		
 		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
-	
-		if (data[0].compare("PASS") == 0){
-			if (this->passCmd(user, data, 1) == "" ){ 
+
+		if (data[0].compare("PASS") == 0) {
+			if (this->passCmd(user, data, 1) == "" ) { 
 				this->disconnected(user); return ; }}
 		else if (data[0].compare("NICK") == 0) {
 			nickname = this->nickCmd(user, data, 1);
@@ -40,12 +40,12 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 		data.clear();
 	}
 		
-	if (nickname == "" || username == "") {
-		this->disconnected(user); }
+	if (nickname == "" || username == "")
+		this->disconnected(user);
 	else {
 		user.setNickName(nickname); 
 		user.setUserName(username);
-		user.setFirstConnexion(false);}
+		user.setFirstConnexion(false); }
 
 	messages.clear();
 	std::cout << std::endl;
@@ -71,6 +71,10 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 			nickCmd(user, data, 0);
 		else if (data[0].compare("userhost") == 0)
 			userCmd(user, data, 0);
+		else if (data[0].compare("QUIT") == 0)
+			quitCmd(user, data);
+		else if (data[0].compare("PING") == 0)
+			pingCmd(user, data);
 		
 		data.clear();
 	}

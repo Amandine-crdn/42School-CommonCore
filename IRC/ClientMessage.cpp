@@ -19,9 +19,13 @@ void Server::clientMessage(User &user, std::string cmd)
         result << cmd << ": ❌ Password incorrect" << DELIMITER;
     else if (cmd.compare(ERR_NICKNAMEINUSE) == 0)
         result << cmd << DELIMITER;
-     else if (cmd.compare(ERR_ERRONEUSNICKNAME) == 0)
+    else if (cmd.compare(ERR_ERRONEUSNICKNAME) == 0)
         result << cmd << ": Your nickname has more than 9 characters "<< DELIMITER;
-        
+    else if (cmd.compare(ERROR) == 0)
+        result << cmd << ": Ciao"<< DELIMITER;  
+    else if (cmd.compare(ERR_NEEDMOREPARAMS) == 0)
+        result << cmd << " PING :Not enough parameters"<< DELIMITER; 
+
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 
     

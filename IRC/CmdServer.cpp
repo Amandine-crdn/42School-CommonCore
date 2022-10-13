@@ -23,28 +23,26 @@ std::string Server::passCmd(User &user, std::vector<std::string> data, bool firs
 std::string Server::nickCmd(User &user, std::vector<std::string> data, bool first)
 {
 	std::string nickname = "";
-		std::vector<std::string>::iterator d;
+	std::vector<std::string>::iterator d;
 
-		for (d = ++data.begin(); d != data.end(); d++){
-			nickname.append(*d);
-			if (d != data.end() - 1)
-				nickname.push_back(' ');}
-		if (nickname.size() > 9) {
-			this->clientMessage(user, ERR_ERRONEUSNICKNAME);
-			if (first == true)
-				this->disconnected(user);
-			return "";}
-		else {
-			std::map<int, User>::iterator itv;
-			for (itv = users_list.begin(); itv != users_list.end(); itv++) {
-				if (nickname == itv->second.getNickName()) {
-				{
-					std::cout << "🥶 " << std::endl;
-					this->clientMessage(user, ERR_NICKNAMEINUSE);
-					if (first == true)
-						this->disconnected(user);
-					return ""; }}}}
-
+	for (d = ++data.begin(); d != data.end(); d++){
+		nickname.append(*d);
+		if (d != data.end() - 1)
+			nickname.push_back(' ');}
+	if (nickname.size() > 9) {
+		this->clientMessage(user, ERR_ERRONEUSNICKNAME);
+		if (first == true) {
+			this->disconnected(user); return ""; }}
+	else {
+		std::map<int, User>::iterator itv;
+		for (itv = users_list.begin(); itv != users_list.end(); itv++) {
+			if (nickname == itv->second.getNickName()) {
+				std::cout << "🥶 " << std::endl;
+				this->clientMessage(user, ERR_NICKNAMEINUSE);
+				if (first == true) {
+					this->disconnected(user); return ""; }}}}
+	if (first == false)
+		user.setNickName(nickname);
     return nickname;
 }
 
@@ -80,4 +78,26 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 		data[2].compare("+i") == 0) {
 		clientMessage(user, RPL_UMODEIS);
 		user.setVisibility(false); }
+}
+
+void Server::quitCmd(User &user, std::vector<std::string> data)
+{
+	std::cout << "🌙 " << std::endl;
+	(void)data;
+	clientMessage(user, ERROR);
+	// close fd and disconnected hote
+}
+
+void Server::pingCmd(User &user, std::vector<std::string> data)
+{
+	std::stringstream result; 
+	std::string response;
+
+	std::cout << "🌱 " << std::endl;
+	if (data.size() == 1)
+		clientMessage(user, ERR_NEEDMOREPARAMS);
+	else { // comment etre sur que cela repond bien au ping ?
+		result << server_name << " PONG :" << data[1] << DELIMITER; 
+		response += result.str();
+		send(user.getFd(), response.c_str(), response.size(), 0); }
 }

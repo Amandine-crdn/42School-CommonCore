@@ -49,6 +49,9 @@ class Server {
         std::string nickCmd(User &user, std::vector<std::string> data, bool first);
         std::string userCmd(User &user,std::vector<std::string> data, bool first);
         void modeCmd(User &user, std::vector<std::string> data);
+        void quitCmd(User &user, std::vector<std::string> data);
+        void pingCmd(User &user, std::vector<std::string> data);
+
 
 
         /*------- utils -------*/
