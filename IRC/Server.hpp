@@ -37,7 +37,7 @@ class Server {
         void checker(User &user, std::vector<std::string> messages);
         void disconnected(User &user);
         void firstConnexion(User &user, std::vector<std::string> messages);
-        void dispatcher(User &user, std::string message_protocole);
+        void dispatcher(User &user, std::vector<std::string> messages);
 
 
 
@@ -47,6 +47,9 @@ class Server {
         std::string nickCmd(User &user, std::vector<std::string> data);
         std::string userCmd(std::vector<std::string> data);
 
+        /*------- utils -------*/
+
+        std::vector<std::string> split(std::string msg);
 
 
         /* getters and setters */
@@ -63,7 +66,7 @@ class Server {
         std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
         
-    protected :
+    private :
 
         //init
         int server_fd;

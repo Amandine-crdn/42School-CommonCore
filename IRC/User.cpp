@@ -5,14 +5,29 @@ User::User() : first_connexion(true) {
 
 User::~User(){
     std::cout << "User Destructor called" << std::endl; }
-/* methods */
 
 
 
-/* getters and setters */
+/*------ methods ------- */
+
+
+ void User::eraseMsg()
+ {
+	std::vector<std::string>::iterator it;
+	it = vector_message_protocole.begin();
+	std::vector<std::string>::iterator end;
+	end = vector_message_protocole.end();
+	vector_message_protocole.erase(it, end);
+ }
+
+
+/*------ getters and setters ------ */
+
 
 //msg protocol
-void User::setMsg(char *buffer, size_t read_size) {
+std::vector<std::string> User::getMsg() const{ return this->vector_message_protocole; } 
+void User::setMsg(char *buffer, size_t read_size)
+{
 	int pos;
 	std::string bufferString;
 	std::string temp;
@@ -27,8 +42,6 @@ void User::setMsg(char *buffer, size_t read_size) {
 	std::cout << "⌛  🖥️  IRSSI = >" << *it << "<" << std::endl;
 	std::cout << std::endl;
 }
-
-std::vector<std::string> User::getMsg() const{ return this->vector_message_protocole; } 
 
 //username
 void User::setUserName(std::string user_name){ this->user_name = user_name; }

@@ -20,6 +20,7 @@ class User {
         /* methodes */
 
         void addMessages(char *buffer, size_t read_size);
+        void eraseMsg();
 
         /* getters and setters */
 
@@ -38,9 +39,7 @@ class User {
         //fd
         int getFd() const;
         void setFd(int fd);
-        //fd
     
-        std::string _outputMessage; //to set private + getter
     private :
 
         std::string nick_name;

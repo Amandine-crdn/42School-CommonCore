@@ -69,7 +69,9 @@ void Server::intercept()
 			else {
                 users_list[itb->fd].setMsg(buffer, sizeRead);
 				users_list[itb->fd].setFd(itb->fd);
-				checker(users_list[itb->fd], users_list[itb->fd].getMsg()); }}}
+				checker(users_list[itb->fd], users_list[itb->fd].getMsg());
+				users_list[itb->fd].eraseMsg();
+				 }}}
 }   
 
 
