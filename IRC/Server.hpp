@@ -20,8 +20,10 @@
 
 #   include "User.hpp"
 #   include "ClientMessage.hpp"
+#   include "Channel.hpp"
 
 class User;
+class Channel;
 
 class Server {
 
@@ -57,7 +59,8 @@ class Server {
         void setPassword(std::string password);
         std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
-        std::vector<std::string> getChannelList() const;
+
+       // segfault std::vector<Channel> getChannelList() const;
         void setChannelList(std::string new_channel);
         
 
@@ -73,10 +76,13 @@ class Server {
 
         //connect
         std::vector<pollfd> poll_fds;
-        std::map<int, User> users_list;
+        std::map<int, User> users_list; // creer des accesseurs
+        
+        
+        //real all channel
+        std::vector<Channel> channels_list;
 
-        //all channel
-        std::vector<std::string> channels_list;
+
 
 
         /*------  virtual methods CmdServer ------ */

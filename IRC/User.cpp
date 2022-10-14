@@ -55,5 +55,6 @@ int User::getFd() const { return this->fd; }
 bool User::getVisibility() const { return this->visibility; }
 void User::setVisibility(bool choice) { this->visibility = choice; }
 
-std::vector<std::string> User::getChannelList() const { return this->channels_list; }
-void User::setChannelList(std::string new_channel) { this->channels_list.push_back(new_channel); }
+//liste de course des channels
+std::vector<std::string> User::getChannelListByUser() const { return this->channels_list_by_user; }
+void User::setChannelListByUser(std::string new_channel) { this->channels_list_by_user.push_back(new_channel); } 

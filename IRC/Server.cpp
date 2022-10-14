@@ -28,10 +28,8 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 		if (data[0].compare("PASS") == 0) {
 			if (this->passCmd(user, data, 1) == "" ) {
 				this->disconnected(user); return ; }}
-		else if (data[0].compare("NICK") == 0) {
+		else if (data[0].compare("NICK") == 0)
 			nickname = this->nickCmd(user, data, 1);
-			if (nickname == "") {
-				this->disconnected(user); return ; }}
 		else if (data[0].compare("USER") == 0)
 			username = this->userCmd(user, data, 1);
 

@@ -7,8 +7,16 @@ class Channel {
 
     public :
 
-       // Channel();
-       // ~Channel();
+       Channel() {};
+       Channel(std::string channel_name);
+       ~Channel() {};
+
+        /* ----- getters and setters ----- */
+
+        std::string getChannelName();
+
+        //que dans le constructeur
+        //void setChannelName(std::string channel_name);
 
     private :
 

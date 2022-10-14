@@ -31,16 +31,14 @@ std::string Server::nickCmd(User &user, std::vector<std::string> data, bool firs
 			nickname.push_back(' ');}
 	if (nickname.size() > 9) {
 		this->clientMessage(user, ERR_ERRONEUSNICKNAME);
-		if (first == true) {
-			this->disconnected(user); return ""; }}
+		if (first == true)
+			return ""; }
 	else {
 		std::map<int, User>::iterator itv;
 		for (itv = users_list.begin(); itv != users_list.end(); itv++) {
 			if (nickname == itv->second.getNickName()) {
-				std::cout << "🥶 " << std::endl; // message erreur ne se voit pas??
 				this->clientMessage(user, ERR_NICKNAMEINUSE);
-				if (first == true) {
-					this->disconnected(user); return ""; }}}}
+				return ""; }}}
 	if (first == false)
 		user.setNickName(nickname);
     return nickname;
@@ -104,26 +102,31 @@ void Server::pingCmd(User &user, std::vector<std::string> data)
 void Server::joinCmd(User &user, std::vector<std::string> data)
 {
 	std::vector<std::string>::iterator itd;
-	std::vector<std::string>::iterator itc;
+	std::vector<Channel>::iterator itc;
 	std::vector<std::string>::iterator itu;
 
 	std::vector<std::string> new_data = this->split(data[1], ',');
 	
-	// 1 check si la liste des input  existe dans la liste des channels
-	for (itd = new_data.begin(); itd != new_data.end(); itd++) {
+	for (itd = new_data.begin(); itd != new_data.end(); itd++)
+	{
 		bool correspondance = false;
-		for (itc = this->getChannelList().begin(); itc != this->getChannelList().end(); itc++) {			
-			if (*itd == *itc) {
-				std::cout << "find !" << std::endl; // check sil existe pour le user pour le add
+		bool use = false;
+		for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {		
+			if (itc->getChannelName() == *itd) {
 				correspondance = true;
-				for (itu = user.getChannelList().begin(); itu != user.getChannelList().end() && *itd != *itu; itu++) ;
-				if (itu != user.getChannelList().end()) {
-					std::cout << "add for this user = " << *itu << std::endl;
-					user.setChannelList(*itd); }} //channel is add to channellist for this user
-
+				for (itu = user.getChannelListByUser().begin(); itu != user.getChannelListByUser().end(); itu++) {
+					if (*itu == *itd) {
+						use = true; }}
+				if (use == false) {
+					user.setChannelListByUser(*itd);
+					std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; }}}
 		if (correspondance == false) {
-			// thischannel <channel_name> is created now
-			// <nickname> you join thischannel <channel_name>
-			std::cout << "not find => " << *itd << std::endl;
-			this->setChannelList(*itd); }}} //channel is add to channellist for server
-}
+			this->setChannelList(*itd);
+			std::cout << " 🍑 The channel " << *itd << " was created" << std::endl;
+			user.setChannelListByUser(*itd);
+			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; }}
+
+} // numeric value to return to client ??
+
+
+// /connect localhost 6667 coco

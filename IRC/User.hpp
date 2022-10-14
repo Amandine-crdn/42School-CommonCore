@@ -29,8 +29,10 @@ class User {
         void setFd(int fd);
         bool getVisibility() const;
         void setVisibility(bool choice);
-        std::vector<std::string> getChannelList() const;
-        void setChannelList(std::string new_channel);
+
+        //liste de course des channels
+        std::vector<std::string> getChannelListByUser() const;
+        void setChannelListByUser(std::string new_channel);
 
     
     private :
@@ -42,8 +44,9 @@ class User {
         std::vector<std::string> vector_message_protocole;
         //MODE +i
         bool visibility;
-        //channel_list for one user
-        std::vector<std::string> channels_list;
+        
+        //liste de course des channels
+        std::vector<std::string> channels_list_by_user; //accesseur
 };
 
 #endif
