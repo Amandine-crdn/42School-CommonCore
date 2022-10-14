@@ -39,7 +39,7 @@ class Server {
         void connect();
         void intercept();
         void sendMessage();
-        void clientMessage(User &user, std::string cmd, std::string channel_name = "");
+        void clientMessage(User &user, std::string cmd, std::string channel_name = "", std::string topic = "");
         void checker(User &user, std::vector<std::string> messages);
         void disconnected(User &user);
         void firstConnexion(User &user, std::vector<std::string> messages);
@@ -60,7 +60,7 @@ class Server {
         std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
 
-       // segfault std::vector<Channel> getChannelList() const;
+        std::vector<Channel> getChannelList() const;
         void setChannelList(std::string new_channel);
         
 
@@ -94,8 +94,10 @@ class Server {
         virtual void quitCmd(User &user, std::vector<std::string> data);
         virtual void pingCmd(User &user, std::vector<std::string> data);
         virtual void joinCmd(User &user, std::vector<std::string> data);
-        virtual void privMsgCmd(User &user, std::string msg);
+        virtual void privMsgCmd(User &user, std::vector<std::string> data);
         virtual void operCmd(User &user, std::vector<std::string> data);
+        virtual void topicCmd(User &user, std::string msg, std::string channel_name);
+
 };
 
 #endif

@@ -64,8 +64,7 @@ void Server::intercept()
                 users_list[itb->fd].setMsg(buffer, sizeRead);
 				users_list[itb->fd].setFd(itb->fd);
 				checker(users_list[itb->fd], users_list[itb->fd].getMsg());
-				users_list[itb->fd].eraseMsg();
-				 }}}
+				users_list[itb->fd].eraseMsg(); }}}
 }   
 
 
@@ -80,5 +79,5 @@ int Server::getServerFd() const { return this->server_fd; }
 std::string  Server::getPassword() const { return this->password; }
 void  Server::setPassword(std::string password) { this->password = password; }
 
-//std::vector<Channel> Server::getChannelList() const { return this->channels_list; }
+std::vector<Channel> Server::getChannelList() const { return this->channels_list; } 
 void Server::setChannelList(std::string new_channel) { this->channels_list.push_back(Channel(new_channel)); } 

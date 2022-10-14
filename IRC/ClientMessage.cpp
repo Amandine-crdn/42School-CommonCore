@@ -1,6 +1,6 @@
 #   include "Server.hpp"
 
-void Server::clientMessage(User &user, std::string cmd, std::string channel_name)
+void Server::clientMessage(User &user, std::string cmd, std::string channel_name, std::string topic)
 {
 	std::stringstream result;
 	std::string response;
@@ -29,8 +29,10 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
         result << cmd << channel_name << " :No topic is set"<< DELIMITER; 
     else if (cmd.compare(RPL_YOUREOPER) == 0)
         result << cmd << user.getNickName() << " :You are now an IRC operator"<< DELIMITER;
+    else if (cmd.compare(RPL_TOPIC) == 0)
+        result << cmd << '#' + channel_name << " :" << topic << DELIMITER;
 
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 
-    
 }
+// /connect localhost 6667 coco

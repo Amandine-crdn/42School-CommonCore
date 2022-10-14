@@ -127,13 +127,12 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 			user.setChannelListByUser(true, *itd);
 			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl;
 			std::cout << "\t 🎈 🎈  🎈 Congratulations you're channel's operator 🎈 🎈 🎈" << std::endl;
-			clientMessage(user, RPL_NOTOPIC, *itd); }}
+			clientMessage(user, RPL_NOTOPIC, *itd, ""); }} 
 }
 
-void Server::privMsgCmd(User &user, std::string msg) {
+void Server::privMsgCmd(User &user, std::vector<std::string> data) {
 
-	//std::stringstream message;
-	(void)user; 
+	/*//std::stringstream message;
 	std::vector<std::string> data;
 	data = this->split(msg, ':');
 	std::string target = this->split(data[0], ':')[1];
@@ -141,8 +140,68 @@ void Server::privMsgCmd(User &user, std::string msg) {
 	
 	std::cout << "target = " << target << std::endl;
 	
-	std::cout << "message = " << message << std::endl;
+	std::cout << "message = " << message << std::endl;*/
+	
+	std::vector<std::string>::iterator itd;
+	std::string message;
+
+	for (itd = ++data.begin(); itd != data.end(); itd++){
+		message.append(*itd);
+		if (itd != data.end() - 1)
+			message.push_back(' ');}
+
+	std::string new_message = this->split(message, ':')[1];
+	std::string client = this->split(message, ':')[0];
+
+	std::cout << "message = " << new_message << std::endl;
+	std::cout << "client = " << client << std::endl;
+
+	
+
+// /connect localhost 6667 coco
+
+	if (!client.size() || !message.size()) {
+		clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+
+		//envoyer message au client
+		std::map<int, User>::iterator itv;
+		for (itv = users_list.begin(); itv != users_list.end(); itv++) {
+			std::cout << "User = >" << itv->second.getNickName() << std::endl; 
+			if (itv->second.getNickName().compare(client)) {
+				std::cout << "delivery ? " << std::endl;
+				std::stringstream result;
+				result << ":" << user.getNickName() << " PRIVMSG " << itv->second.getNickName() << " :" << message << DELIMITER;
+				
+				//envoie mais ne recois pas 🖕
+
+				std::string test = result.str(); 
+				send(itv->first, test.c_str(), test.length(), 0); // proteger send -1
+			}}
+
+		//envoyer message au channel
+		std::vector<Channel>::iterator itc;
+		for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
+				if ('#' + itc->getChannelName() == client) { // pracourir les user si channel envoyer avec son fd
+					std::cout << "FIRST" << std::endl;
+					std::map<int, User>::iterator itu;
+				for (itu = users_list.begin(); itu != users_list.end(); itu++) {
+					std::map<bool, std::string>::iterator iterator;
+					for (iterator = itu->second.channels_list_by_user.begin(); iterator !=  itu->second.channels_list_by_user.end(); itu++)
+					{
+						if ('#' + iterator->second == client)
+						{
+								send(itu->first, message.c_str(), message.length(), 0);
+								std::cout << "SECOND" << std::endl;
+						}
+					}
+				}
+					//si le client n'est psa dans le forum, join + send au channel
+					//si il est dans le channel, send au channel
+				}}
+			//sendChannelMesage(user, *itUsers[i], message, it2->getName());
 }
+
+
 
 void Server::operCmd(User &user, std::vector<std::string> data) {
 
@@ -154,18 +213,26 @@ void Server::operCmd(User &user, std::vector<std::string> data) {
 
 
 	if (data.size() < 2){
-		this->clientMessage(user, ERR_NEEDMOREPARAMS);
-		return; }
+		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 
 	if (name != opername || pass != operpass) {
-		this->clientMessage(user, ERR_PASSWDMISMATCH);
-		return; }
+		this->clientMessage(user, ERR_PASSWDMISMATCH); return; }
 
 	user.setIRCOper(true);
 	this->clientMessage(user, RPL_YOUREOPER);
 } 
 
 
+void Server::topicCmd(User &user, std::string msg, std::string channel_name) { 
+
+	std::string topic = this->split(msg, ':')[1];
+
+	std::vector<Channel>::iterator itc;
+	for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
+			if (itc->getChannelName() == '#' + channel_name) { 
+				itc->setTopic(topic);
+			 	clientMessage(user, RPL_TOPIC, channel_name, topic); }}
+}
 
 
-// /connect localhost 6667 coco
+
