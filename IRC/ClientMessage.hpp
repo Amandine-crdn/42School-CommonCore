@@ -12,8 +12,8 @@
 #   define ERR_ERRONEUSNICKNAME "432 "
 #   define ERROR "0"
 #   define ERR_NEEDMOREPARAMS "461 "
-
-
+#   define RPL_NOTOPIC "331 "
+#   define RPL_YOUREOPER "381 "
 
 
 #endif

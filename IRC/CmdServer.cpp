@@ -103,7 +103,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 {
 	std::vector<std::string>::iterator itd;
 	std::vector<Channel>::iterator itc;
-	std::vector<std::string>::iterator itu;
+	std::map<bool, std::string>::iterator itu;
 
 	std::vector<std::string> new_data = this->split(data[1], ',');
 	
@@ -114,19 +114,58 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 		for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {		
 			if (itc->getChannelName() == *itd) {
 				correspondance = true;
-				for (itu = user.getChannelListByUser().begin(); itu != user.getChannelListByUser().end(); itu++) {
-					if (*itu == *itd) {
+				for (itu = user.channels_list_by_user.begin(); itu != user.channels_list_by_user.end(); itu++) {
+					if (itu->second == *itd) {
 						use = true; }}
 				if (use == false) {
-					user.setChannelListByUser(*itd);
-					std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; }}}
+					user.setChannelListByUser(false, *itd);
+					std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl;
+					clientMessage(user, *itd); }}}
 		if (correspondance == false) {
 			this->setChannelList(*itd);
-			std::cout << " 🍑 The channel " << *itd << " was created" << std::endl;
-			user.setChannelListByUser(*itd);
-			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; }}
+			std::cout << "\n 🍑 The channel " << *itd << " was created" << std::endl;
+			user.setChannelListByUser(true, *itd);
+			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl;
+			std::cout << "\t 🎈 🎈  🎈 Congratulations you're channel's operator 🎈 🎈 🎈" << std::endl;
+			clientMessage(user, RPL_NOTOPIC, *itd); }}
+}
 
-} // numeric value to return to client ??
+void Server::privMsgCmd(User &user, std::string msg) {
+
+	//std::stringstream message;
+	(void)user; 
+	std::vector<std::string> data;
+	data = this->split(msg, ':');
+	std::string target = this->split(data[0], ':')[1];
+	std::string message = data[1];
+	
+	std::cout << "target = " << target << std::endl;
+	
+	std::cout << "message = " << message << std::endl;
+}
+
+void Server::operCmd(User &user, std::vector<std::string> data) {
+
+	std::string opername = "opername";
+	std::string operpass = "operpass";
+
+	std::string name = data[1];
+	std::string pass = data[2];
+
+
+	if (data.size() < 2){
+		this->clientMessage(user, ERR_NEEDMOREPARAMS);
+		return; }
+
+	if (name != opername || pass != operpass) {
+		this->clientMessage(user, ERR_PASSWDMISMATCH);
+		return; }
+
+	user.setIRCOper(true);
+	this->clientMessage(user, RPL_YOUREOPER);
+} 
+
+
 
 
 // /connect localhost 6667 coco

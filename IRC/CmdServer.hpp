@@ -7,8 +7,8 @@ class CmdServer : public Server {
 
     public :
 
-       // CmdServer();
-       // ~CmdServer();
+       CmdServer() {};
+       ~CmdServer() {} ;
 
     /*------  methods CmdServer ------ */
 
@@ -19,6 +19,9 @@ class CmdServer : public Server {
     void quitCmd(User &user, std::vector<std::string> data);
     void pingCmd(User &user, std::vector<std::string> data);
     void joinCmd(User &user, std::vector<std::string> data);
+    void privMsgCmd(User &user, std::string msg);
+    void operCmd(User &user, std::vector<std::string> data);
+
 };
 
 #endif

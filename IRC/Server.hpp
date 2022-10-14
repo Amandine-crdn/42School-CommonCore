@@ -29,8 +29,8 @@ class Server {
 
     public :
 
-        Server();
-        ~Server();
+        Server() {};
+        ~Server() {};
 
         /*------  methods Server ------ */
 
@@ -39,7 +39,7 @@ class Server {
         void connect();
         void intercept();
         void sendMessage();
-        void clientMessage(User &user, std::string cmd);
+        void clientMessage(User &user, std::string cmd, std::string channel_name = "");
         void checker(User &user, std::vector<std::string> messages);
         void disconnected(User &user);
         void firstConnexion(User &user, std::vector<std::string> messages);
@@ -94,6 +94,8 @@ class Server {
         virtual void quitCmd(User &user, std::vector<std::string> data);
         virtual void pingCmd(User &user, std::vector<std::string> data);
         virtual void joinCmd(User &user, std::vector<std::string> data);
+        virtual void privMsgCmd(User &user, std::string msg);
+        virtual void operCmd(User &user, std::vector<std::string> data);
 };
 
 #endif

@@ -1,11 +1,6 @@
 #	include "User.hpp"
 
-User::User() : first_connexion(true) {
-    std::cout << "User Constructor called" << std::endl; }
-
-User::~User(){
-    std::cout << "User Destructor called" << std::endl; }
-
+User::User() : first_connexion(true), IRCOperator(false) {}
 
 
 /*------ methods ------- */
@@ -55,6 +50,13 @@ int User::getFd() const { return this->fd; }
 bool User::getVisibility() const { return this->visibility; }
 void User::setVisibility(bool choice) { this->visibility = choice; }
 
-//liste de course des channels
-std::vector<std::string> User::getChannelListByUser() const { return this->channels_list_by_user; }
-void User::setChannelListByUser(std::string new_channel) { this->channels_list_by_user.push_back(new_channel); } 
+bool User::getIRCOper() const { return this->IRCOperator; };
+void User::setIRCOper(bool choice) { this->IRCOperator = choice; };
+
+//liste de course des channels 
+//std::map<bool, std::string> User::getChannelListByUser() const { return this->channels_list_by_user; }
+
+void User::setChannelListByUser(bool admin, std::string new_channel) {
+		 channels_list_by_user.insert(std::make_pair(admin, new_channel));
+ }  
+ 

@@ -50,7 +50,6 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 void Server::dispatcher(User &user, std::vector<std::string> messages)
 {
 	std::vector<std::string>::iterator itm;
-	(void)user;
 
 	for (itm = messages.begin() ; itm != messages.end(); itm++)
 	{
@@ -73,6 +72,12 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 			pingCmd(user, data);
 		else if (data[0].compare("JOIN") == 0)
 			joinCmd(user, data);
+		else if (data[0].compare("PRIVMSG") == 0)
+			privMsgCmd(user, msg);
+		else if (data[0].compare("MSG") == 0)
+			std::cout << "MSG!" << std::endl;
+		else if (data[0].compare("OPER") == 0)
+			operCmd(user, data); 
 		 
 		data.clear();
 	}

@@ -7,9 +7,8 @@ class Channel {
 
     public :
 
-       Channel() {};
        Channel(std::string channel_name);
-       ~Channel() {};
+       ~Channel() ;
 
         /* ----- getters and setters ----- */
 
@@ -20,6 +19,7 @@ class Channel {
 
     private :
 
+        Channel() {};
         std::string channel_name;
 
 

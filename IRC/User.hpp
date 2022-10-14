@@ -8,7 +8,7 @@ class User {
     public :
 
         User();
-        ~User();
+        ~User() {};
 
         /* ----- methodes ----- */
 
@@ -29,11 +29,14 @@ class User {
         void setFd(int fd);
         bool getVisibility() const;
         void setVisibility(bool choice);
+        bool getIRCOper() const;
+        void setIRCOper(bool choice);
 
         //liste de course des channels
-        std::vector<std::string> getChannelListByUser() const;
-        void setChannelListByUser(std::string new_channel);
+        ///std::map<bool, std::string> getChannelListByUser() const;
+        void setChannelListByUser(bool admin, std::string new_channel);
 
+        std::map<bool, std::string> channels_list_by_user; //accesseur
     
     private :
 
@@ -44,9 +47,9 @@ class User {
         std::vector<std::string> vector_message_protocole;
         //MODE +i
         bool visibility;
-        
+        bool IRCOperator;
         //liste de course des channels
-        std::vector<std::string> channels_list_by_user; //accesseur
+        //std::vector<std::string> channels_list_by_user; //accesseur
 };
 
 #endif

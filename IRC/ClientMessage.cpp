@@ -1,8 +1,8 @@
 #   include "Server.hpp"
 
-void Server::clientMessage(User &user, std::string cmd)
+void Server::clientMessage(User &user, std::string cmd, std::string channel_name)
 {
-	std::stringstream result; 
+	std::stringstream result;
 	std::string response;
 
     if (cmd.compare(RPL_WELCOME) == 0)
@@ -25,6 +25,10 @@ void Server::clientMessage(User &user, std::string cmd)
         result << cmd << ": Ciao"<< DELIMITER;  
     else if (cmd.compare(ERR_NEEDMOREPARAMS) == 0)
         result << cmd << " PING :Not enough parameters"<< DELIMITER; 
+    else if (cmd.compare(RPL_NOTOPIC) == 0)
+        result << cmd << channel_name << " :No topic is set"<< DELIMITER; 
+    else if (cmd.compare(RPL_YOUREOPER) == 0)
+        result << cmd << user.getNickName() << " :You are now an IRC operator"<< DELIMITER;
 
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 
