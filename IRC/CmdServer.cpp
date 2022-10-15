@@ -79,13 +79,10 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 		user.setVisibility(false); }
 }
 
-void Server::quitCmd(User &user, std::vector<std::string> data)
+void Server::quitCmd(User &user) 
 {
-	std::cout << "🌙 " << std::endl;
-	(void)data;
 	clientMessage(user, ERROR);
 	this->disconnected(user);
-	// close fd and disconnected hote
 }
 
 void Server::pingCmd(User &user, std::vector<std::string> data)
@@ -145,7 +142,7 @@ void Server::privMsgCmd(User &user, std::string data) {
 		{
 			//envoyer message aux clients
 			for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
-				if (itv->second.getNickName().compare(*itc) == 0){
+				if (itv->second.getNickName().compare(*itc) == 0 && user.getNickName() != itv->second.getNickName()) {
 					std::stringstream result;
 					result << ":" << user.getNickName() << " PRIVMSG " << *itc << " :" << message << DELIMITER;
 					std::string test = result.str(); 
