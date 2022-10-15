@@ -73,9 +73,7 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 		else if (data[0].compare("JOIN") == 0)
 			joinCmd(user, data);
 		else if (data[0].compare("PRIVMSG") == 0)
-			privMsgCmd(user, data);
-		else if (data[0].compare("MSG") == 0)
-			std::cout << "MSG!" << std::endl;
+			privMsgCmd(user, msg);
 		else if (data[0].compare("OPER") == 0)
 			operCmd(user, data); 
 		else if (data[0].compare("TOPIC") == 0 && data[1].empty())

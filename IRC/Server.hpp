@@ -94,7 +94,7 @@ class Server {
         virtual void quitCmd(User &user, std::vector<std::string> data);
         virtual void pingCmd(User &user, std::vector<std::string> data);
         virtual void joinCmd(User &user, std::vector<std::string> data);
-        virtual void privMsgCmd(User &user, std::vector<std::string> data);
+        virtual void privMsgCmd(User &user, std::string data);
         virtual void operCmd(User &user, std::vector<std::string> data);
         virtual void topicCmd(User &user, std::string msg, std::string channel_name);
 

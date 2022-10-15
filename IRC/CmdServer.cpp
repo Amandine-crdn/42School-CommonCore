@@ -130,74 +130,68 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 			clientMessage(user, RPL_NOTOPIC, *itd, ""); }} 
 }
 
-void Server::privMsgCmd(User &user, std::vector<std::string> data) {
+void Server::privMsgCmd(User &user, std::string data) {
 
-	/*//std::stringstream message;
-	std::vector<std::string> data;
-	data = this->split(msg, ':');
-	std::string target = this->split(data[0], ':')[1];
-	std::string message = data[1];
-	
-	std::cout << "target = " << target << std::endl;
-	
-	std::cout << "message = " << message << std::endl;*/
-	
-	std::vector<std::string>::iterator itd;
-	std::string message;
+	std::string message = this->split(data, ':')[1];
+	std::cout << "message = " << message << std::endl;
+	std::string clients = this->split(data.substr(8), ' ')[0];
+	std::cout << "clients = >" << clients << "<" << std::endl;
 
-	for (itd = ++data.begin(); itd != data.end(); itd++){
-		message.append(*itd);
-		if (itd != data.end() - 1)
-			message.push_back(' ');}
-
-	std::string new_message = this->split(message, ':')[1];
-	std::string client = this->split(message, ':')[0];
-
-	std::cout << "message = " << new_message << std::endl;
-	std::cout << "client = " << client << std::endl;
-
-	
+	std::vector<std::string> client = this->split(clients, ',');
 
 // /connect localhost 6667 coco
 
 	if (!client.size() || !message.size()) {
 		clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 
-		//envoyer message au client
-		std::map<int, User>::iterator itv;
-		for (itv = users_list.begin(); itv != users_list.end(); itv++) {
-			std::cout << "User = >" << itv->second.getNickName() << std::endl; 
-			if (itv->second.getNickName().compare(client)) {
-				std::cout << "delivery ? " << std::endl;
-				std::stringstream result;
-				result << ":" << user.getNickName() << " PRIVMSG " << itv->second.getNickName() << " :" << message << DELIMITER;
-				
-				//envoie mais ne recois pas 🖕
+		std::vector<std::string>::iterator itc;
+		for (itc = client.begin(); itc != client.end(); itc++)
+		{
+			
 
-				std::string test = result.str(); 
-				send(itv->first, test.c_str(), test.length(), 0); // proteger send -1
-			}}
+			std::cout << "client n°*itc = >" << *itc << "<" << std::endl;
+			//envoyer message aux clients
+			std::map<int, User>::iterator itv;
+			for (itv = users_list.begin(); itv != users_list.end(); itv++) {
+				std::cout << "search user n° >" << itv->second.getNickName() << "<" << std::endl;
+				if (itv->second.getNickName().compare(*itc) == 0){
+					
+					std::stringstream result;
+					result << ":" << user.getNickName() << " PRIVMSG " << *itc << " :" << message << DELIMITER;
+					std::string test = result.str(); 
+					send(itv->first, test.c_str(), test.length(), 0); // proteger send -1 //envoie mais ne recois pas 🖕
+					std::cout << "msg sended" << std::endl; }}
 
-		//envoyer message au channel
-		std::vector<Channel>::iterator itc;
-		for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
-				if ('#' + itc->getChannelName() == client) { // pracourir les user si channel envoyer avec son fd
-					std::cout << "FIRST" << std::endl;
-					std::map<int, User>::iterator itu;
-				for (itu = users_list.begin(); itu != users_list.end(); itu++) {
-					std::map<bool, std::string>::iterator iterator;
-					for (iterator = itu->second.channels_list_by_user.begin(); iterator !=  itu->second.channels_list_by_user.end(); itu++)
-					{
-						if ('#' + iterator->second == client)
+
+
+
+
+		/*	//envoyer message au channel
+			std::vector<Channel>::iterator itc;
+			for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
+					if ('#' + itc->getChannelName() == *itc) { // pracourir les user si channel envoyer avec son fd
+						std::cout << "FIRST" << std::endl;
+						std::map<int, User>::iterator itu;
+					for (itu = users_list.begin(); itu != users_list.end(); itu++) {
+						std::map<bool, std::string>::iterator iterator;
+						for (iterator = itu->second.channels_list_by_user.begin(); iterator !=  itu->second.channels_list_by_user.end(); itu++)
 						{
-								send(itu->first, message.c_str(), message.length(), 0);
-								std::cout << "SECOND" << std::endl;
+							if (('#' + iterator->second).compare(*itc) == 0) // a checker
+							{
+								std::cout << "channel delivery ? " << std::endl;
+								std::stringstream result;
+								result << ":" << user.getNickName() << " PRIVMSG " << *itc << " :" << message << DELIMITER;
+								
+								//envoie mais ne recois pas 🖕
+
+								std::string test = result.str(); 
+									send(itu->first, message.c_str(), message.length(), 0);
+							}
 						}
 					}
-				}
-					//si le client n'est psa dans le forum, join + send au channel
-					//si il est dans le channel, send au channel
-				}}
+						//si le client n'est psa dans le forum, join + send au channel
+						//si il est dans le channel, send au channel
+					}}*/}
 			//sendChannelMesage(user, *itUsers[i], message, it2->getName());
 }
 

@@ -3,19 +3,20 @@
 std::vector<std::string> Server::split(std::string msg, char delimiter)
 {
 	std::vector<std::string> temp;
+	if (msg.find(delimiter) == 0) {
+		temp.push_back(msg);
+		return (temp); }
+	
+	std::string::iterator it;
 	int increm = 0;
 	int mem = 0;
-	std::string::iterator it;
 
-	for(it = msg.begin(); it != msg.end(); it++)
-	{
+	for(it = msg.begin(); it != msg.end(); it++) {
 		if (*it == delimiter) {
 			temp.push_back(msg.substr(mem , increm - mem));
-			mem = ++increm;
-		}
+			mem = ++increm; }
 		else
-			increm++;
-	}
+			increm++; }
 	if (it == msg.end())
 		temp.push_back(msg.substr(mem , increm - mem));
 	return temp;
