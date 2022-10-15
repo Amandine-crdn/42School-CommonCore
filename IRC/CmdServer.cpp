@@ -133,69 +133,37 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 void Server::privMsgCmd(User &user, std::string data) {
 
 	std::string message = this->split(data, ':')[1];
-	std::cout << "message = " << message << std::endl;
 	std::string clients = this->split(data.substr(8), ' ')[0];
-	std::cout << "clients = >" << clients << "<" << std::endl;
-
 	std::vector<std::string> client = this->split(clients, ',');
-
-// /connect localhost 6667 coco
 
 	if (!client.size() || !message.size()) {
 		clientMessage(user, ERR_NEEDMOREPARAMS); return; }
-
-		std::vector<std::string>::iterator itc;
-		for (itc = client.begin(); itc != client.end(); itc++)
+		
+		for (std::vector<std::string>::iterator itc = client.begin(); itc != client.end(); itc++)
 		{
-			
-
-			std::cout << "client n°*itc = >" << *itc << "<" << std::endl;
 			//envoyer message aux clients
-			std::map<int, User>::iterator itv;
-			for (itv = users_list.begin(); itv != users_list.end(); itv++) {
-				std::cout << "search user n° >" << itv->second.getNickName() << "<" << std::endl;
+			for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
 				if (itv->second.getNickName().compare(*itc) == 0){
-					
 					std::stringstream result;
 					result << ":" << user.getNickName() << " PRIVMSG " << *itc << " :" << message << DELIMITER;
 					std::string test = result.str(); 
-					send(itv->first, test.c_str(), test.length(), 0); // proteger send -1 //envoie mais ne recois pas 🖕
-					std::cout << "msg sended" << std::endl; }}
+					send(itv->first, test.c_str(), test.length(), 0); }} // proteger send -1 🖕
 
-
-
-
-
-		/*	//envoyer message au channel
-			std::vector<Channel>::iterator itc;
-			for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
-					if ('#' + itc->getChannelName() == *itc) { // pracourir les user si channel envoyer avec son fd
-						std::cout << "FIRST" << std::endl;
-						std::map<int, User>::iterator itu;
-					for (itu = users_list.begin(); itu != users_list.end(); itu++) {
-						std::map<bool, std::string>::iterator iterator;
-						for (iterator = itu->second.channels_list_by_user.begin(); iterator !=  itu->second.channels_list_by_user.end(); itu++)
-						{
-							if (('#' + iterator->second).compare(*itc) == 0) // a checker
-							{
-								std::cout << "channel delivery ? " << std::endl;
-								std::stringstream result;
-								result << ":" << user.getNickName() << " PRIVMSG " << *itc << " :" << message << DELIMITER;
-								
-								//envoie mais ne recois pas 🖕
-
-								std::string test = result.str(); 
-									send(itu->first, message.c_str(), message.length(), 0);
-							}
-						}
-					}
-						//si le client n'est psa dans le forum, join + send au channel
-						//si il est dans le channel, send au channel
-					}}*/}
-			//sendChannelMesage(user, *itUsers[i], message, it2->getName());
+			//envoyer message au channel
+			for (std::vector<Channel>::iterator itchan = this->channels_list.begin(); itchan != this->channels_list.end(); itchan++) {				
+				if (itchan->getChannelName().compare(*itc) == 0) { // pracourir les user si channel envoyer avec son fd					
+					for (std::map<int, User>::iterator itu = users_list.begin(); itu != users_list.end(); itu++) {
+						for (std::map<bool, std::string>::iterator iterator = itu->second.channels_list_by_user.begin(); iterator != itu->second.channels_list_by_user.end(); iterator++) {
+							if ((iterator->second).compare(*itc) == 0 && user.getNickName() != itu->second.getNickName()) {// sauf a lui-même
+								std::stringstream result_chan;
+								result_chan << ":" << user.getNickName() << " PRIVMSG " << itchan->getChannelName() << " :" << message << DELIMITER;
+								std::string test = result_chan.str(); 
+								send(itu->first, test.c_str(), test.length(), 0); }}}}}
+		}
 }
 
 
+// /connect localhost 6667 coco
 
 void Server::operCmd(User &user, std::vector<std::string> data) {
 
