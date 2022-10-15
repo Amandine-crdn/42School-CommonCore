@@ -22,7 +22,7 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(ERR_ERRONEUSNICKNAME) == 0)
         result << cmd << ": Your nickname has more than 9 characters "<< DELIMITER;
     else if (cmd.compare(ERROR) == 0)
-        result << cmd << ": Ciao"<< DELIMITER;  
+        result << ": Good bye"<< DELIMITER;  
     else if (cmd.compare(ERR_NEEDMOREPARAMS) == 0)
         result << cmd << " PING :Not enough parameters"<< DELIMITER; 
     else if (cmd.compare(RPL_NOTOPIC) == 0)

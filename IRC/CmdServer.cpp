@@ -79,13 +79,10 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 		user.setVisibility(false); }
 }
 
-void Server::quitCmd(User &user, std::vector<std::string> data)
+void Server::quitCmd(User &user)
 {
-	std::cout << "🌙 " << std::endl;
-	(void)data;
 	clientMessage(user, ERROR);
 	this->disconnected(user);
-	// close fd and disconnected hote
 }
 
 void Server::pingCmd(User &user, std::vector<std::string> data)

@@ -91,7 +91,7 @@ class Server {
         virtual std::string nickCmd(User &user, std::vector<std::string> data, bool first);
         virtual std::string userCmd(User &user,std::vector<std::string> data, bool first);
         virtual void modeCmd(User &user, std::vector<std::string> data);
-        virtual void quitCmd(User &user, std::vector<std::string> data);
+        virtual void quitCmd(User &user);
         virtual void pingCmd(User &user, std::vector<std::string> data);
         virtual void joinCmd(User &user, std::vector<std::string> data);
         virtual void privMsgCmd(User &user, std::string data);

@@ -63,7 +63,7 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 		else if (data[0].compare("userhost") == 0)
 			userCmd(user, data, 0);
 		else if (data[0].compare("QUIT") == 0)
-			quitCmd(user, data);
+			quitCmd(user);
 		else if (data[0].compare("PING") == 0)
 			pingCmd(user, data);
 		else if (data[0].compare("JOIN") == 0)
@@ -87,7 +87,7 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 void Server::disconnected(User &user)
 {
 	getpeername(user.getFd(), (struct sockaddr *)&my_addr, (socklen_t *)&peer_addr_size);
-	std::cout << "Host disconnected , ip " << inet_ntoa(my_addr.sin_addr) << " , port " << ntohs(my_addr.sin_port) << std::endl;
+	std::cout << "🌙 " << user.getNickName() << " was disconnected, ip " << inet_ntoa(my_addr.sin_addr) << " , port " << ntohs(my_addr.sin_port) << std::endl;
 	close(user.getFd());
 	users_list.erase(user.getFd());
 }
