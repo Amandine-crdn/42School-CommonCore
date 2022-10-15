@@ -8,8 +8,8 @@ std::string Server::passCmd(User &user, std::vector<std::string> data, bool firs
     std::string password = "";
 	if (first == true) {
 		if (data[1].compare(this->getPassword()) == 0) {
-			password = data[1];
-			std::cout << "\t\t✅ Great password" << std::endl; }
+			std::cout << "\t\t✅ Great password" << std::endl; 
+			return data[1]; }
 		else {
 			this->clientMessage(user, ERR_PASSWDMISMATCH);
 			this->disconnected(user);}}
@@ -20,6 +20,7 @@ std::string Server::passCmd(User &user, std::vector<std::string> data, bool firs
     return password; 
 }
 
+// /connect localhost 6667 coco
 std::string Server::nickCmd(User &user, std::vector<std::string> data, bool first)
 {
 	std::string nickname = "";
@@ -83,6 +84,7 @@ void Server::quitCmd(User &user, std::vector<std::string> data)
 	std::cout << "🌙 " << std::endl;
 	(void)data;
 	clientMessage(user, ERROR);
+	this->disconnected(user);
 	// close fd and disconnected hote
 }
 

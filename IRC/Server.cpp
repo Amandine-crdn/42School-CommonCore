@@ -13,39 +13,35 @@ void Server::checker(User &user, std::vector<std::string> messages)
 
 void Server::firstConnexion(User &user, std::vector<std::string> messages) 
 {
-	std::vector<std::string>::iterator itm;
+	std::vector<std::string>::iterator itm = messages.begin();
 	std::string password = "";
 	std::string nickname = "";
 	std::string username = "";
 
-	for (itm = messages.begin() ; itm != messages.end(); itm++)
-	{
-		std::string msg = *itm;
-		std::vector<std::string> data = this->split(msg, ' ');
-		
-		std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
-
+	std::vector<std::string> data = this->split(*itm, ' ');
+	std::cout << "\t🪶  🖥️  IRSSI = >" << *itm << "<" << std::endl;
+	if (data[0].compare("CAP") == 0) {
+		itm++; data = this->split(*itm, ' ');
 		if (data[0].compare("PASS") == 0) {
-			if (this->passCmd(user, data, 1) == "" ) {
-				this->disconnected(user); return ; }}
-		else if (data[0].compare("NICK") == 0)
-			nickname = this->nickCmd(user, data, 1);
-		else if (data[0].compare("USER") == 0)
-			username = this->userCmd(user, data, 1);
+			password = this->passCmd(user, data, 1);
+			itm++; data = this->split(*itm, ' ');
+			if (data[0].compare("NICK") == 0) {
+				nickname = this->nickCmd(user, data, 1);
+				itm++;data = this->split(*itm, ' ');
+				if (data[0].compare("USER") == 0) {}
+					username = this->userCmd(user, data, 1); }}}
 
-		data.clear();
-	}
-		
-	if (nickname == "" || username == "")
+	if (nickname == "" || username == "" || password == "")
 		this->disconnected(user);
 	else {
 		user.setNickName(nickname); 
 		user.setUserName(username);
 		user.setFirstConnexion(false); }
 
-	messages.clear();
 	std::cout << std::endl;
 }
+
+// /connect localhost 6667 coco
 
 void Server::dispatcher(User &user, std::vector<std::string> messages)
 {
@@ -87,7 +83,6 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 
 }
 
-// /connect localhost 6667 coco
 
 void Server::disconnected(User &user)
 {

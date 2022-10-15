@@ -1,6 +1,10 @@
 #	include "User.hpp"
 
-User::User() : first_connexion(true), IRCOperator(false) {}
+User::User() : first_connexion(true), IRCOperator(false) {
+	std::cout << "User::User()" << std::endl; }
+	
+User::~User() {
+	std::cout << "User::~User()" << std::endl; }
 
 
 /*------ methods ------- */

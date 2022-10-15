@@ -14,7 +14,7 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(RPL_UMODEIS) == 0)
         result << cmd << "is invisible" << DELIMITER;
     else if (cmd.compare(ERR_ALREADYREGISTRED) == 0)
-        result << cmd << ": You may not reregister" << DELIMITER;
+        result << cmd  << user.getUserName() << " :You may not reregister" << DELIMITER;
     else if (cmd.compare(ERR_PASSWDMISMATCH) == 0)
         result << cmd << ": ❌ Password incorrect" << DELIMITER;
     else if (cmd.compare(ERR_NICKNAMEINUSE) == 0)

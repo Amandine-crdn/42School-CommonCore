@@ -8,7 +8,7 @@ class User {
     public :
 
         User();
-        ~User() {};
+        ~User();
 
         /* ----- methodes ----- */
 
