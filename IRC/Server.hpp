@@ -49,6 +49,8 @@ class Server {
         /*------- utils -------*/
 
         std::vector<std::string> split(std::string msg, char delimiter);
+        void notificationJoinChannel(User &user,std::string channel_name);
+        void notificationsUsersInChannel(User &user, std::string channel_name);
 
 
         /*------ getters and setters ----- */
@@ -88,8 +90,8 @@ class Server {
         /*------  virtual methods CmdServer ------ */
 
         virtual std::string passCmd(User &user, std::vector<std::string> data, bool first);
-        virtual std::string nickCmd(User &user, std::vector<std::string> data, bool first);
-        virtual std::string userCmd(User &user,std::vector<std::string> data, bool first);
+        virtual std::string nickCmd(User &user, std::string msg, bool first);
+        virtual std::string userCmd(User &user, std::string msg, bool first);
         virtual void modeCmd(User &user, std::vector<std::string> data);
         virtual void quitCmd(User &user);
         virtual void pingCmd(User &user, std::vector<std::string> data);
@@ -97,6 +99,7 @@ class Server {
         virtual void privMsgCmd(User &user, std::string data);
         virtual void operCmd(User &user, std::vector<std::string> data);
         virtual void topicCmd(User &user, std::string msg, std::string channel_name);
+        virtual void partCmd(User &user, std::vector<std::string> data);
 
 };
 

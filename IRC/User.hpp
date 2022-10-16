@@ -14,6 +14,8 @@ class User {
 
         void addMessages(char *buffer, size_t read_size);
         void eraseMsg();
+        std::string getFullClientIdentifier(void);
+
 
         /* ----- getters and setters ----- */
 
@@ -34,9 +36,9 @@ class User {
 
         //liste de course des channels
         ///std::map<bool, std::string> getChannelListByUser() const;
-        void setChannelListByUser(bool admin, std::string new_channel);
+        void setChannelListByUser(std::string new_channel);
 
-        std::map<bool, std::string> channels_list_by_user; //accesseur
+        std::vector<std::string> channels_list_by_user; //accesseur
     
     private :
 

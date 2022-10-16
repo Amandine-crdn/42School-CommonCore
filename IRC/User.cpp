@@ -37,6 +37,13 @@ void User::setMsg(char *buffer, size_t read_size)
 	std::cout << "⌛  🖥️  IRSSI = >" << *it << "<" << std::endl;
 }
 
+
+std::string User::getFullClientIdentifier(void) 
+{
+	//<nick>!<user>@<host>
+	return this->getNickName() + "!" + this->getUserName() + "@" + this->getUserName(); 
+}
+
 void User::setUserName(std::string user_name){ this->user_name = user_name; }
 std::string User::getUserName(){ return this->user_name; }
 
@@ -58,7 +65,14 @@ void User::setIRCOper(bool choice) { this->IRCOperator = choice; };
 //liste de course des channels 
 //std::map<bool, std::string> User::getChannelListByUser() const { return this->channels_list_by_user; }
 
-void User::setChannelListByUser(bool admin, std::string new_channel) {
-		 channels_list_by_user.insert(std::make_pair(admin, new_channel));
+void User::setChannelListByUser(std::string new_channel) {
+
+		channels_list_by_user.push_back(new_channel);
+
+		std::cout << "listes channel for " << this->getNickName() << " :\n";
+		 for(std::vector<std::string>::iterator po = channels_list_by_user.begin(); po != channels_list_by_user.end(); po++)
+		 {
+			 std::cout << "-> " << *po << std::endl;
+		 }
  }  
  

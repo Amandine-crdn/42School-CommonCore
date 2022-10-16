@@ -32,9 +32,9 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 			if (data[0].compare("PASS") == 0)
 				password = this->passCmd(user, data, 1);
 			else if (data[0].compare("NICK") == 0)
-				nickname = this->nickCmd(user, data, 1);
+				nickname = this->nickCmd(user, msg, 1);
 			else if (data[0].compare("USER") == 0)
-				username = this->userCmd(user, data, 1);
+				username = this->userCmd(user, msg, 1);
 		}
 	}
 		
@@ -66,22 +66,26 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 		else if (data[0].compare("PASS") == 0)
 			passCmd(user, data, 0);
 		else if (data[0].compare("NICK") == 0)
-			nickCmd(user, data, 0);
+			nickCmd(user, msg, 0);
 		else if (data[0].compare("userhost") == 0)
-			userCmd(user, data, 0);
+			userCmd(user, msg, 0);
 		else if (data[0].compare("QUIT") == 0) 
 			quitCmd(user);
 		else if (data[0].compare("PING") == 0)
 			pingCmd(user, data);
 		else if (data[0].compare("JOIN") == 0)
 			joinCmd(user, data);
-		else if (data[0].compare("PRIVMSG") == 0)
+		else if (data[0].compare("PART") == 0) 
+			partCmd(user, data);
+		else if (data[0].compare("PRIVMSG") == 0) 
 			privMsgCmd(user, msg);
 		else if (data[0].compare("OPER") == 0)
 			operCmd(user, data); 
 		else if (data[0].compare("TOPIC") == 0 && data[1].empty())
 			topicCmd(user, msg, data[1]); 
-
+		else
+			clientMessage(user, ERR_UNKNOWNCOMMAND, data[0]);
+	
 		data.clear();
 	}
 

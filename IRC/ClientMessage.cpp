@@ -26,11 +26,23 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(ERR_NEEDMOREPARAMS) == 0)
         result << cmd << " PING :Not enough parameters"<< DELIMITER; 
     else if (cmd.compare(RPL_NOTOPIC) == 0)
-        result << cmd << channel_name << " :No topic is set"<< DELIMITER; 
+        result << cmd  <<  ":" << "#" << channel_name << " :No topic is set"<< DELIMITER; //tst avec : et #
     else if (cmd.compare(RPL_YOUREOPER) == 0)
         result << cmd << user.getNickName() << " :You are now an IRC operator"<< DELIMITER;
     else if (cmd.compare(RPL_TOPIC) == 0)
-        result << cmd << '#' + channel_name << " :" << topic << DELIMITER;
+        result << cmd <<  ":" << channel_name << " :" << topic << DELIMITER; //test : devant
+    else if (cmd.compare(ERR_NOSUCHCHANNEL) == 0)
+        result << cmd << channel_name << " :We created this channel, (you're operator of this channel) cause" << DELIMITER;
+    
+    
+    else if (cmd.compare(RPL_NAMREPLY) == 0)
+        result << ":" << server_name << " " << cmd << user.getNickName() << " = " << channel_name  << " :" << topic << DELIMITER; //topic = list users in channel
+    else if (cmd.compare(RPL_ENDOFNAMES) == 0)
+        result  << ":" << server_name << " " << cmd << user.getNickName() <<  " " << channel_name << " :End of /NAMES list" << DELIMITER;
+
+
+     else if (cmd.compare(ERR_UNKNOWNCOMMAND) == 0)
+        result << cmd << channel_name << " :Unknown command" << DELIMITER; //channelname = cmd unknow
 
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 
