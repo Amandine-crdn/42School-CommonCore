@@ -5,6 +5,7 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
 	std::stringstream result;
 	std::string response;
 
+    result << ":" << server_name << " ";
     if (cmd.compare(RPL_WELCOME) == 0)
         result << cmd << user.getNickName() << " :👏 Welcome to the Internet Relay Chat Network." << DELIMITER;
 	else if (cmd.compare(ERR_NOSUCHNICK) == 0)
@@ -22,28 +23,37 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(ERR_ERRONEUSNICKNAME) == 0)
         result << cmd << ": Your nickname has more than 9 characters "<< DELIMITER;
     else if (cmd.compare(ERROR) == 0)
-        result << ": Good bye"<< DELIMITER;  
+        result << ": Good bye"<< DELIMITER;  //euh
     else if (cmd.compare(ERR_NEEDMOREPARAMS) == 0)
-        result << cmd << " PING :Not enough parameters"<< DELIMITER; 
+        result << cmd << " :Not enough parameters"<< DELIMITER; //euh 
     else if (cmd.compare(RPL_NOTOPIC) == 0)
         result << cmd  <<  ":" << "#" << channel_name << " :No topic is set"<< DELIMITER; //tst avec : et #
     else if (cmd.compare(RPL_YOUREOPER) == 0)
         result << cmd << user.getNickName() << " :You are now an IRC operator"<< DELIMITER;
+    else if (cmd.compare(RPL_NAMREPLY) == 0)
+        result << cmd << user.getNickName() << " = " << channel_name  << " :" << topic << DELIMITER; //topic = list users in channel
+    else if (cmd.compare(RPL_ENDOFNAMES) == 0)
+        result << cmd << user.getNickName() << " " << channel_name << " :End of /NAMES list" << DELIMITER;
+    else if (cmd.compare(ERR_NOTONCHANNEL) == 0)
+        result << cmd << channel_name << " :You're not on that channel" << DELIMITER;
+    else if (cmd.compare(ERR_UNKNOWNCOMMAND) == 0)
+        result << cmd << channel_name << " :Unknown command" << DELIMITER; //channelname = cmd unknow
+        
+    
     else if (cmd.compare(RPL_TOPIC) == 0)
-        result << cmd <<  ":" << channel_name << " :" << topic << DELIMITER; //test : devant
+        result << cmd << user.getNickName() << " " << channel_name << " :" << topic;
     else if (cmd.compare(ERR_NOSUCHCHANNEL) == 0)
         result << cmd << channel_name << " :We created this channel, (you're operator of this channel) cause" << DELIMITER;
     
+
+
+     else if (cmd.compare(ERR_NOPRIVILEGES) == 0)
+        result << cmd << " :Permission Denied- You're not an IRC operator" << DELIMITER;
+
     
-    else if (cmd.compare(RPL_NAMREPLY) == 0)
-        result << ":" << server_name << " " << cmd << user.getNickName() << " = " << channel_name  << " :" << topic << DELIMITER; //topic = list users in channel
-    else if (cmd.compare(RPL_ENDOFNAMES) == 0)
-        result  << ":" << server_name << " " << cmd << user.getNickName() <<  " " << channel_name << " :End of /NAMES list" << DELIMITER;
-
-
-     else if (cmd.compare(ERR_UNKNOWNCOMMAND) == 0)
-        result << cmd << channel_name << " :Unknown command" << DELIMITER; //channelname = cmd unknow
-
+    
+    
+    
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 
 }

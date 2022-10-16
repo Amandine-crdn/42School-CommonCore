@@ -23,7 +23,6 @@ class CmdServer : public Server {
     void operCmd(User &user, std::vector<std::string> data);
     void topicCmd(User &user, std::string msg, std::string channel_name);
     void partCmd(User &user, std::vector<std::string> data);
-
 };
 
 #endif

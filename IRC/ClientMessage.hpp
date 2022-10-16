@@ -2,7 +2,7 @@
 #define CLIENTMESSAGE_HPP
 
 
-#   define ERROR "0"
+#   define ERROR "0 "
 #   define RPL_WELCOME "001 "
 #   define RPL_UMODEIS "221 "
 #   define RPL_NOTOPIC "331 "
@@ -15,10 +15,13 @@
 #   define ERR_UNKNOWNCOMMAND "421 "
 #   define ERR_ERRONEUSNICKNAME "432 "
 #   define ERR_NICKNAMEINUSE "433 "
+#   define ERR_NOTONCHANNEL "442 "
 #   define ERR_NEEDMOREPARAMS "461 "
 #   define ERR_PASSWDMISMATCH "464 "
+#   define ERR_NOPRIVILEGES "481 "
 #   define ERR_USERSDONTMATCH "502 "
 #   define ERR_ALREADYREGISTRED "642 "
+
 
 
 

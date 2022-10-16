@@ -93,45 +93,35 @@ void Server::pingCmd(User &user, std::vector<std::string> data)
 
 void Server::joinCmd(User &user, std::vector<std::string> data)
 {
-	std::vector<std::string>::iterator itd;
-	std::vector<Channel>::iterator itc;
-	std::vector<std::string>::iterator itu;
-
 	std::vector<std::string> new_data = this->split(data[1], ',');
 	
 	if (data.size() < 2){
 		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 
-	for (itd = new_data.begin(); itd != new_data.end(); itd++)
+	for (std::vector<std::string>::iterator itd = new_data.begin(); itd != new_data.end(); itd++)
 	{
 		bool correspondance = false;
 		bool find = false;
 
-		for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {		
+		for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {		
 			if (itc->getChannelName() == *itd) {
 				correspondance = true;
-				for (itu = user.channels_list_by_user.begin(); itu != user.channels_list_by_user.end(); itu++) {
+				clientMessage(user, RPL_TOPIC, *itd, itc->getTopic()); // get topic a donner : "Topic for : 
+				for (std::vector<std::string>::iterator itu = user.channels_list_by_user.begin(); itu != user.channels_list_by_user.end(); itu++) {
 					if (*itu == *itd) {
-						find = true; }}
-				if (find == false) {
-					user.setChannelListByUser(*itd); }}}//clientMessage(user, RPL_TOPIC, *itd, itc->getTopic()); // get topic a donner : "Topic for : "
-				 
+						find = true; }}}}	
+		
 		if (correspondance == false) {
 			this->clientMessage(user, ERR_NOSUCHCHANNEL, *itd, ""); 
 			this->setChannelList(*itd);
+			this->clientMessage(user, RPL_NOTOPIC, *itd, "No topic");
 			std::cout << "\n 🍑 The channel " << *itd << " was created" << std::endl; }
 			
 		if (correspondance == false || find == false) {
-			user.setChannelListByUser(*itd);
+			user.setChannelListByUser(*itd); 
 			this->notificationJoinChannel(user, *itd);
 			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; //std::cout << "\t 🎈 🎈  🎈 Congratulations you're channel's operator 🎈 🎈 🎈" << std::endl;
-			this->clientMessage(user, RPL_NOTOPIC, *itd, "");
 			this->notificationsUsersInChannel(user, *itd); }
-
-			// add topic
-			for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {		
-			if (itc->getChannelName() == *itd)
-				itc->setTopic(""); } // ou le set dans le constructeur de channel (verifi si constructeur appeler)
 	}
 }
 
@@ -171,8 +161,6 @@ void Server::privMsgCmd(User &user, std::string data) {
 		}
 }
 
-
-
 void Server::operCmd(User &user, std::vector<std::string> data) {
 
 	std::string opername = "opername";
@@ -192,22 +180,17 @@ void Server::operCmd(User &user, std::vector<std::string> data) {
 	this->clientMessage(user, RPL_YOUREOPER);
 } 
 
-
 void Server::topicCmd(User &user, std::string msg, std::string channel_name) { 
 
 	std::string topic = this->split(msg, ':')[1];
 
 	std::vector<Channel>::iterator itc;
 	for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
-			if (itc->getChannelName() == '#' + channel_name) { 
+			if (itc->getChannelName() == ('#' + channel_name)) {
 				itc->setTopic(topic);
-			 	this->clientMessage(user, RPL_TOPIC, channel_name, topic); }}
+			 	this->clientMessage(user, RPL_TOPIC, channel_name, itc->getTopic()); }}
 }
-
-// /connect localhost 6667 coco
  
-
-
 void Server::partCmd(User &user, std::vector<std::string> data)
 {
 	if (data.size() > 2) {
@@ -215,11 +198,18 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 
 	std::vector<std::string> channels_list = this->split(data[1], ',');
 	std::vector<std::string>::iterator end = channels_list.end();
+	bool find = false;
 
 	for (std::vector<std::string>::iterator itlist = channels_list.begin(); itlist != end; itlist++) {
+		find = false;
 		for (std::vector<std::string>::iterator itc = user.channels_list_by_user.begin(); itc != user.channels_list_by_user.end();) {
 			if ((*itc).compare("#" + *itlist) == 0) {
+				find = true;
 				itc = user.channels_list_by_user.erase(itc); } // supprimer le channel de la liste des channel du user
 			else {
-				++itc; }}}
+				++itc; }}
+		if (find == false) {
+			this->clientMessage(user, ERR_NOTONCHANNEL); }}
 }
+
+// /connect localhost 6667 coco
