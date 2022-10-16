@@ -214,21 +214,12 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 
 	std::vector<std::string> channels_list = this->split(data[1], ',');
+	std::vector<std::string>::iterator end = channels_list.end();
 
-	for (std::vector<std::string>::iterator itlist = channels_list.begin(); itlist != channels_list.end(); itlist++) {
-		std::cout << "itlist = >" << *itlist << "<" << std::endl;
-		for (std::vector<std::string>::iterator itc = user.channels_list_by_user.begin(); itc != user.channels_list_by_user.end(); itc++) {
-			std::cout << "itc = >" << *itc << "<" << std::endl;
+	for (std::vector<std::string>::iterator itlist = channels_list.begin(); itlist != end; itlist++) {
+		for (std::vector<std::string>::iterator itc = user.channels_list_by_user.begin(); itc != user.channels_list_by_user.end();) {
 			if ((*itc).compare("#" + *itlist) == 0) {
-				std::cout << "erase this channel" << std::endl;
-					user.channels_list_by_user.erase(itc); // supprimer le channel de la liste des channel du user
-			}
-				//delete this channel
-	
-	}}
-	
-	std::cout << "channel(s) ? " << data[1] << std::endl;
-
-
-
+				itc = user.channels_list_by_user.erase(itc); } // supprimer le channel de la liste des channel du user
+			else {
+				++itc; }}}
 }

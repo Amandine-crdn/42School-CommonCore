@@ -6,6 +6,7 @@
 
 void Server::init_server(const char *port, const char *password)
 {
+	int enable = 1; 
     if (!atoi(port))
         this->error("error port");
     this->my_addr.sin_port = htons(atoi(port));
@@ -13,8 +14,12 @@ void Server::init_server(const char *port, const char *password)
     this->my_addr.sin_addr.s_addr =  htonl(INADDR_ANY);
     this->setPassword(password);
     this->setServerFd(socket(AF_INET, SOCK_STREAM, 0));
-    if (this->getServerFd() == -1)
-        this->error("error socket()");
+    if (this->getServerFd() == -1) {
+        this->error("error socket()"); }
+	if (setsockopt(this->getServerFd(), SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &enable, sizeof(enable)) == -1)
+		this->error("setsockopt()");
+	if (fcntl(this->getServerFd(), F_SETFL, O_NONBLOCK) == -1)
+		this->error("fcntl()");
     if (bind(this->getServerFd(),(struct sockaddr *) &this->my_addr, sizeof(this->my_addr)) == -1)
         this->error("error bind()") ;
     if (listen(this->getServerFd(), 5) == -1) { // 5 : file d'attente
@@ -38,7 +43,7 @@ void Server::connect()
 	for (std::map<int, User>::iterator itb = users_list.begin(); itb != users_list.end(); itb++){
 		poll_struct.fd = itb->first;
 		poll_fds.push_back(poll_struct);}
-	if (poll(&(poll_fds[0]), poll_fds.size(), rand()) == -1)
+	if (poll(&(poll_fds[0]), poll_fds.size(), rand()) == -1) // ou 300000 rand()
         this->error("error: poll()");
 	if (poll_fds[0].revents == POLLIN){
 		temp_fd = accept(this->getServerFd(), (sockaddr *)&my_addr, &peer_addr_size); 

@@ -17,7 +17,7 @@ std::vector<std::string> Server::split(std::string msg, char delimiter)
 			mem = ++increm; }
 		else
 			increm++; }
-	if (it == msg.end())
+	if (it == msg.end()) // necessaire ?
 		temp.push_back(msg.substr(mem , increm - mem));
 	return temp;
 }
