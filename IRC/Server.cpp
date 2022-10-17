@@ -48,8 +48,6 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 	std::cout << std::endl;
 }
 
-
-
 void Server::dispatcher(User &user, std::vector<std::string> messages)
 {
 	std::vector<std::string>::iterator itm;

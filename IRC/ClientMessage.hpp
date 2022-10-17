@@ -5,16 +5,12 @@
 #   define RPL_WELCOME "001 "
 #   define RPL_UMODEIS "221 "
 #   define RPL_CHANNELMODEIS "234 "
-
 #   define RPL_ADMINME "256 "
 #   define RPL_ADMINLOC1 "257 "
 #   define RPL_ADMINEMAIL "258 "
-
-  
 #   define RPL_NOTOPIC "331 "
 #   define RPL_TOPIC "332 "
 #   define RPL_INVITING "341 "
-
 #   define RPL_NAMREPLY "353 "
 #   define RPL_ENDOFNAMES "366 "
 #   define RPL_YOUREOPER "381 "

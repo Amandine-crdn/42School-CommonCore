@@ -46,7 +46,7 @@ class User {
         std::vector<std::string> channops; //accessor au dessus
 
         //liste de course des channels
-        ///std::map<bool, std::string> getChannelListByUser() const;
+        std::vector<std::string> getChannelListByUser() const;
         void setChannelListByUser(std::string new_channel);
 
         std::vector<std::string> channels_list_by_user; //accesseur
