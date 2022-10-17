@@ -48,7 +48,7 @@ void Server::firstConnexion(User &user, std::vector<std::string> messages)
 	std::cout << std::endl;
 }
 
-// /connect localhost 6667 coco
+
 
 void Server::dispatcher(User &user, std::vector<std::string> messages)
 {
@@ -87,11 +87,13 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 			this->dieCmd(user, data);
 		else if (data[0].compare("admin") == 0)
 			this->adminCmd(user, data);
+		else if (data[0].compare("INVITE") == 0)
+			this->invitCmd(user, data);
 		/*else if (data[0].compare("KICK") == 0)
 			this->topicCmd(user, data); */
 		else
 			this->clientMessage(user, ERR_UNKNOWNCOMMAND, data[0]);
-	
+	// /connect localhost 6667 coco
 		data.clear();
 	}
 

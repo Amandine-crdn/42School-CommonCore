@@ -12,11 +12,11 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(ERR_USERSDONTMATCH) == 0)
         result << cmd << user.getNickName() << " :Cant change mode for other users." << DELIMITER;
     else if (cmd.compare(RPL_UMODEIS) == 0)
-        result << cmd << "is invisible" << DELIMITER;
+        result << cmd << user.getNickName() << " is invisible" << DELIMITER;
     else if (cmd.compare(ERR_ALREADYREGISTRED) == 0)
         result << cmd  << user.getUserName() << " :You may not reregister" << DELIMITER;
     else if (cmd.compare(ERR_PASSWDMISMATCH) == 0)
-        result << cmd << ": ❌ Password incorrect" << DELIMITER;
+        result << cmd << user.getNickName() << " : ❌ Password incorrect" << DELIMITER;
     else if (cmd.compare(ERR_NICKNAMEINUSE) == 0) //channelname is nicknme not registred
         result << cmd << user.getNickName() << " " << user.getNickName() << " :Nickname is already in use" << DELIMITER;
     else if (cmd.compare(ERR_ERRONEUSNICKNAME) == 0) //channelname is nicknme not registred
@@ -34,13 +34,13 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(RPL_ENDOFNAMES) == 0)
         result << cmd << user.getNickName() << " " << channel_name << " :End of /NAMES list" << DELIMITER;
     else if (cmd.compare(ERR_NOTONCHANNEL) == 0)
-        result << cmd << channel_name << " :You're not on that channel" << DELIMITER;
+        result << cmd <<  user.getNickName() << " " << channel_name << " :You're not on that channel" << DELIMITER;
     else if (cmd.compare(ERR_UNKNOWNCOMMAND) == 0)
-        result << cmd << channel_name << " :Unknown command" << DELIMITER; //channelname = cmd unknow
+        result << cmd << user.getNickName() << " " << channel_name << " :Unknown command" << DELIMITER; //channelname = cmd unknow
     else if (cmd.compare(RPL_CHANNELMODEIS) == 0)
         result << cmd << user.getNickName() << " " << channel_name << " is public" << DELIMITER;    
     else if (cmd.compare(ERR_NOSUCHCHANNEL) == 0)
-        result << cmd << channel_name << " :No such channel" << DELIMITER;
+        result << cmd << user.getNickName() << " " << channel_name << " :No such channel" << DELIMITER;
     else if (cmd.compare(ERR_NOPRIVILEGES) == 0)
         result << cmd << user.getNickName() << " :Permission Denied- You're not an IRC operator" << DELIMITER;
     
@@ -52,7 +52,9 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
         result << cmd << user.getNickName() << " :No origin specified" << DELIMITER;
     else if (cmd.compare(ERR_NOSUCHSERVER) == 0)
         result << cmd << user.getNickName() << " " << server_name << " :No such server" << DELIMITER;  
-    
+       else if (cmd.compare(ERR_USERONCHANNEL) == 0)
+        result << cmd << user.getNickName() << " " << topic << " " << channel_name << " :is already on channel" << DELIMITER; //topic is nick
+        
 
     else if (cmd.compare(ERR_USERNOTINCHANNEL) == 0)
         result << cmd << user.getNickName() << " " << topic << " " << channel_name << " :They aren't on that channel" << DELIMITER;  //topic is nick
@@ -63,6 +65,8 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
         result << cmd << user.getNickName() << " :Paris, France" << DELIMITER;  
     else if (cmd.compare(RPL_ADMINEMAIL) == 0)
         result << cmd << user.getNickName() << " :amandinecerdan91760@gmail.com" << DELIMITER; 
+    else if (cmd.compare(RPL_INVITING) == 0)
+        result << cmd << user.getNickName() << " " << topic << " " << channel_name << DELIMITER; 
 
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 

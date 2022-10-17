@@ -180,8 +180,6 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 
 ///RMRECONNS !!
 
-
-
 void Server::privMsgCmd(User &user, std::string data) {
 
 	std::string message = this->split(data, ':')[1];
@@ -264,7 +262,7 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 
 	std::vector<std::string> channels_list = this->split(data[1], ',');
 	std::vector<std::string>::iterator end = channels_list.end();
-	bool find = false;
+	bool find;
 
 	for (std::vector<std::string>::iterator itlist = channels_list.begin(); itlist != end; itlist++) {
 		find = false;
@@ -272,10 +270,9 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 			if ((*itc).compare("#" + *itlist) == 0) {
 				find = true;
 				itc = user.channels_list_by_user.erase(itc); }
-			else { ++itc; }}
-		if (find == false) { this->clientMessage(user, ERR_NOTONCHANNEL); }}
+			else { ++itc; }
+		if (find == false) { this->clientMessage(user, ERR_NOTONCHANNEL, *itlist); }}}
 }
- // /connect localhost 6667 coco
 
 void Server::dieCmd(User &user, std::vector<std::string> data) { 
 
@@ -289,7 +286,6 @@ void Server::dieCmd(User &user, std::vector<std::string> data) {
 	exit (0);
 }
 
-
 void Server::adminCmd(User &user, std::vector<std::string> data) { 
 
 	if (data.size() == 2) {
@@ -298,6 +294,37 @@ void Server::adminCmd(User &user, std::vector<std::string> data) {
 	this->clientMessage(user, RPL_ADMINME);
 	this->clientMessage(user, RPL_ADMINLOC1);
 	this->clientMessage(user, RPL_ADMINEMAIL);
+}
+ // /connect localhost 6667 coco
+
+void Server::invitCmd(User &user, std::vector<std::string> data) {
+
+	if (data.size() < 3) {
+		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+	
+	std::string username = data[1];
+	std::string channel = data[2];
+	bool find = false;
+	std::map<int, User>::iterator itu;
+
+	for (itu = users_list.begin(); itu != users_list.end(); itu++) {
+		if (itu->second.getNickName().compare(username) == 0) { find = true; break; }}
+	if (find == false) {
+		this->clientMessage(user, ERR_NOSUCHNICK); return ; }
+
+	//check si demandeur est sur le channel
+	for (std::vector<std::string>::iterator itc = user.channels_list_by_user.begin(); itc != user.channels_list_by_user.end(); itc++)
+	{
+		if (("#" +  channel).compare(*itc) == 0) {
+			//check si user est deja dessus
+			for (std::vector<std::string>::iterator itl = itu->second.channels_list_by_user.begin(); itl != itu->second.channels_list_by_user.end(); itl++) {
+				if (("#" + channel).compare(*itl) == 0) {
+					this->clientMessage(user, ERR_USERONCHANNEL, channel, itu->second.getNickName()); return ; }}
+			//c'est good
+			this->clientMessage(user, RPL_INVITING, channel, username); return ;}
+	}
+	this->clientMessage(user, ERR_NOTONCHANNEL);
+//RPL_AWAY
 }
 
 /*void Server::kickCmd(User &user, std::vector<std::string> data) {
