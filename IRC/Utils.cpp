@@ -6,19 +6,17 @@ std::vector<std::string> Server::split(std::string msg, char delimiter)
 	if (msg.find(delimiter) == 0) {
 		temp.push_back(msg);
 		return (temp); }
-	
-	std::string::iterator it;
+
 	int increm = 0;
 	int mem = 0;
 
-	for(it = msg.begin(); it != msg.end(); it++) {
+	for(std::string::iterator it = msg.begin(); it != msg.end(); it++) {
 		if (*it == delimiter) {
 			temp.push_back(msg.substr(mem , increm - mem));
 			mem = ++increm; }
 		else
 			increm++; }
-	if (it == msg.end()) // necessaire ?
-		temp.push_back(msg.substr(mem , increm - mem));
+	temp.push_back(msg.substr(mem , increm - mem));
 	return temp;
 }
 
@@ -63,5 +61,5 @@ void Server::notificationsUsersInChannel(User &user, std::string channel_name)
 				users += " "; }}}
 	(void)user;
 	this->clientMessage(user, RPL_NAMREPLY, channel_name, users);
-	//this->clientMessage(user, RPL_ENDOFNAMES, channel_name, users);
+	this->clientMessage(user, RPL_ENDOFNAMES, channel_name, users); // ?
 }

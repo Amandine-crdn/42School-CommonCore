@@ -53,33 +53,57 @@ std::string Server::userCmd(User &user, std::string msg, bool first)
 
     return username;
 }
+// /connect localhost 6667 coco
 
 void Server::modeCmd(User &user, std::vector<std::string> data)
 {
-	if (data.size() < 2)
-		this->clientMessage(user, ERR_NEEDMOREPARAMS);
+	if (data.size() < 2) {
+		this->clientMessage(user, ERR_NEEDMOREPARAMS); }
 
-	if (data[1][0] == '#') //channel mode
+	/*#### channel mode #### */ 
+
+	if (data[1][0] == '#')
 	{
 		bool correspondanceChannel = false;
+
 		for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
-			if (data[1] == itc->getChannelName()) {
-				correspondanceChannel = true; }}
-		if (correspondanceChannel == false) {
-			this->clientMessage(user, ERR_NOSUCHCHANNEL); return ;}
+			if (data[1] == itc->getChannelName()) { correspondanceChannel = true; }}
+
+		if (correspondanceChannel == false) { this->clientMessage(user, ERR_NOSUCHCHANNEL); return ;}
+		
 		this->clientMessage(user, RPL_CHANNELMODEIS, data[1]);
+
+		/*---- mode #toto +o user ---- */ 
+
+		if (data.size() == 4 && correspondanceChannel == true && data[2].compare("+o") == 0) 
+		{
+			//check si c'est un IRCOPERATOR pour effectuer cette manoeuvre
+			if (user.getIRCOper() == false) { this->clientMessage(user, ERR_NOPRIVILEGES); }
+			else {
+				for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
+					if (data[3] == itv->second.getNickName()) {
+						//si le new user a deja join le channel ne pas le reajouter, ne rien faire
+						for (std::vector<std::string>::iterator itu = itv->second.channels_list_by_user.begin(); itu != itv->second.channels_list_by_user.end(); itu++) {
+						if (data[1] == *itu) { std::cout << data[3] << " est déjà Channops de : " << data[1] << std::endl; return ;}}
+						//donne les droits channops
+						itv->second.setChannops(data[1]);
+						std::cout << data[3] << " devient Channops de : " << data[1] << std::endl; return ;}}
+						//user non trouver
+						this->clientMessage(user, ERR_USERNOTINCHANNEL, data[1], data[3]); }//1:channel,2:user	
+		}
 	}
-	else //user mode
+	/*#### user mode #### */ 
+	else
 	{
 		bool correspondanceUser = false;
 		
 		for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
-			if (data[1] == itv->second.getNickName()) {
-				correspondanceUser = true; }}
-		if (correspondanceUser == false)
-			this->clientMessage(user, ERR_NOSUCHNICK);
-		else if (data[1].compare(user.getNickName()) != 0)
-			this->clientMessage(user, ERR_USERSDONTMATCH);
+			if (data[1] == itv->second.getNickName()) { correspondanceUser = true; }}
+		
+		if (correspondanceUser == false) { this->clientMessage(user, ERR_NOSUCHNICK); }
+		
+		else if (data[1].compare(user.getNickName()) != 0) { this->clientMessage(user, ERR_USERSDONTMATCH); }
+		
 		else if (data[0].compare("MODE") == 0 && data[1].compare(user.getNickName()) == 0 && \
 			data[2].compare("+i") == 0) {
 			this->clientMessage(user, RPL_UMODEIS);
@@ -87,7 +111,7 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 	}
 	
 }
-// /connect localhost 6667 coco
+
 void Server::quitCmd(User &user) 
 {
 	this->clientMessage(user, ERROR);
@@ -99,11 +123,11 @@ void Server::pingCmd(User &user, std::vector<std::string> data)
 	std::stringstream result; 
 	std::string response;
 
-	if (data.size() == 1)
-		this->clientMessage(user, ERR_NOORIGIN);
-	if (data[1] != "localhost") {
-		this->clientMessage(user, ERR_NOSUCHSERVER); }
-	else { // comment etre sur que cela repond bien au ping ?
+	if (data.size() == 1) { this->clientMessage(user, ERR_NOORIGIN); }
+
+	if (data[1] != "localhost") { this->clientMessage(user, ERR_NOSUCHSERVER); }
+	
+	else {
 		result << server_name << " PONG :" << data[1] << DELIMITER; 
 		response += result.str();
 		send(user.getFd(), response.c_str(), response.size(), 0); }
@@ -113,8 +137,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 {
 	std::vector<std::string> new_data = this->split(data[1], ',');
 	
-	if (data.size() < 2){
-		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+	if (data.size() < 2){ this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 
 	for (std::vector<std::string>::iterator itd = new_data.begin(); itd != new_data.end(); itd++)
 	{
@@ -126,8 +149,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 				correspondance = true;
 				clientMessage(user, RPL_TOPIC, itc->getChannelName(), itc->getTopic()); // get topic a donner : "Topic for : 
 				for (std::vector<std::string>::iterator itu = user.channels_list_by_user.begin(); itu != user.channels_list_by_user.end(); itu++) {
-					if (*itu == *itd) {
-						find = true; }}}}	
+					if (*itu == *itd) { find = true; }}}}	
 		
 		if (correspondance == false) {
 			this->clientMessage(user, ERR_NOSUCHCHANNEL, *itd); 
@@ -138,9 +160,11 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 			
 		if (correspondance == false || find == false) {
 			user.setChannelListByUser(*itd); 
-			this->notificationJoinChannel(user, *itd);
-			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; //std::cout << "\t 🎈 🎈  🎈 Congratulations you're channel's operator 🎈 🎈 🎈" << std::endl;
-			this->notificationsUsersInChannel(user, *itd); }
+			this->notificationJoinChannel(user, *itd); // a revoir
+			std::cout << "\t 🎈 You're channel's operator 🎈" << std::endl;
+			user.setChannops(*itd);
+			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; 
+			this->notificationsUsersInChannel(user, *itd); } // a revoir
 	}
 }
 
@@ -154,8 +178,7 @@ void Server::privMsgCmd(User &user, std::string data) {
 	std::string clients = this->split(data.substr(8), ' ')[0];
 	std::vector<std::string> client = this->split(clients, ',');
 
-	if (!client.size() || !message.size()) {
-		clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+	if (!client.size() || !message.size()) { clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 		
 		for (std::vector<std::string>::iterator itc = client.begin(); itc != client.end(); itc++)
 		{
@@ -165,14 +188,14 @@ void Server::privMsgCmd(User &user, std::string data) {
 					std::stringstream result;
 					result << ":" << user.getNickName() << " PRIVMSG " << itv->second.getNickName() << " :" << message << DELIMITER;
 					std::string test = result.str(); 
-					send(itv->first, test.c_str(), test.length(), 0);}} // proteger send -1 🖕
+					send(itv->first, test.c_str(), test.length(), 0);}}
 
 			//envoyer message au channel
 			for (std::vector<Channel>::iterator itchan = this->channels_list.begin(); itchan != this->channels_list.end(); itchan++) {				
-				if (itchan->getChannelName().compare(*itc) == 0) { // pracourir les user si channel envoyer avec son fd					
+				if (itchan->getChannelName().compare(*itc) == 0) {				
 					for (std::map<int, User>::iterator itu = users_list.begin(); itu != users_list.end(); itu++) {
 						for (std::vector<std::string>::iterator iterator = itu->second.channels_list_by_user.begin(); iterator != itu->second.channels_list_by_user.end(); iterator++) {
-							if ((*iterator).compare(*itc) == 0 && user.getNickName() != itu->second.getNickName()) {// sauf a lui-même
+							if ((*iterator).compare(*itc) == 0 && user.getNickName() != itu->second.getNickName()) {
 								std::stringstream result_chan;
 								result_chan << ":" << user.getNickName() << " PRIVMSG " << itchan->getChannelName() << " :" << message << DELIMITER;
 								std::string test = result_chan.str(); 
@@ -189,11 +212,9 @@ void Server::operCmd(User &user, std::vector<std::string> data) {
 	std::string pass = data[2];
 
 
-	if (data.size() < 2){
-		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+	if (data.size() < 2){ this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 
-	if (name != opername || pass != operpass) {
-		this->clientMessage(user, ERR_PASSWDMISMATCH); return; }
+	if (name != opername || pass != operpass) { this->clientMessage(user, ERR_PASSWDMISMATCH); return; }
 
 	user.setIRCOper(true);
 	this->clientMessage(user, RPL_YOUREOPER);
@@ -204,16 +225,16 @@ void Server::topicCmd(User &user, std::string msg, std::vector<std::string> data
 	std::string topic;
 	std::string channel_name;
 
-	if (data.size() < 2) {
-		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; } 
+	if (data.size() < 2) { this->clientMessage(user, ERR_NEEDMOREPARAMS); return; } 
+
 	if (data.size() == 2) {
-		if (data[1] == "") {
-			this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+		
+		if (data[1] == "") { this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+		
 		else {
 			channel_name = data[1];
 			for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
-				if (itc->getChannelName() == ('#' + channel_name)) {
-					itc->setTopic(""); return ; } }
+				if (itc->getChannelName() == ('#' + channel_name)) { itc->setTopic(""); return ; } }
 				this->clientMessage(user, ERR_NOSUCHCHANNEL, channel_name); }}
 	else {
 		channel_name = data[1];
@@ -228,8 +249,8 @@ void Server::topicCmd(User &user, std::string msg, std::vector<std::string> data
 
 void Server::partCmd(User &user, std::vector<std::string> data)
 {
-	if (data.size() != 2) {
-		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+	if (data.size() != 2) { this->clientMessage(user, ERR_NEEDMOREPARAMS); return; } 
+		// check if channops list, to delete inside
 
 	std::vector<std::string> channels_list = this->split(data[1], ',');
 	std::vector<std::string>::iterator end = channels_list.end();
@@ -241,20 +262,16 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 			if ((*itc).compare("#" + *itlist) == 0) {
 				find = true;
 				itc = user.channels_list_by_user.erase(itc); }
-			else {
-				++itc; }}
-		if (find == false) {
-			this->clientMessage(user, ERR_NOTONCHANNEL); }}
+			else { ++itc; }}
+		if (find == false) { this->clientMessage(user, ERR_NOTONCHANNEL); }}
 }
  // /connect localhost 6667 coco
 
 void Server::dieCmd(User &user, std::vector<std::string> data) { 
 
-	if (data.size() > 1) {
-		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+	if (data.size() > 1) { this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 
-	if (user.getIRCOper() == false) {
-		this->clientMessage(user, ERR_NOPRIVILEGES); return; }
+	if (user.getIRCOper() == false) { this->clientMessage(user, ERR_NOPRIVILEGES); return; }
 
 	close(this->getServerFd()); // closing the connected socket
     shutdown(this->getServerFd(), SHUT_RDWR); // closing the listening socket

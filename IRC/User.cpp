@@ -76,3 +76,5 @@ void User::setChannelListByUser(std::string new_channel) {
 		 }
  }  
  
+std::vector<std::string> User::getChannops(void) const { return channops; }
+void User::setChannops(std::string channel) { channops.push_back(channel); }

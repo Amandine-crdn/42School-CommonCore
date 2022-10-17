@@ -37,27 +37,28 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
         result << cmd << channel_name << " :You're not on that channel" << DELIMITER;
     else if (cmd.compare(ERR_UNKNOWNCOMMAND) == 0)
         result << cmd << channel_name << " :Unknown command" << DELIMITER; //channelname = cmd unknow
-        
-    else if (cmd.compare(ERR_NOSUCHCHANNEL) == 0) // a check
+    else if (cmd.compare(RPL_CHANNELMODEIS) == 0)
+        result << cmd << user.getNickName() << " " << channel_name << " is public" << DELIMITER;    
+    else if (cmd.compare(ERR_NOSUCHCHANNEL) == 0)
         result << cmd << channel_name << " :No such channel" << DELIMITER;
-
-     else if (cmd.compare(ERR_NOPRIVILEGES) == 0)
+    else if (cmd.compare(ERR_NOPRIVILEGES) == 0)
         result << cmd << user.getNickName() << " :Permission Denied- You're not an IRC operator" << DELIMITER;
-
     
     else if (cmd.compare(ERROR) == 0) //ERR_UNKNOWNERROR 400 ?
         result << ": Good bye"<< DELIMITER;  //euh
 
 
-    else if (cmd.compare(RPL_CHANNELMODEIS) == 0)
-        result << cmd << user.getNickName() << " " << channel_name << " is public" << DELIMITER;
-        
-    
     else if (cmd.compare(ERR_NOORIGIN) == 0)
         result << cmd << user.getNickName() << " :No origin specified" << DELIMITER;
     else if (cmd.compare(ERR_NOSUCHSERVER) == 0)
         result << cmd << user.getNickName() << " " << server_name << " :No such server" << DELIMITER;  
     
+
+    else if (cmd.compare(ERR_USERNOTINCHANNEL) == 0)
+        result << cmd << user.getNickName() << " " << topic << " " << channel_name << " :They aren't on that channel" << DELIMITER;  //topic is nick
+    
+
+
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 
 }
