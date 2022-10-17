@@ -87,6 +87,16 @@ void  Server::setPassword(std::string password) { this->password = password; }
 std::vector<Channel> Server::getChannelList() const { return this->channels_list; } 
 void Server::setChannelList(std::string new_channel) { this->channels_list.push_back(Channel(new_channel)); } 
 
-std::map<int, User> Server::getUserList() const { return this->users_list; }
+std::vector<User> Server::getUserList(){
+
+	std::vector<User> res;
+
+	for (std::map<int, User>::iterator itm = users_list.begin(); itm != users_list.end(); itm++)
+	{
+		res.push_back(itm->second);
+	}
+
+	return res;
+}
 void Server::setUserList(int fd) { this->users_list[fd]; }
 

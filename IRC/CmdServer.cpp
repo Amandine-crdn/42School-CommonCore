@@ -67,6 +67,9 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 		std::string channel = data[1];
 		std::string username = data[3];
 
+		if (username.compare(user.getNickName()) == 0)
+			return ; //no error for that ?
+
 		bool correspondanceChannel = false;
 
 		for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
@@ -83,20 +86,24 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 			//check si c'est un IRCOPERATOR pour effectuer cette manoeuvre
 			if (user.getIRCOper() == false) { this->clientMessage(user, ERR_NOPRIVILEGES); }
 			else {
-				for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
-					if (username == itv->second.getNickName()) {
+				for (std::vector<User>::iterator itv = this->getUserList().begin(); itv != this->getUserList().end(); itv++) {
+					
+					std::cout << "*itv = " << itv->getNickName() << std::endl;
+					if (username == itv->getNickName()) {
+						
 
 						//si le new user a deja join le channel
-						for (std::vector<std::string>::iterator itu = itv->second.channels_list_by_user.begin(); itu != itv->second.channels_list_by_user.end(); itu++) {
+						for (std::vector<std::string>::iterator itu = itv->channels_list_by_user.begin(); itu != itv->channels_list_by_user.end(); itu++) {
 						if (channel == *itu) {
 							//check s'il est deja channops de ce channel
-							for (std::vector<std::string>::iterator itch = itv->second.channops.begin(); itch != itv->second.channops.end(); itch++) {
+							for (std::vector<std::string>::iterator itch = itv->channops.begin(); itch != itv->channops.end(); itch++) {
 							std::cout <<  "itch = " <<*itch << "itu = " << *itu << std::endl;
 							if (*itch == *itu) { std::cout << username << " est déjà Channops de : " << channel << std::endl; return ; }}	}} // est deja channops
 							//donne les droits channops
-							itv->second.channops.push_back(channel); //itv->second.setChannops(channel);
-							itv->second.getChannops();
-							std::cout << username << " devient Channops de : " << channel << std::endl; return ;}}
+							itv->channops.push_back(channel); //itv->setChannops(channel);
+							itv->getChannops();
+							std::cout << username << " devient Channops de : " << channel << std::endl; return ;}
+						std::cout << "pas egale au suivant" << std::endl;}
 						//user non trouver
 						this->clientMessage(user, ERR_USERNOTINCHANNEL, channel, username); }
 		}
@@ -110,8 +117,8 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 	{
 		bool correspondanceUser = false;
 		
-		for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
-			if (data[1] == itv->second.getNickName()) { correspondanceUser = true; }}
+		for (std::vector<User>::iterator itv = this->getUserList().begin(); itv != this->getUserList().end(); itv++) {
+			if (data[1] == itv->getNickName()) { correspondanceUser = true; }}
 		
 		if (correspondanceUser == false) { this->clientMessage(user, ERR_NOSUCHNICK); }
 		
@@ -122,7 +129,6 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 			this->clientMessage(user, RPL_UMODEIS);
 			user.setVisibility(false); return ;}
 	}
-	std::cout << "fail" << std::endl;
 }
 
 void Server::quitCmd(User &user) 

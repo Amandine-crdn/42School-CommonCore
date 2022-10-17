@@ -62,10 +62,10 @@ void User::setVisibility(bool choice) { this->visibility = choice; }
 bool User::getIRCOper() const { return this->IRCOperator; };
 void User::setIRCOper(bool choice) { this->IRCOperator = choice; };
 
-//liste de course des channels 
+//liste de course des channels
 std::vector<std::string> User::getChannelListByUser() const { return this->channels_list_by_user; }
 void User::setChannelListByUser(std::string new_channel) {
-
+ 
 		channels_list_by_user.push_back(new_channel);
 
 		std::cout << "listes channel for " << this->getNickName() << " :\n";
@@ -75,7 +75,7 @@ void User::setChannelListByUser(std::string new_channel) {
 		 }
  }  
  
- 
+
 std::vector<std::string> User::getChannops(void) const { return channops; }
 void User::setChannops(std::string channel) {
 

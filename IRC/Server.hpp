@@ -65,7 +65,7 @@ class Server {
         std::vector<Channel> getChannelList() const;
         void setChannelList(std::string new_channel);
 
-        std::map<int, User> getUserList() const;
+        std::vector<User> getUserList();
         void setUserList(int fd);
         
 
