@@ -29,12 +29,12 @@ std::string Server::nickCmd(User &user, std::string msg, bool first)
 		this->clientMessage(user, ERR_NEEDMOREPARAMS); return "";}
 
 	if (nickname.size() > 9) {
-		this->clientMessage(user, ERR_ERRONEUSNICKNAME); return ""; }
+		this->clientMessage(user, ERR_ERRONEUSNICKNAME, nickname); return ""; }
 	else {
 		std::map<int, User>::iterator itv;
 		for (itv = users_list.begin(); itv != users_list.end(); itv++) {
 			if (nickname == itv->second.getNickName()) {
-				this->clientMessage(user, ERR_NICKNAMEINUSE);
+				this->clientMessage(user, ERR_NICKNAMEINUSE, nickname);
 				return ""; }}}
 	if (first == false)
 		user.setNickName(nickname);
@@ -106,7 +106,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 		for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {		
 			if (itc->getChannelName() == *itd) {
 				correspondance = true;
-				clientMessage(user, RPL_TOPIC, *itd, itc->getTopic()); // get topic a donner : "Topic for : 
+				clientMessage(user, RPL_TOPIC, itc->getChannelName(), itc->getTopic()); // get topic a donner : "Topic for : 
 				for (std::vector<std::string>::iterator itu = user.channels_list_by_user.begin(); itu != user.channels_list_by_user.end(); itu++) {
 					if (*itu == *itd) {
 						find = true; }}}}	
@@ -144,7 +144,7 @@ void Server::privMsgCmd(User &user, std::string data) {
 			for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
 				if (itv->second.getNickName().compare(*itc) == 0 && user.getNickName() != itv->second.getNickName()) {
 					std::stringstream result;
-					result << ":" << user.getNickName() << " PRIVMSG " << *itc << " :" << message << DELIMITER;
+					result << ":" << user.getNickName() << " PRIVMSG " << itv->second.getNickName() << " :" << message << DELIMITER;
 					std::string test = result.str(); 
 					send(itv->first, test.c_str(), test.length(), 0); }} // proteger send -1 🖕
 
@@ -188,7 +188,7 @@ void Server::topicCmd(User &user, std::string msg, std::string channel_name) {
 	for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
 			if (itc->getChannelName() == ('#' + channel_name)) {
 				itc->setTopic(topic);
-			 	this->clientMessage(user, RPL_TOPIC, channel_name, itc->getTopic()); }}
+			 	this->clientMessage(user, RPL_TOPIC, itc->getChannelName(), itc->getTopic()); }}
 }
  
 void Server::partCmd(User &user, std::vector<std::string> data)
