@@ -48,7 +48,6 @@ void Server::connect()
 	if (poll_fds[0].revents == POLLIN){
 		temp_fd = accept(this->getServerFd(), (sockaddr *)&my_addr, &peer_addr_size); 
 		this->setUserList(temp_fd);
-		//users_list[temp_fd];
 		if (temp_fd == -1)
 		    this->error("error: accept()");
 	std::cout << "\n🏡  New user accepted with fd: " << temp_fd << " 🏡\n" << std::endl;}

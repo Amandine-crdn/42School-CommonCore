@@ -225,11 +225,10 @@ void Server::topicCmd(User &user, std::string msg, std::vector<std::string> data
 				this->clientMessage(user, RPL_TOPIC, itc->getChannelName(), itc->getTopic()); }}}
 }
 
- // /connect localhost 6667 coco
 
 void Server::partCmd(User &user, std::vector<std::string> data)
 {
-	if (data.size() > 2) {
+	if (data.size() != 2) {
 		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 
 	std::vector<std::string> channels_list = this->split(data[1], ',');
@@ -247,4 +246,35 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 		if (find == false) {
 			this->clientMessage(user, ERR_NOTONCHANNEL); }}
 }
+ // /connect localhost 6667 coco
 
+void Server::dieCmd(User &user, std::vector<std::string> data) { 
+
+	if (data.size() > 1) {
+		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+
+	if (user.getIRCOper() == false) {
+		this->clientMessage(user, ERR_NOPRIVILEGES); return; }
+
+	close(this->getServerFd()); // closing the connected socket
+    shutdown(this->getServerFd(), SHUT_RDWR); // closing the listening socket
+    std::cout << "🌙 🌙 closing with die command 🌙 🌙" << std::endl;
+	exit (0);
+}
+
+/*void Server::kickCmd(User &user, std::vector<std::string> data) {
+	
+	std::cout << "1" << std::endl;
+
+	if (data.size() < 3) {
+		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+	std::cout << "2" << std::endl;
+
+	std::vector<std::string> channels_list = this->split(data[1], ',');
+	std::vector<std::string> users_list = this->split(data[2], ',');
+
+	std::cout << "yes" << std::endl;
+
+
+}*/
+//kick command : if OPERATOR == true , /KICK channel user (part un user d'un channel)

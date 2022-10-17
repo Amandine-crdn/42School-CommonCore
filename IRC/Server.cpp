@@ -68,7 +68,7 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 		else if (data[0].compare("NICK") == 0)
 			this->nickCmd(user, msg, 0);
 		else if (data[0].compare("userhost") == 0)
-			this->userCmd(user, msg, 0);
+			this->userCmd(user, msg, 0); //manque : "myusername myusername localhost :my real name"
 		else if (data[0].compare("QUIT") == 0) 
 			this->quitCmd(user);
 		else if (data[0].compare("PING") == 0)
@@ -83,6 +83,10 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 			this->operCmd(user, data); 
 		else if (data[0].compare("TOPIC") == 0)
 			this->topicCmd(user, msg, data); 
+		else if (data[0].compare("die") == 0)
+			this->dieCmd(user, data);
+		/*else if (data[0].compare("KICK") == 0)
+			this->topicCmd(user, data); */
 		else
 			this->clientMessage(user, ERR_UNKNOWNCOMMAND, data[0]);
 	
