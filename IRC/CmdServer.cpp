@@ -56,22 +56,38 @@ std::string Server::userCmd(User &user, std::string msg, bool first)
 
 void Server::modeCmd(User &user, std::vector<std::string> data)
 {
-	bool correspondance = false;
-	std::map<int, User>::iterator itv;
-    for (itv = users_list.begin(); itv != users_list.end(); itv++) {
-    	if (data[1] == itv->second.getNickName()) {
-			correspondance = true; }}
+	if (data.size() < 2)
+		this->clientMessage(user, ERR_NEEDMOREPARAMS);
 
-	if (data[0].compare("MODE") == 0 && correspondance == false)
-		this->clientMessage(user, ERR_NOSUCHNICK);
-	else if (data[0].compare("MODE") == 0 && data[1].compare(user.getNickName()) != 0)
-		this->clientMessage(user, ERR_USERSDONTMATCH);
-	else if (data[0].compare("MODE") == 0 && data[1].compare(user.getNickName()) == 0 && \
-		data[2].compare("+i") == 0) {
-		this->clientMessage(user, RPL_UMODEIS);
-		user.setVisibility(false); }
+	if (data[1][0] == '#') //channel mode
+	{
+		bool correspondanceChannel = false;
+		for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
+			if (data[1] == itc->getChannelName()) {
+				correspondanceChannel = true; }}
+		if (correspondanceChannel == false) {
+			this->clientMessage(user, ERR_NOSUCHCHANNEL); return ;}
+		this->clientMessage(user, RPL_CHANNELMODEIS, data[1]);
+	}
+	else //user mode
+	{
+		bool correspondanceUser = false;
+		
+		for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
+			if (data[1] == itv->second.getNickName()) {
+				correspondanceUser = true; }}
+		if (correspondanceUser == false)
+			this->clientMessage(user, ERR_NOSUCHNICK);
+		else if (data[1].compare(user.getNickName()) != 0)
+			this->clientMessage(user, ERR_USERSDONTMATCH);
+		else if (data[0].compare("MODE") == 0 && data[1].compare(user.getNickName()) == 0 && \
+			data[2].compare("+i") == 0) {
+			this->clientMessage(user, RPL_UMODEIS);
+			user.setVisibility(false); return ;}
+	}
+	
 }
-
+// /connect localhost 6667 coco
 void Server::quitCmd(User &user) 
 {
 	this->clientMessage(user, ERROR);
@@ -84,7 +100,9 @@ void Server::pingCmd(User &user, std::vector<std::string> data)
 	std::string response;
 
 	if (data.size() == 1)
-		this->clientMessage(user, ERR_NEEDMOREPARAMS);
+		this->clientMessage(user, ERR_NOORIGIN);
+	if (data[1] != "localhost") {
+		this->clientMessage(user, ERR_NOSUCHSERVER); }
 	else { // comment etre sur que cela repond bien au ping ?
 		result << server_name << " PONG :" << data[1] << DELIMITER; 
 		response += result.str();
@@ -112,9 +130,10 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 						find = true; }}}}	
 		
 		if (correspondance == false) {
-			this->clientMessage(user, ERR_NOSUCHCHANNEL, *itd, ""); 
+			this->clientMessage(user, ERR_NOSUCHCHANNEL, *itd); 
 			this->setChannelList(*itd);
 			this->clientMessage(user, RPL_NOTOPIC, *itd, "No topic");
+			//why erro no such nick en plus ??
 			std::cout << "\n 🍑 The channel " << *itd << " was created" << std::endl; }
 			
 		if (correspondance == false || find == false) {
@@ -127,7 +146,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 
 ///RMRECONNS !!
 
-// /connect localhost 6667 coco
+
 
 void Server::privMsgCmd(User &user, std::string data) {
 
@@ -146,7 +165,7 @@ void Server::privMsgCmd(User &user, std::string data) {
 					std::stringstream result;
 					result << ":" << user.getNickName() << " PRIVMSG " << itv->second.getNickName() << " :" << message << DELIMITER;
 					std::string test = result.str(); 
-					send(itv->first, test.c_str(), test.length(), 0); }} // proteger send -1 🖕
+					send(itv->first, test.c_str(), test.length(), 0);}} // proteger send -1 🖕
 
 			//envoyer message au channel
 			for (std::vector<Channel>::iterator itchan = this->channels_list.begin(); itchan != this->channels_list.end(); itchan++) {				
@@ -180,17 +199,34 @@ void Server::operCmd(User &user, std::vector<std::string> data) {
 	this->clientMessage(user, RPL_YOUREOPER);
 } 
 
-void Server::topicCmd(User &user, std::string msg, std::string channel_name) { 
+void Server::topicCmd(User &user, std::string msg, std::vector<std::string> data) { 
 
-	std::string topic = this->split(msg, ':')[1];
+	std::string topic;
+	std::string channel_name;
 
-	std::vector<Channel>::iterator itc;
-	for (itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
+	if (data.size() < 2) {
+		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; } 
+	if (data.size() == 2) {
+		if (data[1] == "") {
+			this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
+		else {
+			channel_name = data[1];
+			for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
+				if (itc->getChannelName() == ('#' + channel_name)) {
+					itc->setTopic(""); return ; } }
+				this->clientMessage(user, ERR_NOSUCHCHANNEL, channel_name); }}
+	else {
+		channel_name = data[1];
+		topic = this->split(msg, ':')[1];
+	
+		for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++) {
 			if (itc->getChannelName() == ('#' + channel_name)) {
 				itc->setTopic(topic);
-			 	this->clientMessage(user, RPL_TOPIC, itc->getChannelName(), itc->getTopic()); }}
+				this->clientMessage(user, RPL_TOPIC, itc->getChannelName(), itc->getTopic()); }}}
 }
- 
+
+ // /connect localhost 6667 coco
+
 void Server::partCmd(User &user, std::vector<std::string> data)
 {
 	if (data.size() > 2) {
@@ -205,11 +241,10 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 		for (std::vector<std::string>::iterator itc = user.channels_list_by_user.begin(); itc != user.channels_list_by_user.end();) {
 			if ((*itc).compare("#" + *itlist) == 0) {
 				find = true;
-				itc = user.channels_list_by_user.erase(itc); } // supprimer le channel de la liste des channel du user
+				itc = user.channels_list_by_user.erase(itc); }
 			else {
 				++itc; }}
 		if (find == false) {
 			this->clientMessage(user, ERR_NOTONCHANNEL); }}
 }
 
-// /connect localhost 6667 coco

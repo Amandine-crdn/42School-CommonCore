@@ -64,27 +64,22 @@ class Server {
 
         std::vector<Channel> getChannelList() const;
         void setChannelList(std::string new_channel);
-        
 
+        std::map<int, User> getUserList() const;
+        void setUserList(int fd);
+        
 
     protected :
 
-        //init
         int server_fd;
         sockaddr_in my_addr;
         socklen_t peer_addr_size;
         std::string password;
         const std::string server_name = "ft_irc";
-
-        //connect
         std::vector<pollfd> poll_fds;
-        std::map<int, User> users_list; // creer des accesseurs
-        
-        
-        //real all channel
+
+        std::map<int, User> users_list;
         std::vector<Channel> channels_list;
-
-
 
 
         /*------  virtual methods CmdServer ------ */
@@ -98,9 +93,8 @@ class Server {
         virtual void joinCmd(User &user, std::vector<std::string> data);
         virtual void privMsgCmd(User &user, std::string data);
         virtual void operCmd(User &user, std::vector<std::string> data);
-        virtual void topicCmd(User &user, std::string msg, std::string channel_name);
+        virtual void topicCmd(User &user, std::string msg, std::vector<std::string> data);
         virtual void partCmd(User &user, std::vector<std::string> data);
-
 };
 
 #endif

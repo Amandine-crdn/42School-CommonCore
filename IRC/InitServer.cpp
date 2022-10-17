@@ -47,7 +47,8 @@ void Server::connect()
         this->error("error: poll()");
 	if (poll_fds[0].revents == POLLIN){
 		temp_fd = accept(this->getServerFd(), (sockaddr *)&my_addr, &peer_addr_size); 
-		users_list[temp_fd];
+		this->setUserList(temp_fd);
+		//users_list[temp_fd];
 		if (temp_fd == -1)
 		    this->error("error: accept()");
 	std::cout << "\n🏡  New user accepted with fd: " << temp_fd << " 🏡\n" << std::endl;}
@@ -86,3 +87,7 @@ void  Server::setPassword(std::string password) { this->password = password; }
 
 std::vector<Channel> Server::getChannelList() const { return this->channels_list; } 
 void Server::setChannelList(std::string new_channel) { this->channels_list.push_back(Channel(new_channel)); } 
+
+std::map<int, User> Server::getUserList() const { return this->users_list; }
+void Server::setUserList(int fd) { this->users_list[fd]; }
+

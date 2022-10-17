@@ -82,7 +82,7 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 		else if (data[0].compare("OPER") == 0)
 			this->operCmd(user, data); 
 		else if (data[0].compare("TOPIC") == 0)
-			this->topicCmd(user, msg, data[1]); 
+			this->topicCmd(user, msg, data); 
 		else
 			this->clientMessage(user, ERR_UNKNOWNCOMMAND, data[0]);
 	

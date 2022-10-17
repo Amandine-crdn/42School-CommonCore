@@ -21,7 +21,7 @@ class CmdServer : public Server {
     void joinCmd(User &user, std::vector<std::string> data);
     void privMsgCmd(User &user, std::string data);
     void operCmd(User &user, std::vector<std::string> data);
-    void topicCmd(User &user, std::string msg, std::string channel_name);
+    void topicCmd(User &user, std::string msg, std::vector<std::string> data);
     void partCmd(User &user, std::vector<std::string> data);
 };
 

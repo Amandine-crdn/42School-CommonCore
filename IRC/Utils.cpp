@@ -63,5 +63,5 @@ void Server::notificationsUsersInChannel(User &user, std::string channel_name)
 				users += " "; }}}
 	(void)user;
 	this->clientMessage(user, RPL_NAMREPLY, channel_name, users);
-	this->clientMessage(user, RPL_ENDOFNAMES, channel_name, users);
+	//this->clientMessage(user, RPL_ENDOFNAMES, channel_name, users);
 }

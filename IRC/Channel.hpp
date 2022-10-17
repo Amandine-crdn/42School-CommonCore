@@ -13,11 +13,10 @@ class Channel {
         /* ----- getters and setters ----- */
 
         std::string getChannelName() const;
+        void setChannelName(std::string channel_name);
         std::string getTopic() const;
         void setTopic(std::string topic);
 
-        //que dans le constructeur
-        void setChannelName(std::string channel_name);
 
     private :
 

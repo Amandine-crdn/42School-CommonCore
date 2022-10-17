@@ -1,6 +1,6 @@
 #	include "User.hpp"
 
-User::User() : first_connexion(true), IRCOperator(false) {}
+User::User() : nick_name("somebody"), user_name("an username"),first_connexion(true), IRCOperator(false) {}
 	
 User::~User() {}
 
