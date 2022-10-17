@@ -57,7 +57,12 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(ERR_USERNOTINCHANNEL) == 0)
         result << cmd << user.getNickName() << " " << topic << " " << channel_name << " :They aren't on that channel" << DELIMITER;  //topic is nick
     
-
+    else if (cmd.compare(RPL_ADMINME) == 0)
+        result << cmd << user.getNickName() <<  " " << server_name << " :Administrative info, Amandine Cerdan is the developer of this server" << DELIMITER; 
+    else if (cmd.compare(RPL_ADMINLOC1) == 0)
+        result << cmd << user.getNickName() << " :Paris, France" << DELIMITER;  
+    else if (cmd.compare(RPL_ADMINEMAIL) == 0)
+        result << cmd << user.getNickName() << " :amandinecerdan91760@gmail.com" << DELIMITER; 
 
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 

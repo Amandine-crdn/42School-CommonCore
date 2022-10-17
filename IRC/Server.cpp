@@ -85,6 +85,8 @@ void Server::dispatcher(User &user, std::vector<std::string> messages)
 			this->topicCmd(user, msg, data); 
 		else if (data[0].compare("die") == 0)
 			this->dieCmd(user, data);
+		else if (data[0].compare("admin") == 0)
+			this->adminCmd(user, data);
 		/*else if (data[0].compare("KICK") == 0)
 			this->topicCmd(user, data); */
 		else

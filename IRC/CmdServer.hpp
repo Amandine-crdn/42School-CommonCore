@@ -24,6 +24,7 @@ class CmdServer : public Server {
     void topicCmd(User &user, std::string msg, std::vector<std::string> data);
     void partCmd(User &user, std::vector<std::string> data);
     void dieCmd(User &user, std::vector<std::string> data);
+    void adminCmd(User &user, std::vector<std::string> data);
    // void kickCmd(User &user, std::vector<std::string> data);
 };
 

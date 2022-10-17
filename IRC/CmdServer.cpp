@@ -71,7 +71,7 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 
 		if (correspondanceChannel == false) { this->clientMessage(user, ERR_NOSUCHCHANNEL); return ;}
 		
-		this->clientMessage(user, RPL_CHANNELMODEIS, data[1]);
+		if (data.size() <= 2) { this->clientMessage(user, RPL_CHANNELMODEIS, data[1]); return ; } //bien ler eturn ?
 
 		/*---- mode #toto +o user ---- */ 
 
@@ -82,16 +82,26 @@ void Server::modeCmd(User &user, std::vector<std::string> data)
 			else {
 				for (std::map<int, User>::iterator itv = users_list.begin(); itv != users_list.end(); itv++) {
 					if (data[3] == itv->second.getNickName()) {
-						//si le new user a deja join le channel ne pas le reajouter, ne rien faire
+
+						//si le new user a deja join le channel
 						for (std::vector<std::string>::iterator itu = itv->second.channels_list_by_user.begin(); itu != itv->second.channels_list_by_user.end(); itu++) {
-						if (data[1] == *itu) { std::cout << data[3] << " est déjà Channops de : " << data[1] << std::endl; return ;}}
-						//donne les droits channops
-						itv->second.setChannops(data[1]);
-						std::cout << data[3] << " devient Channops de : " << data[1] << std::endl; return ;}}
+						if (data[1] == *itu) {
+							//check s'il est deja channops de ce channel
+							for (std::vector<std::string>::iterator itch = itv->second.channops.begin(); itch != itv->second.channops.end(); itch++) {
+							std::cout <<  "itch = " <<*itch << "itu = " << *itu << std::endl;
+							if (*itch == *itu) { std::cout << data[3] << " est déjà Channops de : " << data[1] << std::endl; return ; }}	}} // est deja channops
+							//donne les droits channops
+							itv->second.channops.push_back(data[1]); //itv->second.setChannops(data[1]);
+							itv->second.getChannops();
+							std::cout << data[3] << " devient Channops de : " << data[1] << std::endl; return ;}}
 						//user non trouver
 						this->clientMessage(user, ERR_USERNOTINCHANNEL, data[1], data[3]); }//1:channel,2:user	
 		}
 	}
+//connect localhost 6667 coco
+//OPER opername operpass
+//mode #toto +o polain
+
 	/*#### user mode #### */ 
 	else
 	{
@@ -277,6 +287,17 @@ void Server::dieCmd(User &user, std::vector<std::string> data) {
     shutdown(this->getServerFd(), SHUT_RDWR); // closing the listening socket
     std::cout << "🌙 🌙 closing with die command 🌙 🌙" << std::endl;
 	exit (0);
+}
+
+
+void Server::adminCmd(User &user, std::vector<std::string> data) { 
+
+	if (data.size() == 2) {
+		if (data[1].compare(server_name)) {
+			this->clientMessage(user, ERR_NOSUCHSERVER); return; }}
+	this->clientMessage(user, RPL_ADMINME);
+	this->clientMessage(user, RPL_ADMINLOC1);
+	this->clientMessage(user, RPL_ADMINEMAIL);
 }
 
 /*void Server::kickCmd(User &user, std::vector<std::string> data) {

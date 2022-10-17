@@ -77,4 +77,13 @@ void User::setChannelListByUser(std::string new_channel) {
  }  
  
 std::vector<std::string> User::getChannops(void) const { return channops; }
-void User::setChannops(std::string channel) { channops.push_back(channel); }
+void User::setChannops(std::string channel) {
+
+		  channops.push_back(channel);
+
+		std::cout << "channops for " << this->getNickName() << " :\n";
+		 for(std::vector<std::string>::iterator po = channels_list_by_user.begin(); po != channels_list_by_user.end(); po++)
+		 {
+			 std::cout << "-> " << *po << std::endl;
+		 }
+		 }

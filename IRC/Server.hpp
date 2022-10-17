@@ -96,6 +96,7 @@ class Server {
         virtual void topicCmd(User &user, std::string msg, std::vector<std::string> data);
         virtual void partCmd(User &user, std::vector<std::string> data);
         virtual void dieCmd(User &user, std::vector<std::string> data);
+        virtual void adminCmd(User &user, std::vector<std::string> data);
        // virtual void kickCmd(User &user, std::vector<std::string> data);
 };
 
