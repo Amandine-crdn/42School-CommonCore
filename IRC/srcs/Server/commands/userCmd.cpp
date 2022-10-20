@@ -1,21 +1,26 @@
 #include "../Server.hpp"
 
-void Server::userCmd(User &user, std::string msg)
+void Server::userCmd(User &user, std::string msg, std::vector<std::string> data)
 {
-	std::string username;
-	
-	username = msg.substr(5, msg.size() - 5);
+	if (user.getAllow() == false)
+		return ;
 
-	if (!username.size()) 
+	if (data.size() < 2) 
 	{
-		this->clientMessage(user, ERR_NEEDMOREPARAMS); 
+		this->clientMessage(user, ERR_NEEDMOREPARAMS, data[0]); 
 		return;
 	}
+
+	std::string username = data[1];
+	std::string realname = this->split(msg, ':')[1];
+
 	if (user.getFirstConnexion() == false)
 	{
 		this->clientMessage(user, ERR_ALREADYREGISTRED);
 		return ;
 	}
+
 	user.setUserName(username);
+	user.setRealName(realname);
 }
 	

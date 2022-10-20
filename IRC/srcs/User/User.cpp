@@ -5,7 +5,7 @@ User::User()
 	std::cout << "construction default USER" << std::endl;
 }
 
-User::User(int fd) : nick_name(""), user_name(""),first_connexion(true), IRCOperator(false), toDelete(false)
+User::User(int fd) : nick_name(""), user_name(""), real_name(""), first_connexion(true), IRCOperator(false), toDelete(false), allowPass(false)
 {
 	this->fd = fd;
 	std::cout << "construction USER" << std::endl;
@@ -27,6 +27,10 @@ void User::clearMsg()
 
 
 /*------ getters and setters ------ */
+
+		
+bool User::getAllow() const { return this->allowPass; }
+void User::setAllow(bool choice) { this->allowPass = choice; }
 
 bool User::getDelete() const { return this->toDelete; }
 void User::setDelete(bool choice) { this->toDelete = choice; }
@@ -58,6 +62,9 @@ std::string User::getFullClientIdentifier(void)
 
 void User::setUserName(std::string user_name){ this->user_name = user_name; }
 std::string User::getUserName(){ return this->user_name; }
+
+void User::setRealName(std::string real_name){ this->real_name = real_name; }
+std::string User::getRealName(){ return this->real_name; }
 
 void User::setNickName(std::string nick_name){ this->nick_name = nick_name; };
 std::string User::getNickName(){ return this->nick_name; }

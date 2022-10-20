@@ -7,7 +7,7 @@ void Server::checker()
 		std::vector<std::string> msg = itb->getMsg();
 		for (std::vector<std::string>::iterator itv = msg.begin(); itv != msg.end(); itv++)
 		{
-			std::cout << "\t🍇 Sended by user n °" << itb->getFd() << " : IRSSI = >" << *itv << "<" << std::endl;
+			std::cout << "\t🍇 IRSSI = >" << *itv << "<" << std::endl;
 			this->dispatcher(*itb, *itv);
 		}
 		itb->clearMsg();
@@ -28,22 +28,23 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 	if (allow == 0)
 	{
 		if (data[0].compare("CAP") == 0)
-		allow = 1;
+			allow = 1;
+		return ;
 	}
 	else
 	{
 		if (data[0].compare("PASS") == 0)
 			this->passCmd(user, data);
 		else if (data[0].compare("NICK") == 0)
-			this->nickCmd(user, msg);
+			this->nickCmd(user, msg, data);
 		else if (data[0].compare("USER") == 0)
-			this->userCmd(user, msg);
+			this->userCmd(user, msg, data); 
 		else if (data[0].compare("PING") == 0)
 			this->pingCmd(user, data);
 		else if (data[0].compare("MODE") == 0)
 			this->modeCmd(user, data);
 		else if (data[0].compare("userhost") == 0) // ambigu avec USER
-			this->userCmd(user, msg); //manque : "myusername myusername localhost :my real name"
+			this->userCmd(user, msg, data); //manque : "myusername myusername localhost :my real name"
 		else if (data[0].compare("QUIT") == 0) 
 			this->quitCmd(user);
 		else if (data[0].compare("JOIN") == 0)

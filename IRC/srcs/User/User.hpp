@@ -23,6 +23,9 @@ class User {
         void setUserName(std::string user_name);
         std::string getUserName();
 
+        void setRealName(std::string user_name);
+        std::string getRealName();
+
         void setNickName(std::string nick_name);
         std::string getNickName();
 
@@ -44,6 +47,9 @@ class User {
         bool getDelete() const;
         void setDelete(bool choice);
 
+        bool getAllow() const;
+        void setAllow(bool choice);
+
 
         std::vector<std::string> getChannops(void) const;
         void setChannops(std::string channel);
@@ -60,6 +66,7 @@ class User {
 
         std::string nick_name;
         std::string user_name;
+        std::string real_name;
         bool first_connexion;
         int fd;
         std::vector<std::string> vector_message_protocole;
@@ -69,6 +76,8 @@ class User {
         bool IRCOperator;
         //quit
         bool toDelete;
+        //pass
+        bool allowPass;
 
         //liste de course des channels
         //std::vector<std::string> channels_list_by_user; //accesseur

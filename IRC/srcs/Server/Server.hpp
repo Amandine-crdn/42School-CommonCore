@@ -73,8 +73,8 @@ class Server {
           /*------  methods CmdServer ------ */
 
         void passCmd(User &user, std::vector<std::string> data);
-        void nickCmd(User &user, std::string msg);
-        void userCmd(User &user, std::string msg);
+        void nickCmd(User &user, std::string msg, std::vector<std::string> data);
+        void userCmd(User &user, std::string msg, std::vector<std::string> data);
         void quitCmd(User &user);
         void dieCmd(User &user, std::vector<std::string> data);
         void modeCmd(User &user, std::vector<std::string> data);

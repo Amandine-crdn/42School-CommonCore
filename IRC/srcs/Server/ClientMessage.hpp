@@ -2,7 +2,12 @@
 #define CLIENTMESSAGE_HPP
 
 #   define ERROR "0 "
+
+// a faire ?
 #   define RPL_WELCOME "001 "
+#   define RPL_YOURHOST "002 "
+#   define RPL_CREATED "003 "
+
 #   define RPL_UMODEIS "221 "
 #   define RPL_CHANNELMODEIS "234 "
 #   define RPL_ADMINME "256 "
@@ -19,6 +24,7 @@
 #   define ERR_NOSUCHCHANNEL "403 "
 #   define ERR_NOORIGIN "409 "
 #   define ERR_UNKNOWNCOMMAND "421 "
+#   define ERR_NONICKNAMEGIVEN "431 "
 #   define ERR_ERRONEUSNICKNAME "432 "
 #   define ERR_NICKNAMEINUSE "433 "
 #   define ERR_USERNOTINCHANNEL "441 "
