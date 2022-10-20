@@ -11,6 +11,7 @@ OBJS_DIR	=		obj
 #################	SOURCE FILES	#################
 
 SRCS		=		main.cpp \
+					modeUtils.cpp \
 					Channel/Channel.cpp \
 					User/User.cpp \
 					Server/ClientMessage.cpp \
@@ -25,7 +26,8 @@ SRCS		=		main.cpp \
 					Server/commands/adminCmd.cpp \
 					Server/commands/inviteCmd.cpp \
 					Server/commands/joinCmd.cpp \
-					Server/commands/modeCmd.cpp \
+					Server/commands/modeChannelCmd.cpp \
+					Server/commands/modeUserCmd.cpp \
 					Server/commands/operCmd.cpp \
 					Server/commands/partCmd.cpp \
 					Server/commands/pingCmd.cpp \

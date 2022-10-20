@@ -56,6 +56,13 @@ class Server {
         void clearUser(User &user);
         void check_connexion(User &user);
 
+        /*------- utils MODE-------*/
+
+
+        bool channelExists(std::string channel);
+        bool userExists(std::string nickname);
+
+
         /*------ getters and setters ----- */
 
         int getServerFd() const;
@@ -77,7 +84,8 @@ class Server {
         void userCmd(User &user, std::string msg, std::vector<std::string> data);
         void quitCmd(User &user);
         void dieCmd(User &user, std::vector<std::string> data);
-        void modeCmd(User &user, std::vector<std::string> data);
+        void modeChannelCmd(User &user, std::vector<std::string> data);
+        void modeUserCmd(User &user, std::vector<std::string> data);
         void pingCmd(User &user, std::vector<std::string> data);
         void joinCmd(User &user, std::vector<std::string> data);
         void privMsgCmd(User &user, std::string data);

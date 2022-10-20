@@ -5,7 +5,8 @@ User::User()
 	std::cout << "construction default USER" << std::endl;
 }
 
-User::User(int fd) : nick_name(""), user_name(""), real_name(""), first_connexion(true), IRCOperator(false), toDelete(false), allowPass(false)
+User::User(int fd)
+: nick_name(""), user_name(""), real_name(""), first_connexion(true), visibility(true), IRCOperator(false), toDelete(false), allowPass(false)
 {
 	this->fd = fd;
 	std::cout << "construction USER" << std::endl;

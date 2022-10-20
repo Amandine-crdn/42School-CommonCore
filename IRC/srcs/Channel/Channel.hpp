@@ -3,6 +3,8 @@
 
 #   include "../Server/Server.hpp"
 
+class User;
+
 class Channel {
 
     public :
@@ -18,12 +20,15 @@ class Channel {
         std::string getTopic() const;
         void setTopic(std::string topic);
 
+        std::vector<User> channops;
+
 
     private :
 
         Channel() {};
         std::string channel_name;
         std::string topic;
+
 
 };
 

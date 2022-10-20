@@ -3,6 +3,8 @@
 
 #   include "../Server/Server.hpp"
 
+class Channel;
+
 class User {
 
     public :
@@ -15,6 +17,11 @@ class User {
 
         void addMessages(char *buffer, size_t read_size);
         std::string getFullClientIdentifier(void);
+
+        bool isInChannel(std::string channel);
+        bool isChannops(std::string channel);
+        void toBeChannops(std::string channel);
+
 
         void clearMsg();
 
@@ -51,16 +58,21 @@ class User {
         void setAllow(bool choice);
 
 
-        std::vector<std::string> getChannops(void) const;
-        void setChannops(std::string channel);
+        std::vector<std::string> getChannops(void) const;//POUBELLE
+        void setChannops(std::string channel); //POUBELLE
 
-        std::vector<std::string> channops; //accessor au dessus
 
         //liste de course des channels
-        std::vector<std::string> getChannelListByUser() const;
-        void setChannelListByUser(std::string new_channel);
+        std::vector<std::string> getChannelListByUser() const;//POUBELLE
+        void setChannelListByUser(std::string new_channel);//POUBELLE
 
-        std::vector<std::string> channels_list_by_user; //accesseur
+
+        std::vector<std::string> channops; //POUBELLE
+        std::vector<std::string> channels_list_by_user; //POUBELLE
+        
+
+        std::vector<Channel> OPSforchans; // 2 1 dans chan a mettre + ici (en meme temps)
+        std::vector<Channel> channelsJoin; 
     
     private :
 
