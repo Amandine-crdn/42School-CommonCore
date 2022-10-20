@@ -2,27 +2,46 @@
 
 void Server::partCmd(User &user, std::vector<std::string> data)
 {
-	if (data.size() != 2) { this->clientMessage(user, ERR_NEEDMOREPARAMS); return; } 
-		// check if channops list, to delete inside
-
-	std::vector<std::string> channels_list = this->split(data[1], ',');
-	std::vector<std::string>::iterator end = channels_list.end();
-	bool find;
-
-	for (std::vector<std::string>::iterator itlist = channels_list.begin(); itlist != end; itlist++)
+	if (data.size() < 2)
 	{
-		find = false;
-		for (std::vector<std::string>::iterator itc = user.channels_list_by_user.begin(); itc != user.channels_list_by_user.end();)
+		this->clientMessage(user, ERR_NEEDMOREPARAMS, data[0]);
+		return;
+	} 
+	
+	// check if channops list, to delete inside
+
+	std::vector<std::string> channels = this->split(data[1], ',');
+	std::vector<std::string>::iterator end = channels.end();
+
+	for (std::vector<std::string>::iterator itc = channels.begin(); itc != end; itc++)
+	{
+		std::string channel = *itc;
+		
+		if (this->channelExists(channel) == false)
 		{
-			if ((*itc).compare("#" + *itlist) == 0)
-			{
-				find = true;
-				itc = user.channels_list_by_user.erase(itc);
-			}
-			else
-				++itc;
-			if (find == false)
-				this->clientMessage(user, ERR_NOTONCHANNEL, *itlist);
+			this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
+			return ;
 		}
+	
+		if (user.isInChannel(channel) == false)
+		{
+			this->clientMessage(user, ERR_NOTONCHANNEL, channel);
+			return ;
+		}
+
+		/*if (user.eraseChannel(channel) == true) //segfault
+		{
+			this->eraseChannel(channel);
+			return ;
+		}*/
+
+		/**
+		 * join toto
+		 * part toto
+		 * mais existe encore si join toto...
+		 * 
+		 */
+
+		
 	}
 }

@@ -44,6 +44,8 @@ class Server {
         void checker();
         void dispatcher(User &user, std::string msg);
 
+        /*for channels*/
+        void eraseChannel(std::string channel_name);
 
         /*------- utils -------*/
 

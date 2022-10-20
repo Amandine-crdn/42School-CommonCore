@@ -47,6 +47,18 @@ void Server::check_connexion(User &user)
 	}	
 }
 
+void Server::eraseChannel(std::string channel_name)
+{
+	for (std::vector<Channel>::iterator itc = channels_list.begin(); itc != channels_list.end(); itc++)
+	{
+		if (itc->getChannelName() == channel_name)
+		{
+			this->channels_list.erase(itc);
+			return ;
+		}
+	}
+}
+
 std::vector<std::string> Server::split(std::string msg, char delimiter)
 {
 	std::vector<std::string> temp;

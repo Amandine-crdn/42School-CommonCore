@@ -5,6 +5,21 @@ void User::addChannel(std::string channel_name)
 	this->channelsJoin.push_back(Channel(channel_name));
 }
 
+bool User::eraseChannel(std::string channel_name)
+{
+	for (std::vector<Channel>::iterator itc = this->channelsJoin.begin(); itc != this->channelsJoin.end(); itc++)
+	{
+		if (channel_name == itc->getChannelName())
+		{
+			this->channelsJoin.erase(itc);
+			itc->delNbUser();
+			if (itc->getNbUser() == 0)
+				return true;
+		}
+	}
+	return false;
+}
+
 std::string Server::getTopic(std::string channel)
 {
 	for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++)

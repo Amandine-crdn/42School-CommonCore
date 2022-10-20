@@ -1,6 +1,7 @@
 #include "Channel.hpp"
 
-Channel::Channel(std::string channel_name) : channel_name(channel_name), topic("") {}
+Channel::Channel(std::string channel_name)
+: channel_name(channel_name), topic(""), nb_user(0) {}
 
 Channel::~Channel() {}
 
@@ -9,3 +10,18 @@ void Channel::setChannelName(std::string channel_name){ this->channel_name = cha
 
 std::string Channel::getTopic() const { return this->topic; }
 void Channel::setTopic(std::string topic) { this->topic = topic; }
+
+int Channel::getNbUser() const
+{
+    return nb_user;
+}
+
+void Channel::setNbUser()
+{
+    this->nb_user++;
+}
+
+void Channel::delNbUser()
+{
+     this->nb_user--;
+}

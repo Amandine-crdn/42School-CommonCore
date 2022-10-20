@@ -20,6 +20,10 @@ class Channel {
         std::string getTopic() const;
         void setTopic(std::string topic);
 
+        int getNbUser() const;
+        void setNbUser();
+        void delNbUser();
+
         std::vector<User> channops;
 
 
@@ -28,6 +32,7 @@ class Channel {
         Channel() {};
         std::string channel_name;
         std::string topic;
+        int nb_user;
 
 
 };

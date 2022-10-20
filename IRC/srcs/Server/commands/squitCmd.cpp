@@ -23,5 +23,6 @@ void Server::squitCmd(User &user, std::vector<std::string> data)
     close(this->getServerFd()); // closing the connected socket
     shutdown(this->getServerFd(), SHUT_RDWR); // closing the listening socket
     exit(-1); // squit doit exit() ?
+    //donc erase tous les user ou non necessaire a lafermeture
 
 }
