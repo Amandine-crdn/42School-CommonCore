@@ -1,6 +1,6 @@
 #include "Channel.hpp"
 
-Channel::Channel(std::string channel_name) : channel_name(channel_name), topic("No topic") {}
+Channel::Channel(std::string channel_name) : channel_name(channel_name), topic("") {}
 
 Channel::~Channel() {}
 

@@ -6,7 +6,8 @@ User::User()
 }
 
 User::User(int fd)
-: nick_name(""), user_name(""), real_name(""), first_connexion(true), visibility(true), IRCOperator(false), toDelete(false), allowPass(false)
+: nick_name(""), user_name(""), real_name(""), first_connexion(true), visibility(true),
+IRCOperator(false), toDelete(false), allowPass(false), allowCAP(false)
 {
 	this->fd = fd;
 	std::cout << "construction USER" << std::endl;
@@ -29,9 +30,11 @@ void User::clearMsg()
 
 /*------ getters and setters ------ */
 
-		
-bool User::getAllow() const { return this->allowPass; }
-void User::setAllow(bool choice) { this->allowPass = choice; }
+bool User::getAllowCAP() const { return allowCAP; }
+void User::setAllowCAP(bool choice) { allowCAP = choice; }
+
+bool User::getAllowPass() const { return this->allowPass; }
+void User::setAllowPass(bool choice) { this->allowPass = choice; }
 
 bool User::getDelete() const { return this->toDelete; }
 void User::setDelete(bool choice) { this->toDelete = choice; }

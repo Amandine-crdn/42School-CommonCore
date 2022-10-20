@@ -17,14 +17,12 @@ void Server::checker()
 
 void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fonction + switch ?
 {
-	static int allow = 0; 
-
 	std::vector<std::string> data = this->split(msg, ' ');
 
-	if (allow == 0)
+	if (user.getAllowCAP() == false)
 	{
 		if (data[0].compare("CAP") == 0)
-			allow = 1;
+			user.setAllowCAP(true);
 		return ;
 	}
 	else

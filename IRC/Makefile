@@ -12,6 +12,7 @@ OBJS_DIR	=		obj
 
 SRCS		=		main.cpp \
 					modeUtils.cpp \
+					joinUtils.cpp \
 					Channel/Channel.cpp \
 					User/User.cpp \
 					Server/ClientMessage.cpp \

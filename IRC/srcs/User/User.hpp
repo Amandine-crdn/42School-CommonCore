@@ -21,7 +21,7 @@ class User {
         bool isInChannel(std::string channel);
         bool isChannops(std::string channel);
         void toBeChannops(std::string channel);
-        void addChannel(Channel &channel);
+        void addChannel(std::string channel_name);
 
 
         void clearMsg();
@@ -55,8 +55,11 @@ class User {
         bool getDelete() const;
         void setDelete(bool choice);
 
-        bool getAllow() const;
-        void setAllow(bool choice);
+        bool getAllowPass() const;
+        void setAllowPass(bool choice);
+
+        bool getAllowCAP() const;
+        void setAllowCAP(bool choice);
 
 
         std::vector<std::string> getChannops(void) const;//POUBELLE
@@ -91,6 +94,8 @@ class User {
         bool toDelete;
         //pass
         bool allowPass;
+        //cap
+        bool allowCAP;
 
         //liste de course des channels
         //std::vector<std::string> channels_list_by_user; //accesseur

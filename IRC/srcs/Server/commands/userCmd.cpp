@@ -2,7 +2,7 @@
 
 void Server::userCmd(User &user, std::string msg, std::vector<std::string> data)
 {
-	if (user.getAllow() == false)
+	if (user.getAllowPass() == false)
 		return ;
 
 	if (data.size() < 2) 

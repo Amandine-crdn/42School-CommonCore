@@ -1,10 +1,5 @@
 #include "../Server.hpp"
 
-void User::addChannel(Channel &channel)
-{
-	this->channelsJoin.push_back(channel);
-}
-
 void Server::joinCmd(User &user, std::vector<std::string> data)
 {
 	if (data.size() < 2)
@@ -18,40 +13,41 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 
 	for (std::vector<std::string>::iterator itd = new_data.begin(); itd != new_data.end(); itd++)
 	{
-		bool correspondance = false;
-		bool find = false;
+	
+		std::string channel = *itd;
 
-		for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++)
+		if (this->channelExists(channel) == false) // le creer et l'ajouter a ses channels
 		{
-			std::string channel = itc->getChannelName();
+			this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
+			this->setChannelList(channel);
+			user.addChannel(channel);
+			std::cout << "\n 🍑 The channel " << channel << " was created" << std::endl;
 
-			if (this->channelExists(channel) == false) // le creer et l'ajouter a ses channels
-			{
-				this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
-				this->setChannelList(channel);
-				
-				user.addChannel(*itc);
-				std::cout << "\n 🍑 The channel " << channel << " was created" << std::endl;
-				
+			this->clientMessage(user, RPL_NOTOPIC, channel, "No topic");
+			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; 
+
+			user.toBeChannops(channel);
+			std::cout << "\t 🎈 You're channel's operator 🎈" << std::endl;
+
+			this->notificationJoinChannel(user, *itd); // notif ici aussi ?
+			this->notificationsUsersInChannel(user, *itd);  // a revoir
+
+			return ;
+		}
+
+		if (user.isInChannel(channel) == false) //channel existe forcement, est-il dedans, // ajouter si pas dedans
+		{
+			if (this->getTopic(channel) == "")
 				this->clientMessage(user, RPL_NOTOPIC, channel, "No topic");
-				std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; 
-				
-				user.toBeChannops(channel);
-				std::cout << "\t 🎈 You're channel's operator 🎈" << std::endl;
-				return ;
-			}
+			else
+				this->clientMessage(user, RPL_TOPIC, channel, this->getTopic(channel)); 
+			user.addChannel(channel);
+			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; 
 
-			if (user.isInChannel(channel) == false) //channel existe forcement, est-il dedans, // ajouter si pas dedans
-			{
-				this->clientMessage(user, RPL_TOPIC, itc->getChannelName(), itc->getTopic()); 
-				user.addChannel(*itc);
-				std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; 
-				
-				this->notificationJoinChannel(user, *itd); // a revoir
-				this->notificationsUsersInChannel(user, *itd);  // a revoir
+			this->notificationJoinChannel(user, *itd); // a revoir
+			this->notificationsUsersInChannel(user, *itd);  // a revoir
 
-				return ;
-			}
+			return ;
 		}	
 	}	
 				

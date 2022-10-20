@@ -10,7 +10,7 @@ void Server::passCmd(User &user, std::vector<std::string> data)
 		if (data[1].compare(this->getPassword()) == 0)
 		{
 			std::cout << "\t\t✅ Great password" << std::endl;
-			user.setAllow(true);
+			user.setAllowPass(true);
 		}
 		else
 		{

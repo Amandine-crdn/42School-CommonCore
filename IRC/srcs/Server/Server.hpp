@@ -56,6 +56,10 @@ class Server {
         void clearUser(User &user);
         void check_connexion(User &user);
 
+        /*------ utils JOIN -------*/
+        std::string getTopic(std::string channel);
+
+
         /*------- utils MODE-------*/
 
 
@@ -110,7 +114,7 @@ class Server {
 	      sockaddr_in				_sin;
 
         std::map<int, User> users_list; //POUBELLE
-        
+
         std::vector<User> utilisateurs_list;
         std::vector<Channel> channels_list;
 };
