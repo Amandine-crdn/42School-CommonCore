@@ -14,18 +14,8 @@ void Server::userCmd(User &user, std::string msg)
 	if (user.getFirstConnexion() == false)
 	{
 		this->clientMessage(user, ERR_ALREADYREGISTRED);
-		std::cout << "🇸🇯 30\n";
 		return ;
 	}
 	user.setUserName(username);
-
-//	std::cout << std::endl;
 }
 	
-	
-	
-		/*if (first == true)
-		{
-			std::cout << "🇸🇯 3\n";
-			this->quitCmd(user);
-		}*/

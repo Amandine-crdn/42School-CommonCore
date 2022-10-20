@@ -38,6 +38,15 @@ void Server::clearUser(User &user)
 	this->utilisateurs_list.erase(getUserByFd(user.getFd()));
 }
 
+void Server::check_connexion(User &user)
+{
+	if (user.getFirstConnexion() == true && user.getNickName() != "" && user.getUserName() != "")
+	{
+		user.setFirstConnexion(false);
+		this->clientMessage(user, RPL_WELCOME);
+	}	
+}
+
 std::vector<std::string> Server::split(std::string msg, char delimiter)
 {
 	std::vector<std::string> temp;

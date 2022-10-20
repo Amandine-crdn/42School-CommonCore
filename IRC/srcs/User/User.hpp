@@ -41,6 +41,10 @@ class User {
         bool getIRCOper() const;
         void setIRCOper(bool choice);
 
+        bool getDelete() const;
+        void setDelete(bool choice);
+
+
         std::vector<std::string> getChannops(void) const;
         void setChannops(std::string channel);
 
@@ -63,6 +67,8 @@ class User {
         bool visibility;
         //OPER
         bool IRCOperator;
+        //quit
+        bool toDelete;
 
         //liste de course des channels
         //std::vector<std::string> channels_list_by_user; //accesseur

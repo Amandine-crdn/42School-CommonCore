@@ -4,13 +4,10 @@ void Server::checker()
 {
 	for (std::vector<User>::iterator itb = this->beginVectorUser(); itb != this->endVectorUser(); itb++)
 	{
-		std::cout << "User n ° : " << itb->getFd() << std::endl;
-		std::cout << "Size Msg : " << itb->getMsg().size() << std::endl;
-		
 		std::vector<std::string> msg = itb->getMsg();
 		for (std::vector<std::string>::iterator itv = msg.begin(); itv != msg.end(); itv++)
 		{
-			std::cout << "\t🌈send by user n °" << itb->getFd() << " : IRSSI = >" << *itv << "<" << std::endl;
+			std::cout << "\t🍇 Sended by user n °" << itb->getFd() << " : IRSSI = >" << *itv << "<" << std::endl;
 			this->dispatcher(*itb, *itv);
 		}
 		itb->clearMsg();
@@ -28,9 +25,12 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 
 	std::vector<std::string> data = this->split(msg, ' ');
 
-	if (data[0].compare("CAP") == 0)
+	if (allow == 0)
+	{
+		if (data[0].compare("CAP") == 0)
 		allow = 1;
-	if (allow == 1)
+	}
+	else
 	{
 		if (data[0].compare("PASS") == 0)
 			this->passCmd(user, data);
@@ -38,22 +38,12 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 			this->nickCmd(user, msg);
 		else if (data[0].compare("USER") == 0)
 			this->userCmd(user, msg);
-	
-	if (user.getFirstConnexion() == true && user.getNickName() != "" && user.getUserName() != "")
-	{
-		user.setFirstConnexion(false);
-		clientMessage(user, RPL_WELCOME);
-	}	
-
-		std::cout << "🍇 DISPATCHERRRR \n";
-
-
-		if (data[0].compare("PING") == 0)
+		else if (data[0].compare("PING") == 0)
 			this->pingCmd(user, data);
-		/*if (data[0].compare("MODE") == 0)
+		else if (data[0].compare("MODE") == 0)
 			this->modeCmd(user, data);
 		else if (data[0].compare("userhost") == 0) // ambigu avec USER
-			this->userCmd(user, msg, 0); //manque : "myusername myusername localhost :my real name"
+			this->userCmd(user, msg); //manque : "myusername myusername localhost :my real name"
 		else if (data[0].compare("QUIT") == 0) 
 			this->quitCmd(user);
 		else if (data[0].compare("JOIN") == 0)
@@ -75,13 +65,28 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 		//else if (data[0].compare("KICK") == 0) 
 		//	this->topicCmd(user, data); 
 		else
-			this->clientMessage(user, ERR_UNKNOWNCOMMAND, data[0]);*/
+		{
+			std::cout << "ICI" << std::endl;
+			this->clientMessage(user, ERR_UNKNOWNCOMMAND, data[0]);
+		}
+		this->check_connexion(user);
 		// /connect localhost 6667 coco*/
 	}
 
 	data.clear();
 
-	
+	  std::vector<User>::iterator it = utilisateurs_list.begin();
+
+        while (it != utilisateurs_list.end())
+        {
+            if (it->getFirstConnexion() == true && it->getDelete() == true)
+            {
+                close(it->getFd());
+                it = utilisateurs_list.erase(it);
+            }
+            else
+                it++;
+        }
 	
 	std::cout << std::endl;
 }

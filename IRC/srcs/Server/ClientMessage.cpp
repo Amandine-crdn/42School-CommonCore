@@ -13,7 +13,6 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
         result << DELIMITER; response += result.str();
         send(user.getFd(), response.c_str(), response.size(), 0); return; }
 
-
     result << cmd << user.getNickName() << " ";
     if (cmd.compare(RPL_WELCOME) == 0)
         result << ":👋 Welcome to the Internet Relay Chat Network, " << user.getNickName() << "!" << user.getUserName() /*<< "@" << inet_ntoa(_sin.sin_addr)*/;
@@ -26,9 +25,9 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(ERR_PASSWDMISMATCH) == 0)
         result << ": ❌ Password incorrect";
     else if (cmd.compare(ERR_NICKNAMEINUSE) == 0) //channelname is nicknme not registred
-        result << user.getNickName() << " :Nickname is already in use";
+        result << channel_name << " :Nickname is already in use";
     else if (cmd.compare(ERR_ERRONEUSNICKNAME) == 0) //channelname is nicknme not registred
-        result  << channel_name << " : Your nickname has more than 9 characters "<< DELIMITER;
+        result  << channel_name << " :Your nickname has more than 9 characters"<< DELIMITER;
     else if (cmd.compare(ERR_NEEDMOREPARAMS) == 0)
         result << ":Not enough parameters"<< DELIMITER;
     else if (cmd.compare(RPL_NOTOPIC) == 0)

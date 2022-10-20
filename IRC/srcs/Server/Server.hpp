@@ -54,6 +54,7 @@ class Server {
         std::vector<User>::iterator endVectorUser();
         std::vector<User>::iterator getUserByFd(int fd);
         void clearUser(User &user);
+        void check_connexion(User &user);
 
         /*------ getters and setters ----- */
 

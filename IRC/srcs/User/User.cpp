@@ -5,7 +5,7 @@ User::User()
 	std::cout << "construction default USER" << std::endl;
 }
 
-User::User(int fd) : nick_name(""), user_name(""),first_connexion(true), IRCOperator(false)
+User::User(int fd) : nick_name(""), user_name(""),first_connexion(true), IRCOperator(false), toDelete(false)
 {
 	this->fd = fd;
 	std::cout << "construction USER" << std::endl;
@@ -27,6 +27,10 @@ void User::clearMsg()
 
 
 /*------ getters and setters ------ */
+
+bool User::getDelete() const { return this->toDelete; }
+void User::setDelete(bool choice) { this->toDelete = choice; }
+
 
 std::vector<std::string> User::getMsg() /*const */{ return this->vector_message_protocole; } 
 void User::setMsg(char *buffer, size_t read_size)
