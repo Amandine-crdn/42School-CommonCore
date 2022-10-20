@@ -12,10 +12,6 @@ void Server::checker()
 		}
 		itb->clearMsg();
 		msg.clear();
-		//this->quitCmd(*itb);
-       // close(this->getServerFd()); // closing the connected socket
-       // shutdown(this->getServerFd(), SHUT_RDWR); // closing the listening socket
-       // std::cout << "🌙 🌙 closing with die command 🌙 🌙" << std::endl;
 	}
 }
 

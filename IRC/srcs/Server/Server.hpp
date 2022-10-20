@@ -109,7 +109,8 @@ class Server {
         socklen_t				_sizeofsin;
 	      sockaddr_in				_sin;
 
-        std::map<int, User> users_list; //bin
+        std::map<int, User> users_list; //POUBELLE
+        
         std::vector<User> utilisateurs_list;
         std::vector<Channel> channels_list;
 };

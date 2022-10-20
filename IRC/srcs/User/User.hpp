@@ -21,6 +21,7 @@ class User {
         bool isInChannel(std::string channel);
         bool isChannops(std::string channel);
         void toBeChannops(std::string channel);
+        void addChannel(Channel &channel);
 
 
         void clearMsg();

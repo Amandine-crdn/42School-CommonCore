@@ -112,5 +112,5 @@ int Server::getServerFd() const { return this->server_fd; }
 std::string  Server::getPassword() const { return this->password; }
 void  Server::setPassword(std::string password) { this->password = password; }
 
-std::vector<Channel> Server::getChannelList() const { return this->channels_list; } 
-void Server::setChannelList(std::string new_channel) { this->channels_list.push_back(Channel(new_channel)); } 
+std::vector<Channel> Server::getChannelList() const { return this->channels_list; }  //POUBELLE
+void Server::setChannelList(std::string new_channel) { this->channels_list.push_back(Channel(new_channel)); }  //POUBELLE
