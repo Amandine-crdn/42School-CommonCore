@@ -34,6 +34,7 @@ SRCS		=		main.cpp \
 					Server/commands/pingCmd.cpp \
 					Server/commands/privMsg.cpp \
 					Server/commands/topicCmd.cpp \
+					Server/commands/squitCmd.cpp \
 					
 
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))

@@ -13,6 +13,7 @@ void Server::checker()
 		itb->clearMsg();
 		msg.clear();
 	}
+	std::cout << std::endl;
 }
 
 void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fonction + switch ?
@@ -40,7 +41,7 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 		else if (data[0].compare("MODE") == 0 && data[1][0] != '#')
 			this->modeUserCmd(user, data);
 		else if (data[0].compare("userhost") == 0) // ambigu avec USER
-			this->userCmd(user, msg, data); //manque : "myusername myusername localhost :my real name"
+			this->userCmd(user, msg, data);
 		else if (data[0].compare("QUIT") == 0) 
 			this->quitCmd(user);
 		else if (data[0].compare("JOIN") == 0)
@@ -59,7 +60,9 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 			this->adminCmd(user, data);
 		else if (data[0].compare("INVITE") == 0)
 			this->invitCmd(user, data);
-		//else if (data[0].compare("KICK") == 0) 
+		else if (data[0].compare("squit") == 0) //be an operator
+			this->squitCmd(user, data);
+		//else if (data[0].compare("KICK") == 0)  //be an operator
 		//	this->topicCmd(user, data); 
 		else
 		{
@@ -85,5 +88,4 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
                 it++;
         }
 	
-	std::cout << std::endl;
 }
