@@ -1,4 +1,4 @@
-// /connect localhost 6667 coco
+// 
 
 ///RMRECONNS !!
 
