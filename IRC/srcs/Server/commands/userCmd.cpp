@@ -1,6 +1,6 @@
 #include "../Server.hpp"
 
-void Server::userCmd(User &user, std::string msg, bool first)
+void Server::userCmd(User &user, std::string msg)
 {
 	std::string username;
 	
@@ -11,14 +11,14 @@ void Server::userCmd(User &user, std::string msg, bool first)
 		this->clientMessage(user, ERR_NEEDMOREPARAMS); 
 		return;
 	}
-	if (first == false)
+	if (user.getFirstConnexion() == false)
 	{
 		this->clientMessage(user, ERR_ALREADYREGISTRED);
 		std::cout << "🇸🇯 30\n";
 		return ;
 	}
 	user.setUserName(username);
-	
+
 //	std::cout << std::endl;
 }
 	

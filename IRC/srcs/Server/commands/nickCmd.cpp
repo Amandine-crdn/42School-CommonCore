@@ -1,9 +1,8 @@
  #include "../Server.hpp"
 
-void Server::nickCmd(User &user, std::string msg, bool first)
+void Server::nickCmd(User &user, std::string msg)
 {
-	(void)first;
-	std::string nickname;
+		std::string nickname;
 	
 	nickname = msg.substr(5, msg.size() - 5);
 

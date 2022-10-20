@@ -42,7 +42,6 @@ class Server {
         void sendMessage();
         void clientMessage(User &user, std::string cmd, std::string channel_name = "", std::string topic = "");
         void checker();
-        void firstConnexion(User &user, std::string message);
         void dispatcher(User &user, std::string msg);
 
 
@@ -72,9 +71,9 @@ class Server {
 
           /*------  methods CmdServer ------ */
 
-        void passCmd(User &user, std::vector<std::string> data, bool first);
-        void nickCmd(User &user, std::string msg, bool first);
-        void userCmd(User &user, std::string msg, bool first);
+        void passCmd(User &user, std::vector<std::string> data);
+        void nickCmd(User &user, std::string msg);
+        void userCmd(User &user, std::string msg);
         void quitCmd(User &user);
         void dieCmd(User &user, std::vector<std::string> data);
         void modeCmd(User &user, std::vector<std::string> data);

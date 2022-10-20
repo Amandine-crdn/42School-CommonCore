@@ -1,8 +1,8 @@
 #include "../Server.hpp"
 
-void Server::passCmd(User &user, std::vector<std::string> data, bool first)
+void Server::passCmd(User &user, std::vector<std::string> data)
 {
-	if (first == true)
+	if (user.getFirstConnexion() == true)
 	{
 		if (data[1].compare(this->getPassword()) == 0)
 			std::cout << "\t\t✅ Great password" << std::endl; 
@@ -12,6 +12,6 @@ void Server::passCmd(User &user, std::vector<std::string> data, bool first)
 			this->quitCmd(user);
 		}
 	}
-	else if (first == false)
+	else
 		this->clientMessage(user, ERR_ALREADYREGISTRED);
 }
