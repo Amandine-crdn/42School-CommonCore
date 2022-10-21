@@ -1,7 +1,7 @@
 #include "Channel.hpp"
 
 Channel::Channel(std::string channel_name)
-: channel_name(channel_name), topic(""), nb_user(0) {}
+: channel_name(channel_name), topic("No topic"), nb_user(0) {}
 
 Channel::~Channel() {}
 
@@ -29,3 +29,6 @@ void Channel::delNbUser()
 
      // + channel list
 }
+
+bool Channel::getChannop() const { return channop; }
+void Channel::setChannop(bool choice) { this->channop = choice; }

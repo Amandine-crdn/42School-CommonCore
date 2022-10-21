@@ -12,36 +12,36 @@ bool Server::channelExists(std::string channel)
 
 bool User::isInChannel(std::string channel)
 {
-    std::cout << "REJOIN : is in channel ?" << std::endl; 
     for (std::vector<Channel>::iterator itc = this->channelsJoin.begin(); itc !=  this->channelsJoin.end(); itc++)
     {
     	if (channel == itc->getChannelName())
         {
-            std::cout << "TRUE" << std::endl; 
             return true;
         }
     }
-    std::cout << "FALSE" << std::endl; 
     return false;
 }
 
 bool User::isChannops(std::string channel)
 {
-    for (std::vector<Channel>::iterator itb = this->OPSforchans.begin(); itb != this->OPSforchans.end(); itb++)
+    for (std::vector<Channel>::iterator itb = this->channelsJoin.begin(); itb != this->channelsJoin.end(); itb++)
 	{
 		if (channel == itb->getChannelName())
-			return true;
+		{
+            if (itb->getChannop() == true)
+                return true;
+        }
 	}
     return false;
 }
 
 void User::toBeChannops(std::string channel)
 {
-    for (std::vector<Channel>::iterator itb = this->OPSforchans.begin(); itb != this->OPSforchans.end(); itb++)
+    for (std::vector<Channel>::iterator itb = this->channelsJoin.begin(); itb != this->channelsJoin.end(); itb++)
 	{
 		if (channel == itb->getChannelName())
 		{
-            this->OPSforchans.push_back(*itb);
+           itb->setChannop(true);
         }
 	}
 }

@@ -41,17 +41,35 @@ std::string Server::getTopic(std::string channel)
 	return "No topic";
 }
 
+void Server::setTopic(std::string channel, std::string topic) 
+{
+	for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++)
+	{
+		if (channel == itc->getChannelName())
+		{
+			itc->setTopic(topic);
+		}
+	}
+}
+
 void Server::notificationJoinChannel(User &user, std::string channel_name) 
 {
-	for (std::vector<User>::iterator itu = utilisateurs_list.begin(); itu != utilisateurs_list.end(); itu++) {
-	for (std::vector<std::string>::iterator iterator = itu->channels_list_by_user.begin(); iterator != itu->channels_list_by_user.end(); iterator++) {
-		if ((*iterator).compare(channel_name) == 0 && user.getNickName() != itu->getNickName()) { // pas a lui-meme
-			
-			std::stringstream result_chan;
-			result_chan << ":" << user.getFullClientIdentifier() << " JOIN " << channel_name << DELIMITER;
-			std::string test = result_chan.str(); 
-			send(itu->getFd(), test.c_str(), test.length(), 0); }}}
+	for (std::vector<User>::iterator itu = utilisateurs_list.begin(); itu != utilisateurs_list.end(); itu++)
+	{
+		for (std::vector<Channel>::iterator itc = itu->channelsJoin.begin(); itc != itu->channelsJoin.end(); itc++)
+		{
+			if (itc->getChannelName() == channel_name && user.getNickName() != itu->getNickName())
+			{ // pas a lui-meme
+				
+				std::stringstream result_chan;
+				result_chan << ":" << user.getFullClientIdentifier() << " JOIN " << channel_name << DELIMITER;
+				std::string test = result_chan.str(); 
+				send(itu->getFd(), test.c_str(), test.length(), 0);
+			}
+		}
+	}
 }
+
 
 void Server::notificationsUsersInChannel(User &user, std::string channel_name)
 {
@@ -72,4 +90,21 @@ void Server::notificationsUsersInChannel(User &user, std::string channel_name)
 
 	this->clientMessage(user, RPL_NAMREPLY, channel_name, users);
 	this->clientMessage(user, RPL_ENDOFNAMES, channel_name, users);
+}
+
+
+void Server::topicExec(std::string channel_name, std::string topic)
+{	
+	this->setTopic(channel_name, topic);
+	for (std::vector<User>::iterator itu = utilisateurs_list.begin(); itu != utilisateurs_list.end(); itu++)
+	{
+		for (std::vector<Channel>::iterator itc = itu->channelsJoin.begin(); itc != itu->channelsJoin.end(); itc++)
+		{
+			if (channel_name == itc->getChannelName())
+			{
+				itc->setTopic(topic);
+				this->clientMessage(*itu, RPL_TOPIC, itc->getChannelName(), this->getTopic(channel_name));
+			}
+		}
+	}
 }

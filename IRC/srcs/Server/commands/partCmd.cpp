@@ -8,8 +8,6 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 		return;
 	} 
 	
-	// check if channops list, to delete inside
-
 	std::vector<std::string> channels = this->split(data[1], ',');
 	std::vector<std::string>::iterator end = channels.end();
 
@@ -29,9 +27,11 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 			return ;
 		}
 		
-		//on le retire du sien
 		user.eraseChannel(channel);
-		//del le user du chan + check si tjs des user sinon supprimer le channel origin
 		this->delUserToChan(channel);	
 	}
 }
+
+//envoyer une notif aux gens du channel (channeljoinnotifleave) ?
+//quitte pas vraiment si on reste sur le channel ne se ferme pas
+//bizarre

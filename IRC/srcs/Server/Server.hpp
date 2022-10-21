@@ -48,6 +48,8 @@ class Server {
         void eraseChannel(std::string channel_name);
         void addUserToChan(std::string channel_name);
         void delUserToChan(std::string channel_name);
+        void setTopic(std::string channel, std::string topic);
+        void topicExec(std::string channel_name, std::string topic);
 
         /*------- utils -------*/
 

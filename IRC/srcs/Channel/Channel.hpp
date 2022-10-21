@@ -24,7 +24,10 @@ class Channel {
         void setNbUser();
         void delNbUser();
 
-        std::vector<User> channops;
+        bool getChannop() const;
+        void setChannop(bool choice);
+
+        std::vector<User> channops; // POUBELLE
 
 
     private :
@@ -33,6 +36,7 @@ class Channel {
         std::string channel_name;
         std::string topic;
         int nb_user;
+        bool channop;
 
 
 };

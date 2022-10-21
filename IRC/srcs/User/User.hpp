@@ -76,7 +76,7 @@ class User {
         std::vector<std::string> channels_list_by_user; //POUBELLE
         
 
-        std::vector<Channel> OPSforchans; // 2 1 dans chan a mettre + ici (en meme temps)
+        std::vector<Channel> OPSforchans; //POUBELLE rempolacer par bool user/chanjoin
         std::vector<Channel> channelsJoin; 
     
     private :
