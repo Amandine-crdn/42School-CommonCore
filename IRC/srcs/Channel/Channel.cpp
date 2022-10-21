@@ -11,6 +11,7 @@ void Channel::setChannelName(std::string channel_name){ this->channel_name = cha
 std::string Channel::getTopic() const { return this->topic; }
 void Channel::setTopic(std::string topic) { this->topic = topic; }
 
+
 int Channel::getNbUser() const
 {
     return nb_user;
@@ -23,5 +24,8 @@ void Channel::setNbUser()
 
 void Channel::delNbUser()
 {
+    //pout channel join
      this->nb_user--;
+
+     // + channel list
 }

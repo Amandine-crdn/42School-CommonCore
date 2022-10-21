@@ -19,7 +19,10 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 		if (this->channelExists(channel) == false) // le creer et l'ajouter a ses channels
 		{
 			this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
+			//ajout new channel to Server::channellist
 			this->setChannelList(channel);
+			this->addUserToChan(channel);
+
 			user.addChannel(channel);
 			std::cout << "\n 🍑 The channel " << channel << " was created" << std::endl;
 
@@ -41,6 +44,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 				this->clientMessage(user, RPL_NOTOPIC, channel, "No topic");
 			else
 				this->clientMessage(user, RPL_TOPIC, channel, this->getTopic(channel)); 
+			this->addUserToChan(channel); //pour part
 			user.addChannel(channel);
 			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << *itd << " 🍀 " << std::endl; 
 

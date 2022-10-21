@@ -49,11 +49,39 @@ void Server::check_connexion(User &user)
 
 void Server::eraseChannel(std::string channel_name)
 {
-	for (std::vector<Channel>::iterator itc = channels_list.begin(); itc != channels_list.end(); itc++)
+	for (std::vector<Channel>::iterator itc = channels_list.begin(); itc != channels_list.end();)
 	{
 		if (itc->getChannelName() == channel_name)
 		{
-			this->channels_list.erase(itc);
+			itc = this->channels_list.erase(itc);
+			return ;
+		}
+		else
+			itc++;
+	}
+}
+
+void Server::addUserToChan(std::string channel_name)
+{
+	for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++)
+	{
+		if (channel_name == itc->getChannelName())
+		{
+			itc->setNbUser();
+			return ;
+		}
+	}
+}
+
+void Server::delUserToChan(std::string channel_name)
+{
+	for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++)
+	{
+		if (channel_name == itc->getChannelName())
+		{
+			itc->delNbUser();
+			if (itc->getNbUser() == 0)
+				this->eraseChannel(channel_name);
 			return ;
 		}
 	}

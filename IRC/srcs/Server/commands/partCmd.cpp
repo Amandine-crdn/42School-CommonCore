@@ -28,20 +28,10 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 			this->clientMessage(user, ERR_NOTONCHANNEL, channel);
 			return ;
 		}
-
-		/*if (user.eraseChannel(channel) == true) //segfault
-		{
-			this->eraseChannel(channel);
-			return ;
-		}*/
-
-		/**
-		 * join toto
-		 * part toto
-		 * mais existe encore si join toto...
-		 * 
-		 */
-
 		
+		//on le retire du sien
+		user.eraseChannel(channel);
+		//del le user du chan + check si tjs des user sinon supprimer le channel origin
+		this->delUserToChan(channel);	
 	}
 }

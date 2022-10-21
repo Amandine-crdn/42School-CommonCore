@@ -117,12 +117,4 @@ std::vector<Channel> Server::getChannelList() const { return this->channels_list
 void Server::setChannelList(std::string new_channel)
 {
 	this->channels_list.push_back(Channel(new_channel));
-	for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++)
-	{
-		if (new_channel == itc->getChannelName())
-		{
-			itc->setNbUser();
-			return ;
-		}
-	}
 }

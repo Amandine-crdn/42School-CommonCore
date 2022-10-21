@@ -46,6 +46,8 @@ class Server {
 
         /*for channels*/
         void eraseChannel(std::string channel_name);
+        void addUserToChan(std::string channel_name);
+        void delUserToChan(std::string channel_name);
 
         /*------- utils -------*/
 
