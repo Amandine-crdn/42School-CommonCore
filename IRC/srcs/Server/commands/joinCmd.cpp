@@ -22,8 +22,8 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 		else if (this->channelExists(channel) == false)
 		{
 			this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
-			this->addUserToChan(channel);
 			this->setChannelList(channel);
+			this->addUserToChan(user, channel); //new (to allow new /names)
 			user.addChannel(channel);
 			user.toBeChannops(channel);//
 			this->clientMessage(user, RPL_NOTOPIC, channel, "No topic");
@@ -41,7 +41,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 		else if (this->channelExists(channel) == true && user.isInChannel(channel) == false)
 		{
 			this->clientMessage(user, RPL_TOPIC, channel, this->getTopic(channel)); 
-			this->addUserToChan(channel); //pour part
+			this->addUserToChan(user, channel); //pour part
 			user.addChannel(channel);
 
 			this->notificationJoinChannel(user, channel);

@@ -2,8 +2,6 @@
 
 void Server::topicCmd(User &user, std::string msg, std::vector<std::string> data)
 { 
-
-	//
 	if (data.size() < 2)
 	{
 		this->clientMessage(user, ERR_NEEDMOREPARAMS, data[0]); // check erreur bizarre : You're not on that channel...

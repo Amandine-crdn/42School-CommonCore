@@ -51,11 +51,11 @@ void Server::modeChannelCmd(User &user, std::vector<std::string> data)
 			str.insert(0, 1, data[2][0]);
 			this->clientMessage(user, ERR_UNKNOWNMODE, str);
 		}
+		return ;
 	}
 
 
 					/*------------- MODE + o ---------------*/
-
 
 	if (data.size() == 4)
 	{
@@ -63,18 +63,15 @@ void Server::modeChannelCmd(User &user, std::vector<std::string> data)
 		//si le nickname existe dans le serveur
 		for (std::vector<User>::iterator itu = utilisateurs_list.begin(); itu != utilisateurs_list.end(); itu++) //findByNickname()
 		{
-			if (itu->getNickName() == nickname)
+			if (itu->isInChannel(channel) == false) //si le nickname fait parti du channel
 			{
-				if (itu->isInChannel(channel) == false) //si le nickname fait parti du channel
-				{
-					this->clientMessage(user, ERR_USERNOTINCHANNEL, channel, itu->getNickName());
-					return ;
-				}
-				if (itu->isChannops(channel) == false) //devient channops
-				{
-					itu->toBeChannops(channel);
-					return ;
-				}
+				this->clientMessage(user, ERR_USERNOTINCHANNEL, channel, itu->getNickName());
+				return ;
+			}
+			if (itu->isChannops(channel) == false) //devient channops
+			{
+				itu->toBeChannops(channel);
+				return ;
 			}
 		}	
 	}

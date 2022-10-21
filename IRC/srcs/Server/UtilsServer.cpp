@@ -61,13 +61,15 @@ void Server::eraseChannel(std::string channel_name)
 	}
 }
 
-void Server::addUserToChan(std::string channel_name)
+void Server::addUserToChan(User &user,std::string channel_name)
 {
 	for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++)
 	{
 		if (channel_name == itc->getChannelName())
 		{
-			itc->setNbUser();
+			itc->users_list.push_back(user.getNickName());
+			std::cout << "le premier user = " << itc->users_list[0] << std::endl;
+			itc->setNbUser(); // poubelle
 			return ;
 		}
 	}

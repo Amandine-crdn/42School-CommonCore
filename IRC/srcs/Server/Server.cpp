@@ -60,6 +60,10 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 			this->adminCmd(user, data);
 		else if (data[0].compare("INVITE") == 0)
 			this->invitCmd(user, data);
+		else if (data[0].compare("NAMES") == 0)
+			this->namesCmd(user, data);
+		else if (data[0].compare("LIST") == 0)
+			this->listCmd(user, data);
 		else if (data[0].compare("squit") == 0) //be an operator
 			this->squitCmd(user, data);
 		//else if (data[0].compare("KICK") == 0)  //be an operator

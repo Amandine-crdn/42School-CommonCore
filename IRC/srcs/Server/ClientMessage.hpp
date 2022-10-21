@@ -13,6 +13,8 @@
 #   define RPL_ADMINME "256 "
 #   define RPL_ADMINLOC1 "257 "
 #   define RPL_ADMINEMAIL "258 "
+#   define RPL_LIST "322 "
+#   define RPL_LISTEND "323 "
 #   define RPL_NOTOPIC "331 "
 #   define RPL_TOPIC "332 "
 #   define RPL_INVITING "341 "

@@ -21,8 +21,10 @@ SRCS		=		main.cpp \
 					Server/UtilsServer.cpp \
 					Server/commands/passCmd.cpp \
 					Server/commands/userCmd.cpp \
+					Server/commands/listCmd.cpp \
 					Server/commands/nickCmd.cpp \
 					Server/commands/quitCmd.cpp \
+					Server/commands/namesCmd.cpp \
 					Server/commands/dieCmd.cpp \
 					Server/commands/adminCmd.cpp \
 					Server/commands/inviteCmd.cpp \

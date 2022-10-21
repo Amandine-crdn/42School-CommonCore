@@ -63,6 +63,12 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(RPL_ENDOFNAMES) == 0)
         result << channel_name << " :End of /NAMES list";
 
+    else if (cmd.compare(RPL_LIST) == 0)
+        result << channel_name  << " # visible " << " :" << topic;
+   
+    else if (cmd.compare(RPL_LISTEND) == 0)
+        result << channel_name << " :End of LIST";
+
     
     /*----- MODE -----*/
 

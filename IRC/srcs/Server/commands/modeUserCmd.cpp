@@ -28,6 +28,6 @@ void Server::modeUserCmd(User &user, std::vector<std::string> data)
                     /*-------- MODE +i ---------*/
 
 
-    this->clientMessage(user, RPL_UMODEIS); // definit en public ?
+    //this->clientMessage(user, RPL_UMODEIS); // mets en invisible
     user.setVisibility(false); // du coup utilite ?
 }
