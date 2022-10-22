@@ -20,6 +20,7 @@ SRCS		=		main.cpp \
 					Server/Actions.cpp \
 					Server/ServerUtils.cpp \
 					Server/commands/passCmd.cpp \
+					Server/commands/timeCmd.cpp \
 					Server/commands/userCmd.cpp \
 					Server/commands/listCmd.cpp \
 					Server/commands/nickCmd.cpp \

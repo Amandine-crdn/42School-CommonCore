@@ -22,6 +22,7 @@
 #   define RPL_NAMREPLY "353 "
 #   define RPL_ENDOFNAMES "366 "
 #   define RPL_YOUREOPER "381 "
+#   define RPL_TIME "391 "
 #   define ERR_NOSUCHNICK "401 "
 #   define ERR_NOSUCHSERVER "402 "
 #   define ERR_NOSUCHCHANNEL "403 "

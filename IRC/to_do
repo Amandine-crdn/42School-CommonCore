@@ -36,3 +36,7 @@ faire des tests avec plusierus channels
 ❌ .. ?
 
 pas de diff pour l'instant entre ircop et server op, checker qui a besoin d'etre channops, =>  != /oper  
+
+server name a mettre en getter steer, et bcp d'autres aussi
+
+voir tous les if return if return par if else ifonly (pour certains!)

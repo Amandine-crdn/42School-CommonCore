@@ -1,7 +1,19 @@
 #   include "Server.hpp"
 
+
 void Server::clientMessage(User &user, std::string cmd, std::string channel_name, std::string topic)
 {
+//for timeCmd
+    time_t rawtime;
+    struct tm * timeinfo;
+    char buffer[80];
+    
+    time (&rawtime);
+    timeinfo = localtime(&rawtime);
+    strftime(buffer,sizeof(buffer),"%d-%m-%Y %H:%M:%S",timeinfo);
+    std::string str(buffer);
+
+//for all
 	std::stringstream result;
 	std::string response;
 
@@ -102,8 +114,13 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     
     /*----- OTHERS -----*/
 
+
+
     else if (cmd.compare(RPL_AWAY) == 0)
         result << channel_name << " :<away message>"; //channel name is nick // que mettre en away msg?
+   
+    else if (cmd.compare(RPL_TIME) == 0)
+        result << str << server_name << " :it's time in France";
 
     else if (cmd.compare(ERR_ALREADYREGISTRED) == 0)
         result << ":You may not reregister";

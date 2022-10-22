@@ -18,6 +18,7 @@
 #   include <ctime>
 #   include <sstream>
 #   include <cmath>
+#   include <ctime>
 
 #   include "../Channel/Channel.hpp"
 #   include "../User/User.hpp"
@@ -112,6 +113,7 @@ class Server {
         void namesCmd(User &user, std::vector<std::string> data);
         void listCmd(User &user, std::vector<std::string> data);
         void kickCmd(User &user, std::vector<std::string> data);
+        void timeCmd(User &user, std::vector<std::string> data);
             
 
         private :
