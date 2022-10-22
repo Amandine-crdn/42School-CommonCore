@@ -11,12 +11,9 @@ void Server::modeUserCmd(User &user, std::vector<std::string> data)
 		return ;
 	}
 
-    if (data[2] != "+i")
-    {
-		this->clientMessage(user, ERR_UMODEUNKNOWNFLAG);
-		return ;
-	}
-    std::string nickname = data[2];
+    std::string nickname = data[1];
+    std::string flag = data[2];
+    std::string mode;
 
     if (this->userExists(nickname) == false)
     {
@@ -24,10 +21,48 @@ void Server::modeUserCmd(User &user, std::vector<std::string> data)
         return ;
     }
 
-                    
-                    /*-------- MODE +i ---------*/
+    if (flag != "+i" && flag != "-o" && flag != "+o" && flag != "+O")
+    {
+		this->clientMessage(user, ERR_UMODEUNKNOWNFLAG);
+		return ;
+	}
 
 
-    //this->clientMessage(user, RPL_UMODEIS); // mets en invisible
-    user.setVisibility(false); // du coup utilite ?
+
+    /*-------- MODE return ; ---------*/
+
+    if (flag == "-o")
+    {
+        user.setIRCOper(false);
+        return ;
+    }
+       
+    else if (flag == "-O")            
+    {
+        user.setOpServer(false);
+        return ;
+    }
+
+
+    /*-------- MODE response ---------*/
+    else if (flag == "+o")            
+    {
+        user.setIRCOper(true);
+        mode = "Network-Operator";
+    }
+
+    else if (flag == "+O")            
+    {
+        user.setOpServer(true); 
+        mode = "Server-Operator";
+    }
+    
+    else if (flag == "+i")
+    {
+        user.setVisibility(false); // du coup utilite ?
+        mode = "Invisible";
+    }
+
+    this->clientMessage(user, RPL_UMODEIS, mode);
+
 }

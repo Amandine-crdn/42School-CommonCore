@@ -19,11 +19,8 @@ class User {
         std::string getFullClientIdentifier(void);
 
         bool isInChannel(std::string channel);
-        bool isChannops(std::string channel);
-        void toBeChannops(std::string channel);
         void addChannel(std::string channel_name);
         void delUserToChan(std::string channel_name);
-        void eraseChannel(std::string channel_name);
 
         void clearMsg();
 
@@ -38,7 +35,7 @@ class User {
         void setNickName(std::string nick_name);
         std::string getNickName();
 
-        std::vector<std::string> getMsg() /*const*/;
+        std::vector<std::string> getMsg();
         void setMsg(char *buffer, size_t read_size);
 
         bool getFirstConnexion() const;
@@ -62,22 +59,12 @@ class User {
         bool getAllowCAP() const;
         void setAllowCAP(bool choice);
 
-
-        std::vector<std::string> getChannops(void) const;//POUBELLE
-        void setChannops(std::string channel); //POUBELLE
-
-
-        //liste de course des channels
-        std::vector<std::string> getChannelListByUser() const;//POUBELLE
-        void setChannelListByUser(std::string new_channel);//POUBELLE
-
-
-        std::vector<std::string> channops; //POUBELLE
-        std::vector<std::string> channels_list_by_user; //POUBELLE
+        bool getOpServer() const;
+        void setOpServer(bool choice);
         
 
-        std::vector<Channel> OPSforchans; //POUBELLE rempolacer par bool user/chanjoin
-        std::vector<Channel> channelsJoin; 
+        std::vector<std::string> channelsJoin;
+
     
     private :
 
@@ -97,9 +84,10 @@ class User {
         bool allowPass;
         //cap
         bool allowCAP;
+        //mode +O
+        bool opServer;
 
         //liste de course des channels
-        //std::vector<std::string> channels_list_by_user; //accesseur
 };
 
 #endif

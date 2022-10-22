@@ -9,7 +9,7 @@ void Server::operCmd(User &user, std::vector<std::string> data) {
 	std::string pass = data[2];
 
 
-	if (data.size() < 2)
+	if (data.size() < 3)
 	{
 		this->clientMessage(user, ERR_NEEDMOREPARAMS, data[0]);
 		return;

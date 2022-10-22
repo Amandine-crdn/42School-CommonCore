@@ -33,6 +33,9 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
 
     /*----- CHANNEL ----*/
 
+    else if (cmd.compare(RPL_CHANNELMODEIS) == 0)
+        result << channel_name << " visible public -i";
+
     else if (cmd.compare(ERR_NOSUCHCHANNEL) == 0)
         result << channel_name << " :No such channel";
     
@@ -73,7 +76,7 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     /*----- MODE -----*/
 
     else if (cmd.compare(RPL_UMODEIS) == 0)
-        result << ":public";
+        result << channel_name; //channelname = mode envoyé
 
     else if (cmd.compare(ERR_UNKNOWNMODE) == 0)
         result << channel_name << " :is unknown mode char to me for <channel>";

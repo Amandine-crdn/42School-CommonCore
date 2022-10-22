@@ -2,6 +2,10 @@
 
 void Server::joinCmd(User &user, std::vector<std::string> data)
 {
+	/*	Once a user has joined a channel, he receives information about
+   all commands his server receives affecting the channel.  This
+   includes JOIN, MODE, KICK, PART, QUIT and of course PRIVMSG/NOTICE.*/
+
 	if (data.size() < 2)
 	{
 		this->clientMessage(user, ERR_NEEDMOREPARAMS, data[0]);
@@ -14,23 +18,21 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 	{
 		std::string channel = *itd;
 
-		if (this->channelExists(channel) == true && user.isInChannel(channel) == true)
+		/*if (this->channelExists(channel) == true && user.isInChannel(channel) == true)
 		{
 			this->clientMessage(user, RPL_TOPIC, channel, this->getTopic(channel));
+
 		}
 
-		else if (this->channelExists(channel) == false)
+		else */
+		if (this->channelExists(channel) == false)
 		{
 			this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
-			this->setChannelList(channel);
-			this->addUserToChan(user, channel); //new (to allow new /names)
+			this->addNewChannel(channel);
+			this->addUserToChan(user, channel);
 			user.addChannel(channel);
-			user.toBeChannops(channel);//
-			this->clientMessage(user, RPL_NOTOPIC, channel, "No topic");
-
-			this->notificationJoinChannel(user, channel);
-			this->notificationsUsersInChannel(user, channel);  // marche car premiere fois apres plus rien
-			
+			this->toBeChannops(user, channel);
+			this->clientMessage(user, RPL_NOTOPIC, channel, "No topic"); // position importante ?
 
 			std::cout << "\n 🍑 The channel " << channel << " was created" << std::endl;
 			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << channel << " 🍀 " << std::endl; 
@@ -41,13 +43,14 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 		else if (this->channelExists(channel) == true && user.isInChannel(channel) == false)
 		{
 			this->clientMessage(user, RPL_TOPIC, channel, this->getTopic(channel)); 
-			this->addUserToChan(user, channel); //pour part
+			this->addUserToChan(user, channel);
 			user.addChannel(channel);
 
-			this->notificationJoinChannel(user, channel);
-			this->notificationsUsersInChannel(user, channel);  // marche que pour la 1ere fois
 			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << channel << " 🍀 " << std::endl; 
-		}	
+		}
+		
+		this->notificationJoinChannel(user, channel);
+		this->notificationsUsersInChannel(user, channel);  // marche car premiere fois apres plus rien	
 	}	
 				
 }

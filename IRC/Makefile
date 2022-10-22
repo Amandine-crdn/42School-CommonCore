@@ -11,14 +11,14 @@ OBJS_DIR	=		obj
 #################	SOURCE FILES	#################
 
 SRCS		=		main.cpp \
-					modeUtils.cpp \
-					joinUtils.cpp \
 					Channel/Channel.cpp \
 					User/User.cpp \
+					User/UserUtils.cpp \
 					Server/ClientMessage.cpp \
 					Server/InitServer.cpp \
 					Server/Server.cpp \
-					Server/UtilsServer.cpp \
+					Server/Actions.cpp \
+					Server/ServerUtils.cpp \
 					Server/commands/passCmd.cpp \
 					Server/commands/userCmd.cpp \
 					Server/commands/listCmd.cpp \

@@ -27,8 +27,8 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 			return ;
 		}
 		
-		user.eraseChannel(channel);
-		this->delUserToChan(channel);	
+		user.delUserToChan(channel);
+		this->delUserToChan(user, channel);
 	}
 }
 

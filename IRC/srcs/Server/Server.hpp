@@ -30,8 +30,8 @@ class Server {
 
     public :
 
-        Server() : server_name("ft_irc") {}; // a mettre dans le cpp
-        ~Server() {};
+        Server();
+        ~Server();
 
         /*------  methods Server ------ */
 
@@ -45,11 +45,13 @@ class Server {
         void dispatcher(User &user, std::string msg);
 
         /*for channels*/
+        void addNewChannel(std::string new_channel);
+        bool isChannops(User &user, std::string channel);
+        void toBeChannops(User &user, std::string channel);
         void eraseChannel(std::string channel_name);
         void addUserToChan(User &user, std::string channel_name);
-        void delUserToChan(std::string channel_name);
+        void delUserToChan(User &user, std::string channel_name);
         void setTopic(std::string channel, std::string topic);
-        void topicExec(std::string channel_name, std::string topic);
 
         /*------- utils -------*/
 
@@ -82,8 +84,6 @@ class Server {
         std::vector<pollfd> getPollFds() const;
         void setPollFds(pollfd poll_fd);
 
-        std::vector<Channel> getChannelList() const;
-        void setChannelList(std::string new_channel);
 
         void setUser(int fd);
 
@@ -121,8 +121,6 @@ class Server {
         std::vector<pollfd>		_pollfds;
         socklen_t				_sizeofsin;
 	      sockaddr_in				_sin;
-
-        std::map<int, User> users_list; //POUBELLE
 
         std::vector<User> utilisateurs_list;
         std::vector<Channel> channels_list;

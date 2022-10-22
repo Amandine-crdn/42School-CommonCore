@@ -5,10 +5,10 @@ void Server::invitCmd(User &user, std::vector<std::string> data) {
 	if (data.size() < 3) {
 		this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 	
-	std::string username = data[1];
+	/*std::string username = data[1];
 	std::string channel = data[2];
 	bool find = false;
-	std::map<int, User>::iterator itu;
+	std::map<int, User>::iterator itu; // refaire avec vector
 
 	for (itu = users_list.begin(); itu != users_list.end(); itu++) {
 		if (itu->second.getNickName().compare(username) == 0) { find = true; break; }}
@@ -26,6 +26,6 @@ void Server::invitCmd(User &user, std::vector<std::string> data) {
 			//c'est good
 			this->clientMessage(user, RPL_INVITING, channel, username); return ;}
 	}
-	this->clientMessage(user, ERR_NOTONCHANNEL);
+	this->clientMessage(user, ERR_NOTONCHANNEL);*/
 //RPL_AWAY
 }

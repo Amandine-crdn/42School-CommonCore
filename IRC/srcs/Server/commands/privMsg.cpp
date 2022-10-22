@@ -8,7 +8,7 @@ void Server::privMsgCmd(User &user, std::string data) {
 
 	if (!client.size() || !message.size()) { clientMessage(user, ERR_NEEDMOREPARAMS); return; }
 		
-		for (std::vector<std::string>::iterator itc = client.begin(); itc != client.end(); itc++)
+	/*	for (std::vector<std::string>::iterator itc = client.begin(); itc != client.end(); itc++)
 		{
 			//envoyer message aux clients
 			for (std::vector<User>::iterator itv = utilisateurs_list.begin(); itv != utilisateurs_list.end(); itv++) {
@@ -28,5 +28,5 @@ void Server::privMsgCmd(User &user, std::string data) {
 								result_chan << ":" << user.getNickName() << " PRIVMSG " << itchan->getChannelName() << " :" << message << DELIMITER;
 								std::string test = result_chan.str(); 
 								send(itu->getFd(), test.c_str(), test.length(), 0); }}}}}
-		}
+		}*/
 }

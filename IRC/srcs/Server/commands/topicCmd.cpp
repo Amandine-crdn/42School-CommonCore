@@ -25,14 +25,14 @@ void Server::topicCmd(User &user, std::string msg, std::vector<std::string> data
 		return ;
 	}
 
-	if (user.isChannops(channel_name) == false) // fait quitter le client de la fenetre du channel!! et apres ecrit no top
+	if (this->isChannops(user, channel_name) == false) // fait quitter le client de la fenetre du channel!! et apres ecrit no top
 	{ // les notif de join se font apres surt le terminal... // et apres 2eme essai indique le msg
 		this->clientMessage(user, ERR_CHANOPRIVSNEEDED, channel_name);
 		return ;
 	}
 
 	std::string topic = this->split(msg, ':')[1];
-	this->topicExec(channel_name, topic);
+	this->setTopic(channel_name, topic);
 	
 	//change poour les autres (channel origine ok), channel meme (joinchannel ne semble pas le changer)
 }

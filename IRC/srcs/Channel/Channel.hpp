@@ -30,6 +30,7 @@ class Channel {
         std::vector<User> channops; // POUBELLE
         std::vector<std::string> users_list; // au lieu de setnb etc, faire size de ce vector +++++
 
+        std::vector<std::string> channops_list;
 
     private :
 

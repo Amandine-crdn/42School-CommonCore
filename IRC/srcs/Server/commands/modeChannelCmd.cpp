@@ -12,11 +12,10 @@ void Server::modeChannelCmd(User &user, std::vector<std::string> data)
 	}
 
 	std::string channel = data[1];
-	std::cout << "channel = " << channel << std::endl;
 
 	if (data.size() == 2)
 	{
-		this->clientMessage(user, ERR_NOCHANMODES, channel);
+		this->clientMessage(user, RPL_CHANNELMODEIS, channel); // n'apparait pas dans la fenetre client
 		return ;
 	}
 
@@ -32,7 +31,7 @@ void Server::modeChannelCmd(User &user, std::vector<std::string> data)
 		return ;
 	}
 
-	if (user.isChannops(channel) == false)
+	if (this->isChannops(user, channel) == false)
 	{
 		this->clientMessage(user, ERR_CHANOPRIVSNEEDED, channel);
 		return ;
@@ -68,9 +67,9 @@ void Server::modeChannelCmd(User &user, std::vector<std::string> data)
 				this->clientMessage(user, ERR_USERNOTINCHANNEL, channel, itu->getNickName());
 				return ;
 			}
-			if (itu->isChannops(channel) == false) //devient channops
+			if (this->isChannops(user, channel) == false) //devient channops
 			{
-				itu->toBeChannops(channel);
+				this->toBeChannops(user, channel);
 				return ;
 			}
 		}	
