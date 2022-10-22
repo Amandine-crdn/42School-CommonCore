@@ -6,12 +6,12 @@
 ✔️oper
 ✔️pass
 ✔️user
-✔️ping
 ✔️quit
 ✔️
 ✔️
 ✔️
 
+〰️ping : repond mais n'envoie pas de pong comme demander
 
 〰️topic : ne change pas 
 
@@ -32,11 +32,24 @@
 repertorier tous les if des channops etc pour regler le tout qui doit faire quoi qui peut quoi (dont tout mode user)
 
 faire des tests avec plusierus channels
-❌ who, etc
-❌ .. ?
+❌ kill
+
+
+❌ who, whois, whowas ??
+
+//not mandatory
+❌ AWAY
+❌ Users
+❌ WALLOPS
+
+⚠️ ⚠️ ⚠️ ⚠️ ⚠️ userhost != user !! ⚠️ ⚠️ ⚠️ ⚠️ 
 
 pas de diff pour l'instant entre ircop et server op, checker qui a besoin d'etre channops, =>  != /oper  
 
 server name a mettre en getter steer, et bcp d'autres aussi
 
 voir tous les if return if return par if else ifonly (pour certains!)
+
+
+diff entre kill(pas encore fait d'ailleurs), squit, quit, die
+kill == to make quit an user if person is operator ?
