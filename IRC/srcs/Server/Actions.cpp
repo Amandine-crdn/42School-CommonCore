@@ -55,7 +55,7 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 		else if (data[0].compare("TOPIC") == 0)
 			this->topicCmd(user, msg, data); 
 		else if (data[0].compare("die") == 0)
-			this->dieCmd(user, data);
+			this->dieCmd(user);
 		else if (data[0].compare("admin") == 0)
 			this->adminCmd(user, data);
 		else if (data[0].compare("INVITE") == 0)

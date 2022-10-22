@@ -1,11 +1,10 @@
 #include "../Server.hpp"
 
-void Server::namesCmd(User &user, std::vector<std::string> data) // pas du tout fini avec les multi channel
+void Server::namesCmd(User &user, std::vector<std::string> data)
 {
     std::vector<std::string> channels = this->split(data[1], ',');
 
     std::string users;
-    std::string final_string;
 
     for(std::vector<std::string>::iterator itv = channels.begin(); itv != channels.end(); itv++)
     {
@@ -13,24 +12,15 @@ void Server::namesCmd(User &user, std::vector<std::string> data) // pas du tout 
         {
             if (itc->getChannelName() == *itv)
             {
-                std::cout << "entrer" << std::endl;
                 for (std::vector<std::string>::iterator itu = itc->users_list.begin(); itu != itc->users_list.end(); itu++)
                 {
                     users += "@";
                     users += *itu;
                     users += " ";
                 }
+                this->clientMessage(user, RPL_NAMREPLY, itc->getChannelName(), users);
+                this->clientMessage(user, RPL_ENDOFNAMES, itc->getChannelName());
             }
-            this->clientMessage(user, RPL_NAMREPLY, itc->getChannelName(), users);
-            this->clientMessage(user, RPL_ENDOFNAMES, itc->getChannelName());
         }
-        
-           // this->notificationsUsersInChannel(user, channel);
-
-    /* if (this->channelExists(channel) == false)
-        {
-            this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
-            return ;
-        }*/
     }
 }

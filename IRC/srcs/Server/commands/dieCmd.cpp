@@ -1,13 +1,14 @@
 #include "../Server.hpp"
 
-void Server::dieCmd(User &user, std::vector<std::string> data) { 
+void Server::dieCmd(User &user)
+{ 
+	if (user.getIRCOper() == false)
+    {
+		this->clientMessage(user, ERR_NOPRIVILEGES);
+		return;
+    }
 
-	(void)data;
-	//if (data.size() > 1) { this->clientMessage(user, ERR_NEEDMOREPARAMS); return; }
-
-	//if (user.getIRCOper() == false) { this->clientMessage(user, ERR_NOPRIVILEGES); return; }
-
-	//erase all users
+	//erase all users ?
 	this->quitCmd(user);
 	close(this->getServerFd()); // closing the connected socket
     shutdown(this->getServerFd(), SHUT_RDWR); // closing the listening socket

@@ -15,7 +15,8 @@ void Server::modeChannelCmd(User &user, std::vector<std::string> data)
 
 	if (data.size() == 2)
 	{
-		this->clientMessage(user, RPL_CHANNELMODEIS, channel); // n'apparait pas dans la fenetre client
+		//this->clientMessage(user, ERR_NOCHANMODES, channel); // channel devient inaccessible
+		this->clientMessage(user, RPL_CHANNELMODEIS, channel); // n'apparait pas dans la fenetre client mais provoque le WHO, donc semble ok
 		return ;
 	}
 
@@ -59,18 +60,22 @@ void Server::modeChannelCmd(User &user, std::vector<std::string> data)
 	if (data.size() == 4)
 	{
 		std::string nickname = data[3];
-		//si le nickname existe dans le serveur
-		for (std::vector<User>::iterator itu = utilisateurs_list.begin(); itu != utilisateurs_list.end(); itu++) //findByNickname()
+		
+		if (this->userExist(nickname) == false)
 		{
-			if (itu->isInChannel(channel) == false) //si le nickname fait parti du channel
+			this->clientMessage(user, ERR_NOSUCHNICK, channel, nickname);
+			return ;
+		}
+
+		for (std::vector<User>::iterator itu = utilisateurs_list.begin(); itu != utilisateurs_list.end(); itu++)
+		{
+			if (itu->getNickName() == nickname)
 			{
-				this->clientMessage(user, ERR_USERNOTINCHANNEL, channel, itu->getNickName());
-				return ;
-			}
-			if (this->isChannops(user, channel) == false) //devient channops
-			{
-				this->toBeChannops(user, channel);
-				return ;
+				if (this->isChannops(*itu, channel) == false)
+				{
+					this->toBeChannops(*itu, channel); // message de reussite ??
+					return ;
+				}
 			}
 		}	
 	}

@@ -18,13 +18,6 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 	{
 		std::string channel = *itd;
 
-		/*if (this->channelExists(channel) == true && user.isInChannel(channel) == true)
-		{
-			this->clientMessage(user, RPL_TOPIC, channel, this->getTopic(channel));
-
-		}
-
-		else */
 		if (this->channelExists(channel) == false)
 		{
 			this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
@@ -32,7 +25,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 			this->addUserToChan(user, channel);
 			user.addChannel(channel);
 			this->toBeChannops(user, channel);
-			this->clientMessage(user, RPL_NOTOPIC, channel, "No topic"); // position importante ?
+			this->clientMessage(user, RPL_NOTOPIC, channel, "No topic");
 
 			std::cout << "\n 🍑 The channel " << channel << " was created" << std::endl;
 			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << channel << " 🍀 " << std::endl; 
@@ -48,9 +41,9 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 
 			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << channel << " 🍀 " << std::endl; 
 		}
-		
+
 		this->notificationJoinChannel(user, channel);
-		this->notificationsUsersInChannel(user, channel);  // marche car premiere fois apres plus rien	
+		this->notificationsUsersInChannel(user, channel);
 	}	
 				
 }

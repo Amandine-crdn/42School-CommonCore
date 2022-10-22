@@ -1,0 +1,35 @@
+
+✔️list
+✔️names
+✔️admin
+✔️nick
+✔️oper
+✔️pass
+✔️user
+✔️ping
+✔️quit
+✔️
+✔️
+✔️
+
+
+〰️topic : ne change pas 
+
+〰️join : doit etre taper 2 fois pour rentrer (que pour la 1ere fois) => bug pour autre utilisateur
+
+〰️privmsg : /msg #r d channel non trouver n'affiche pas l'erreur mais affiche sur la console, nick non trouver affcihe erreur mais pas sur la console
+
+〰️ part #cc : works must make command twice to disapear window
+
+〰️ mode #toto :
+    -  mode/#toto [visible public -i], pas sur pour l'affichage du mode/
+    -  devient channops OK, juste pas de message pour le client, normal ?
+
+〰️ invite : le message s'affiche coté serveur, "notif [] dans irssi MAIS mais rien coté irssi, cependant reste fonctionnel
+
+〰️ die, squit : ERR_NOPRIVILEGES generale ServerOPR or IRCOoperator + exit() + erase users, channel ?
+
+repertorier tous les if des channops etc pour regler le tout qui doit faire quoi qui peut quoi (dont tout mode user)
+
+❌ who, etc
+❌ .. ?

@@ -44,6 +44,10 @@ class Server {
         void checker();
         void dispatcher(User &user, std::string msg);
 
+        /*for users*/
+        bool userExist(std::string username);
+        bool isInChannel(std::string channel, std::string nickname);
+
         /*for channels*/
         void addNewChannel(std::string new_channel);
         bool isChannops(User &user, std::string channel);
@@ -93,7 +97,7 @@ class Server {
         void nickCmd(User &user, std::string msg, std::vector<std::string> data);
         void userCmd(User &user, std::string msg, std::vector<std::string> data);
         void quitCmd(User &user);
-        void dieCmd(User &user, std::vector<std::string> data);
+        void dieCmd(User &user);
         void modeChannelCmd(User &user, std::vector<std::string> data);
         void modeUserCmd(User &user, std::vector<std::string> data);
         void pingCmd(User &user, std::vector<std::string> data);

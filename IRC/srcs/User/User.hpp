@@ -20,7 +20,6 @@ class User {
 
         bool isInChannel(std::string channel);
         void addChannel(std::string channel_name);
-        void delUserToChan(std::string channel_name);
 
         void clearMsg();
 

@@ -9,9 +9,8 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 	} 
 	
 	std::vector<std::string> channels = this->split(data[1], ',');
-	std::vector<std::string>::iterator end = channels.end();
 
-	for (std::vector<std::string>::iterator itc = channels.begin(); itc != end; itc++)
+	for (std::vector<std::string>::iterator itc = channels.begin(); itc != channels.end(); itc++)
 	{
 		std::string channel = *itc;
 		
@@ -27,8 +26,8 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 			return ;
 		}
 		
-		user.delUserToChan(channel);
 		this->delUserToChan(user, channel);
+		//this->delUserToChan(user, channel);
 	}
 }
 

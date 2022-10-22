@@ -30,7 +30,6 @@ std::vector<User>::iterator Server::getUserByFd(int fd)
 	return (itb);
 }
 
-
 bool User::isInChannel(std::string channel)
 {
     for (std::vector<std::string>::iterator itc = this->channelsJoin.begin(); itc !=  this->channelsJoin.end(); itc++)
@@ -48,17 +47,4 @@ void User::addChannel(std::string channel_name) //just allow to know if channops
 	this->channelsJoin.push_back(channel_name);	
 }
 
-void User::delUserToChan(std::string channel_name)
-{
-	for (std::vector<std::string>::iterator itc = this->channelsJoin.begin(); itc != this->channelsJoin.end();)
-	{
-		if (channel_name == *itc)
-		{
-            this->channelsJoin.erase(itc);
-			return ;
-		}
-        else
-            itc++;
-	}
-}
 

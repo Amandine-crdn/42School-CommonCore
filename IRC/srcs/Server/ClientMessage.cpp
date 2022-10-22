@@ -85,7 +85,22 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
         result << " :Unknown MODE flag";
 
    
+    /*----- PRIVMSG -----*/
+
+    else if (cmd.compare(ERR_NORECIPIENT) == 0)
+        result << " :No recipient given (" << channel_name << ")"; //channel name = commande
+    
+    else if (cmd.compare(ERR_CANNOTSENDTOCHAN) == 0)
+        result << channel_name << " :Cannot send to channel";
+    
+    else if (cmd.compare(ERR_NOTEXTTOSEND) == 0)
+        result << " :No text to send";
+
+    
     /*----- OTHERS -----*/
+
+    else if (cmd.compare(RPL_AWAY) == 0)
+        result << channel_name << " :<away message>"; //channel name is nick // que mettre en away msg?
 
     else if (cmd.compare(ERR_ALREADYREGISTRED) == 0)
         result << ":You may not reregister";

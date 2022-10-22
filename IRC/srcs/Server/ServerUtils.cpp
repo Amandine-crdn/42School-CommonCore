@@ -149,6 +149,7 @@ void Server::delUserToChan(User &user, std::string channel_name)
 			{
 				if (*itu == user.getNickName())
 				{
+					std::cout << "delete" << std::endl;
 					itu = itc->users_list.erase(itu);
 					if (itc->users_list.size() == 0)
 						this->eraseChannel(channel_name);
@@ -176,6 +177,35 @@ void Server::eraseChannel(std::string channel_name)
 }
 
 //
+
+bool Server::isInChannel(std::string channel, std::string nickname)
+{
+    for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc !=  this->channels_list.end(); itc++)
+    {
+		if (channel == itc->getChannelName())
+		{
+			for (std::vector<std::string>::iterator itu = itc->users_list.begin(); itu != itc->users_list.end(); itu++)
+			{
+				if (nickname == *itu)
+					return true;
+			}
+		}
+    }
+    return false;
+}
+
+bool Server::userExist(std::string username)
+{
+	for (std::vector<User>::iterator itu = utilisateurs_list.begin(); itu != utilisateurs_list.end(); itu++)
+	{
+		if (itu->getNickName() == username)
+		{
+			return true ;
+		}
+	}
+	return false ;
+}
+
 void Server::setUser(int fd)
 {
 	utilisateurs_list.push_back(User(fd));
