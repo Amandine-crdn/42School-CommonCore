@@ -54,7 +54,7 @@ class Server {
         void toBeChannops(User &user, std::string channel);
         void eraseChannel(std::string channel_name);
         void addUserToChan(User &user, std::string channel_name);
-        void delUserToChan(User &user, std::string channel_name);
+        void delUserToChan(std::string nickname, std::string channel_name);
         void setTopic(std::string channel, std::string topic);
 
         /*------- utils -------*/
@@ -111,7 +111,7 @@ class Server {
         void squitCmd(User &user, std::vector<std::string> data);
         void namesCmd(User &user, std::vector<std::string> data);
         void listCmd(User &user, std::vector<std::string> data);
-        // void kickCmd(User &user, std::vector<std::string> data);
+        void kickCmd(User &user, std::vector<std::string> data);
             
 
         private :

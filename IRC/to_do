@@ -31,5 +31,8 @@
 
 repertorier tous les if des channops etc pour regler le tout qui doit faire quoi qui peut quoi (dont tout mode user)
 
+faire des tests avec plusierus channels
 ❌ who, etc
 ❌ .. ?
+
+pas de diff pour l'instant entre ircop et server op, checker qui a besoin d'etre channops, =>  != /oper  

@@ -15,18 +15,12 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 		std::string channel = *itc;
 		
 		if (this->channelExists(channel) == false)
-		{
 			this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
-			return ;
-		}
 	
 		if (user.isInChannel(channel) == false)
-		{
 			this->clientMessage(user, ERR_NOTONCHANNEL, channel);
-			return ;
-		}
-		
-		this->delUserToChan(user, channel);
+
+		this->delUserToChan(user.getNickName(), channel);
 		//this->delUserToChan(user, channel);
 	}
 }

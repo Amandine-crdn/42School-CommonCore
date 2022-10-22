@@ -66,8 +66,8 @@ void Server::dispatcher(User &user, std::string msg) //voir pour pointeur sur fo
 			this->listCmd(user, data);
 		else if (data[0].compare("squit") == 0) //be an operator
 			this->squitCmd(user, data);
-		//else if (data[0].compare("KICK") == 0)  //be an operator
-		//	this->topicCmd(user, data); 
+		else if (data[0].compare("KICK") == 0)  //be an operator
+			this->kickCmd(user, data); 
 		else
 		{
 			std::cout << "ICI" << std::endl;

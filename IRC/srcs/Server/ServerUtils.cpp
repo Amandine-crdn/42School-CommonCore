@@ -139,7 +139,7 @@ void Server::addUserToChan(User &user,std::string channel_name)
 	}
 }
 
-void Server::delUserToChan(User &user, std::string channel_name)
+void Server::delUserToChan(std::string nickname, std::string channel_name)
 {
 	for (std::vector<Channel>::iterator itc = this->channels_list.begin(); itc != this->channels_list.end(); itc++)
 	{
@@ -147,7 +147,7 @@ void Server::delUserToChan(User &user, std::string channel_name)
 		{
 			for (std::vector<std::string>::iterator itu = itc->users_list.begin(); itu != itc->users_list.end();)
 			{
-				if (*itu == user.getNickName())
+				if (*itu == nickname)
 				{
 					std::cout << "delete" << std::endl;
 					itu = itc->users_list.erase(itu);

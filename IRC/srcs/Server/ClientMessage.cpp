@@ -72,7 +72,10 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(RPL_LISTEND) == 0)
         result << channel_name << " :End of LIST";
 
-    
+    else if (cmd.compare(ERR_BADCHANMASK) == 0)
+        result << channel_name << " :Bad Channel Mask";
+
+
     /*----- MODE -----*/
 
     else if (cmd.compare(RPL_UMODEIS) == 0)

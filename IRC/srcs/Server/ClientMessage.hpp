@@ -39,6 +39,7 @@
 #   define ERR_NEEDMOREPARAMS "461 "
 #   define ERR_PASSWDMISMATCH "464 "
 #   define ERR_UNKNOWNMODE "472 "
+#   define ERR_BADCHANMASK "476 "
 #   define ERR_NOCHANMODES "477 "
 #   define ERR_CHANOPRIVSNEEDED "482 "
 #   define ERR_NOPRIVILEGES "481 "

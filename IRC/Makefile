@@ -26,6 +26,7 @@ SRCS		=		main.cpp \
 					Server/commands/quitCmd.cpp \
 					Server/commands/namesCmd.cpp \
 					Server/commands/dieCmd.cpp \
+					Server/commands/kickCmd.cpp \
 					Server/commands/adminCmd.cpp \
 					Server/commands/inviteCmd.cpp \
 					Server/commands/joinCmd.cpp \
