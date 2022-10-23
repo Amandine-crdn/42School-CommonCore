@@ -18,6 +18,7 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
 	std::string response;
 
    /*    */
+
     result << cmd << user.getNickName() << " ";
       
     /*---- BEGIN PROCEDURE WLC -----*/

@@ -27,9 +27,9 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 			this->toBeChannops(user, channel);
 			this->clientMessage(user, RPL_NOTOPIC, channel, "No topic");
 
-			std::cout << "\n 🍑 The channel " << channel << " was created" << std::endl;
+			/*std::cout << "\n 🍑 The channel " << channel << " was created" << std::endl;
 			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << channel << " 🍀 " << std::endl; 
-			std::cout << "\t 🎈 You're channel's operator 🎈" << std::endl;
+			std::cout << "\t 🎈 You're channel's operator 🎈" << std::endl;*/
 
 		}
 
@@ -39,7 +39,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 			this->addUserToChan(user, channel);
 			user.addChannel(channel);
 
-			std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << channel << " 🍀 " << std::endl; 
+			//std::cout << "\t 🍀 " << user.getNickName() << "! Welcome to "  << channel << " 🍀 " << std::endl; 
 		}
 
 		this->notificationJoinChannel(user, channel);
