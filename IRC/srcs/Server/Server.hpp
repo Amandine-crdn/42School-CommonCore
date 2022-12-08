@@ -123,7 +123,7 @@ class Server {
         std::string password;
         std::string server_name;
        
-        std::vector<pollfd> poll_fds;
+        std::vector<pollfd> poll_fds; // euh les 2 ?? //supp
         std::vector<pollfd>		_pollfds;
         socklen_t				_sizeofsin;
 	      sockaddr_in				_sin;

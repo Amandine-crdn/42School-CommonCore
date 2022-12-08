@@ -2,8 +2,8 @@
 
 void Server::passCmd(User &user, std::vector<std::string> data)
 {
-	if (data.size() == 0)
-		this->clientMessage(user, ERR_NEEDMOREPARAMS, data[0]);
+	if (data.size() == 0) // <= 1
+		this->clientMessage(user, ERR_NEEDMOREPARAMS, data[0]); //return ?
 
 	if (user.getFirstConnexion() == true)
 	{

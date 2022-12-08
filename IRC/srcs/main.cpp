@@ -12,8 +12,6 @@ int main(int argc, const char **argv)
         server.connect(); //poll + accept
         server.intercept(); //protocole msg
         server.checker(); //first co or next
-        
-      
     }
 
     //1 ou les 2 ?

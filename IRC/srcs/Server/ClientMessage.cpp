@@ -1,6 +1,5 @@
 #   include "Server.hpp"
 
-
 void Server::clientMessage(User &user, std::string cmd, std::string channel_name, std::string topic)
 {
 //for timeCmd
@@ -130,7 +129,7 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
         result << ": ❌ Password incorrect";
     
     else if (cmd.compare(ERR_NEEDMOREPARAMS) == 0) //channel_name is command name
-        result << channel_name << " :Not enough parameters"<< DELIMITER;
+        result << channel_name << " :Not enough parameters" << DELIMITER;
    
     else if (cmd.compare(RPL_YOUREOPER) == 0)
         result << ":You are now an IRC operator"<< DELIMITER;
@@ -165,7 +164,7 @@ void Server::clientMessage(User &user, std::string cmd, std::string channel_name
     else if (cmd.compare(RPL_INVITING) == 0)
         result << topic << " " << channel_name; 
 
-    result << DELIMITER;
+    result << DELIMITER; //check delimiter  des autres inutiles
     response += result.str();
     send(user.getFd(), response.c_str(), response.size(), 0); 
 }

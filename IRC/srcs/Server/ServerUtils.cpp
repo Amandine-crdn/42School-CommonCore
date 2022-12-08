@@ -213,7 +213,7 @@ void Server::setUser(int fd)
 
 void Server::clearUser(User &user)
 {
-	this->utilisateurs_list.erase(getUserByFd(user.getFd()));
+	this->utilisateurs_list.erase(getUserByFd(user.getFd())); //a check
 }
 
 void Server::check_connexion(User &user)
