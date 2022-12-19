@@ -30,5 +30,3 @@ void Channel::delNbUser()
      // + channel list
 }
 
-bool Channel::getChannop() const { return this->channop; }
-void Channel::setChannop(bool choice) { this->channop = choice; }

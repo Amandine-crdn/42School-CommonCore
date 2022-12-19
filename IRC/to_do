@@ -1,3 +1,74 @@
+Claire 🎅🎄 : 
+
+admin
+die
+nick
+oper
+pass
+ping
+quit
+squit
+user
+
+Amandine 🎈🍒 :
+
+invite
+join
+kick
+list
+mode 1 et 2
+names
+part
+privmsg
+time
+topic
+
+
+
+
+
+------------------------------------------------------------------------------------
+WITH CLAIRE
+
+
+MODE +i bonne reception, cependant voir usage
+MODE +o (le reste) bonne reception mais mauvais msg de irssi , voir usage
+
+PING revoir les numeric replies
+
+voir les differences et les usages des operator (channops, ircoperator, serveroperator)
+
+JOIN faire la recpetion de MODE #channel + WHO #channel
+    RPL  RPL_TOPICWHOTIME (333) 
+    pas d'arobase pour l'un des deux qui envoie un message dans le channel
+    topic for #toto: No topic is set : toutes les 5min la notif est envoyé... solution whotime peut-etre ?
+
+MSG pas d'arobase ?
+    si plusieurs user : a verif car retour nop : si envoie a soi-meme, refuser : usergroup
+    /msg toto, toto, toto, uu
+    
+Laisser le serveur jouer tout seul
+
+TOPIC ne marche plus
+
+Quit command, quand irssi quitte, aller dans initserver Ligne 83, check leak 
+
+SQUIT verfier aucun leak de open + leak tout court (use, channel)
+
+PART ne focntionne pas
+
+ADMIN : RPL_ADMINLOC2 (258) 
+
+TIME : timestamp à mettre dans le result directement
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
 
 ✔️list
 ✔️names

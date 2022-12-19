@@ -8,10 +8,9 @@ void Server::dieCmd(User &user)
 		return;
     }
 
-	//erase all users ?
-	this->quitCmd(user);
 	close(this->getServerFd()); // closing the connected socket
     shutdown(this->getServerFd(), SHUT_RDWR); // closing the listening socket
+
     std::cout << "🌙 🌙 closing with die command 🌙 🌙" << std::endl;
-	exit (0);
+    exit(0);
 }

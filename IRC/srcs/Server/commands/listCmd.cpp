@@ -2,7 +2,7 @@
 
 void Server::listCmd(User &user, std::vector<std::string> data)
 {
-    if (data.size() == 1 || data[1].compare("YES") == 0)
+    if (data.size() == 1 || data[1].compare("-YES") == 0)
     {
         for (std::vector<Channel>::iterator itc = channels_list.begin(); itc != channels_list.end(); itc++)
         {

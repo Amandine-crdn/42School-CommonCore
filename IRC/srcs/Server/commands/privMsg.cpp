@@ -46,7 +46,7 @@ void Server::privMsgCmd(User &user, std::string data)
 			{				
 				for (std::vector<std::string>::iterator itu = itv->users_list.begin(); itu != itv->users_list.end(); itu++)
 				{
-					for (std::vector<User>::iterator itd = utilisateurs_list.begin(); itd != utilisateurs_list.end(); itd++)
+					for (std::vector<User>::iterator itd = this->utilisateurs_list.begin(); itd != this->utilisateurs_list.end(); itd++)
 					{
 						if (*itu == itd->getNickName() && user.getNickName() != itd->getNickName())
 						{

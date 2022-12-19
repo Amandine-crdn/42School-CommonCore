@@ -20,13 +20,15 @@ void Server::squitCmd(User &user, std::vector<std::string> data)
         return ;
     }
 
+    //close les fd de tous les user ?
+
     close(this->getServerFd()); // closing the connected socket
     shutdown(this->getServerFd(), SHUT_RDWR); // closing the listening socket
     
+    //rajouter la fonction de delete des user ?
     std::cout << "🌙 🌙 closing with squitCmd command 🌙 🌙" << std::endl;
 
-    exit(-1); // squit doit exit() ?
+    exit(0); // squit doit exit() ?
     
-    //donc erase tous les user ou non necessaire a lafermeture
 
-}
+}//connect localhost 6667 coco

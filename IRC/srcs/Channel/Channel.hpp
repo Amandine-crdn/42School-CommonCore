@@ -24,9 +24,6 @@ class Channel {
         void setNbUser();
         void delNbUser();
 
-        bool getChannop() const;
-        void setChannop(bool choice);
-
         std::vector<User> channops; // POUBELLE
         std::vector<std::string> users_list; // au lieu de setnb etc, faire size de ce vector +++++
 

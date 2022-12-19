@@ -23,7 +23,7 @@ void Server::joinCmd(User &user, std::vector<std::string> data)
 			this->clientMessage(user, ERR_NOSUCHCHANNEL, channel);
 			this->addNewChannel(channel);
 			this->addUserToChan(user, channel);
-			user.addChannel(channel);
+			user.addChannel(channel); //channops a mettre aussi
 			this->toBeChannops(user, channel);
 			this->clientMessage(user, RPL_NOTOPIC, channel, "No topic");
 

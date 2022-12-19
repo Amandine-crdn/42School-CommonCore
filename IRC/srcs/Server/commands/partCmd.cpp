@@ -21,7 +21,6 @@ void Server::partCmd(User &user, std::vector<std::string> data)
 			this->clientMessage(user, ERR_NOTONCHANNEL, channel);
 
 		this->delUserToChan(user.getNickName(), channel);
-		//this->delUserToChan(user, channel);
 	}
 }
 

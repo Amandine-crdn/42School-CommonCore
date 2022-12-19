@@ -101,7 +101,6 @@ void Server::toBeChannops(User &user, std::string channel)
 					return ;
 			}
 			itb->channops_list.push_back(user.getNickName()); // devient un des channops
-           	itb->setChannop(true); // poubelle
         }
 	}
 }
@@ -133,7 +132,7 @@ void Server::addUserToChan(User &user,std::string channel_name)
 	{
 		if (channel_name == itc->getChannelName())
 		{
-			itc->users_list.push_back(user.getNickName());
+			itc->users_list.push_back(user.getNickName()); //sauf si nickname deja la?
 			return ;
 		}
 	}

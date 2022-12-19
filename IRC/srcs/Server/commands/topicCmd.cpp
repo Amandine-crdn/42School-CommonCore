@@ -18,10 +18,10 @@ void Server::topicCmd(User &user, std::string msg, std::vector<std::string> data
 
 	if (data.size() == 2)
 	{
-		if (getTopic(channel_name) == "No topic")
+		if (this->getTopic(channel_name) == "No topic")
 			this->clientMessage(user, RPL_NOTOPIC, channel_name);
 		else
-			this->clientMessage(user, RPL_TOPIC, channel_name, getTopic(channel_name));
+			this->clientMessage(user, RPL_TOPIC, channel_name, this->getTopic(channel_name));
 		return ;
 	}
 
@@ -33,6 +33,7 @@ void Server::topicCmd(User &user, std::string msg, std::vector<std::string> data
 
 	std::string topic = this->split(msg, ':')[1];
 	this->setTopic(channel_name, topic);
+	//this->clientMessage(user, RPL_TOPIC, channel_name, this->getTopic(channel_name));
 	
 	//change poour les autres (channel origine ok), channel meme (joinchannel ne semble pas le changer)
 }

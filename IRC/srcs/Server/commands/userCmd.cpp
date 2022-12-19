@@ -17,7 +17,6 @@ void Server::userCmd(User &user, std::string msg, std::vector<std::string> data)
 		return ;
 	}
 
-
 	std::string username = data[1];
 	std::string realname = this->split(msg, ':')[1];
 
