@@ -1,0 +1,45 @@
+Organisation
+
+- ./minishell sans argument
+
+- créer un terminal : boucle sur readline
+    gérer les cas d'erreurs ou de crash (espaces, tab, signaux)
+    a chaque nouvel entrée refaire un parsing en eliminant uniquement les elements choisi
+
+parsing
+- avant de parser, gestion des guillemets : "''"'"'""
+    fix : symbol en cours
+    spe : occurence du fix
+- listes chaînées ou tableaux
+    malloc avant d'enregistrer : 
+    gerer les whites spaces en debut et fin de phrases
+    gerer les $, $?, aller check les variables dans env
+    ex : echo $USER, echo $USERrr,echo $USER$USER, echo '$USER'
+    + attention avec les guillemets : echo "$USER$USER"
+    utiliser  <, <<, >>, > pour tokeniser le mot d'avant ou d'apres
+                                                                                          
+
+builtin : 
+- commandes non connues
+- gerer si PWDr ne doit pas marcher, env t idem
+- cd : cd, cd ., cd .., cd -, cd /, cd path, cd ../../path, ~/..
+    entraine le changement dans l'env des variables PWD et OLDPWD
+    ls doit egalement suivre avec pwd
+    chdir et access 
+- echo : echo -n, echo -n fff, echo -nnnn rr, echo rr -n, echo -n -n -n gg
+- env
+- exit
+- export : nouveau path ou modif d'un path existant
+    plusieurs à la suite : export toto=" " toto=salut rr lala=x
+    si null ex : toto= ou toto ="" doit marcher 
+    pas d'erreur juste ne rien faire
+- pwd
+- unset : suppression d'un path existant, idem que export pour les regles
+    attention si suppresion PATH, les commandes ls etc ne doivent plus être fonctionnelles
+
+tutos disponibles sur yt
+- heredoc
+- pipe, ne pas oublier de close si open
+- signaux, control C : ne doit pas quitter juste erase la ligne en cours, control D : quitte sans segfault
+
+free

@@ -14,7 +14,7 @@ void Channel::setTopic(std::string topic) { this->topic = topic; }
 
 int Channel::getNbUser() const
 {
-    return nb_user;
+    return this->nb_user;
 }
 
 void Channel::setNbUser()
@@ -30,5 +30,5 @@ void Channel::delNbUser()
      // + channel list
 }
 
-bool Channel::getChannop() const { return channop; }
+bool Channel::getChannop() const { return this->channop; }
 void Channel::setChannop(bool choice) { this->channop = choice; }

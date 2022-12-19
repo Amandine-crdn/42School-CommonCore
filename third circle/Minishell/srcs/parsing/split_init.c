@@ -118,6 +118,7 @@ char	**ft_split_init(t_win *win, t_split *split)
 	if (!len)
 		return (ft_free_str_null_tab(NULL, split->s, NULL));
 	ft_init_split(split);
+
 	split->new = cut_sentence(split, win, len);
 	if (!split->new)
 		return (ft_free_str_null_tab(len, split->s, split->new));

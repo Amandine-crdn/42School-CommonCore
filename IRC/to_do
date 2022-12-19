@@ -7,16 +7,14 @@
 ✔️pass
 ✔️user
 ✔️quit
-✔️
+✔️ping
 ✔️
 ✔️
 
-〰️ping : repond mais n'envoie pas de pong comme demander
 
-〰️topic : ne change pas 
+〰️topic : ne change pas, bug ne reconnait pas le user, doit recommencer deux fois, le supp on dirait
 
 〰️join : doit etre taper 2 fois pour rentrer (que pour la 1ere fois) => bug pour autre utilisateur
-        - au debut 2 nicks 2 ops, puis part et join, 2 nick, 1 ops, 1 normal
 
 〰️privmsg : /msg #r d channel non trouver n'affiche pas l'erreur mais affiche sur la console, nick non trouver affcihe erreur mais pas sur la console
             - pas de arobase pour l'autre recevru de chan
@@ -24,7 +22,9 @@
             - en msg priver si ecrit en perso : "tt Cannot send to channel"
 
 
-〰️ part #cc : works must make command twice to disapear window, et revenir sur le channel ou qlq est ok envoie pas recevoir
+pass not mandatory si pas rentrer au debut du programme
+
+〰️ part #cc : pass dans ka fonction mais dans la window ne se supp pas
 
 〰️ mode #toto :
     -  mode/#toto [visible public -i], pas sur pour l'affichage du mode/  [invisble] .. consequence ?

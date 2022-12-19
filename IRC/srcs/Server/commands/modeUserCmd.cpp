@@ -27,8 +27,6 @@ void Server::modeUserCmd(User &user, std::vector<std::string> data)
 		return ;
 	}
 
-
-
     /*-------- MODE return ; ---------*/
 
     if (flag == "-o")
@@ -36,7 +34,7 @@ void Server::modeUserCmd(User &user, std::vector<std::string> data)
         user.setIRCOper(false);
         return ;
     }
-       
+
     else if (flag == "-O")            
     {
         user.setOpServer(false);
@@ -51,7 +49,7 @@ void Server::modeUserCmd(User &user, std::vector<std::string> data)
         mode = "Network-Operator";
     }
 
-    else if (flag == "+O")            
+    else if (flag == "+O")
     {
         user.setOpServer(true); 
         mode = "Server-Operator";
