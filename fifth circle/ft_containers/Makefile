@@ -19,15 +19,6 @@ SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
 HEADERS		=		includes/map.hpp \
 					includes/stack.hpp \
 					includes/vector.hpp \
-					includes/equal.hpp \
-					includes/is_integral.hpp \
-					includes/pair.hpp \
-					includes/make_pair.hpp \
-					includes/enable_if.hpp \
-					includes/iterator_traits.hpp \
-					includes/reverse_iterator.hpp \
-
-
 
 
 #################	OBJECT FILES	#################
