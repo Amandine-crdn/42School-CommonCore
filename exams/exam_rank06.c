@@ -1,194 +1,127 @@
-#include <unistd.h>
+#include <errno.h>
 #include <string.h>
+#include <unistd.h>
+#include <netdb.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <netinet/in.h>
-#include <sys/socket.h>
 #include <sys/select.h>
-
-#define BUFFER_SIZE 100
-#define MAX_CLIENTS SOMAXCONN
+#include <sys/types.h>
 
 
-char *str_join(char *buf, char *add)
-{
-	char	*newbuf;
-	int		len;
+int ft_error_fatal() {
 
-	if (buf == 0)
-		len = 0;
-	else
-		len = strlen(buf);
-	newbuf = malloc(sizeof(*newbuf) * (len + strlen(add) + 1));
-	if (newbuf == 0)
-		return (0);
-	newbuf[0] = 0;
-	if (buf != 0)
-		strcat(newbuf, buf);
-    free(buf);
-	strcat(newbuf, add);
-    free(add);
-	return (newbuf);
+    write(2, "Error fatale\n", 13);
+    return 1;
 }
 
 
 
-int find_id(int *clientsockets, int fd, int next_id)
-{
-    for(int i = 0; i < next_id; i++)
-    {
-        if (clientsockets[i] == fd)
-        {
-              return (i);                  
-        }
-    }
-    return (-1);
-}
+int main(int argc, char **argv) {
+    if (argc != 2)
+        return ft_error_fatal();
 
-int main(int argc, char **argv)
-{
-    if(argc != 2)
-    {
-        write(2, "Wrong number of arguments\n", strlen("Wrong number of arguments\n"));
-        exit(1);
-    }
+	int sockfd, connfd;
+	struct sockaddr_in servaddr, cli; 
 
-    int next_id = 0;
-    fd_set reads, writes;
-    int socket_fd = socket(AF_INET, SOCK_STREAM, 0);
-    
-	int clientsockets[MAX_CLIENTS];
+	// socket create and verification 
+	sockfd = socket(AF_INET, SOCK_STREAM, 0); 
+	if (sockfd == -1)
+        return ft_error_fatal();
 
-    char *clients[MAX_CLIENTS];
-    for(int i = 0; i < MAX_CLIENTS; i++)
-        clients[i] = NULL;
+	printf("Socket successfully created..\n"); 
+	bzero(&servaddr, sizeof(servaddr)); 
 
-    struct sockaddr_in serverAddress = {0};
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    serverAddress.sin_port = htons(atoi(argv[1]));
+	// assign IP, PORT 
+	servaddr.sin_family = AF_INET; 
+	servaddr.sin_addr.s_addr = htonl(2130706433); //127.0.0.1
+	servaddr.sin_port = htons(atoi(argv[1])); 
+  
+	// Binding newly created socket to given IP and verification 
+	if ((bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr))) != 0)
+        return ft_error_fatal();
+    if (listen(sockfd, 10) != 0)
+        return ft_error_fatal();
 
-    if (bind(socket_fd, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0)
-    {
-        write(2, "Fatal error\n", strlen("Fatal error\n"));
-        exit(1);
-    }
 
-    if (listen(socket_fd, MAX_CLIENTS) < 0)
-    {
-        write(2, "Fatal error\n", strlen("Fatal error\n"));
-        exit(1);
-    }
+    fd_set reads;
+    fd_set temp_reads;
 
     FD_ZERO(&reads);
-    FD_SET(socket_fd, &reads);
+    // FD_ZERO(&writes);
+    FD_SET(sockfd, &reads);
+    int max_client = 0;
+    int id_client[1000];
 
-    int max = socket_fd;
+    for (int i = 0; i < 1000; i++)
+        id_client[i] = 0;
 
-    while(1)
-    {
-        writes = reads;
-        if (select(max + 1, &writes, NULL, NULL, NULL) < 0)
-        {
-            write(2, "Error select\n", strlen("Error select\n"));
-            exit(1);
-        }
+    
+    int max = sockfd;
+    char buffer[5000];
+    ssize_t len = 0;
 
-        for(int fd = 0;fd <= max; fd++)
-        {
-            if (FD_ISSET(fd, &writes))
+    while(1) {
+        
+        temp_reads = reads;
+        if (select(max + 1, &temp_reads, NULL, NULL, NULL) == -1)
+            return ft_error_fatal();
+
+            if (FD_ISSET(sockfd, &temp_reads))
             {
-                if (fd == socket_fd)
-                {
-                    int new_client = accept(fd, NULL, NULL);
-                    if (new_client < 0)
-                     {
-                        write(2, "Error accept\n", strlen("Error accept\n"));
-                        exit(1);
-                    }
-                    FD_SET(new_client, &reads);
-					if (new_client > max)
-						max = new_client;
-                    char *buffer = malloc(sizeof(char) * BUFFER_SIZE);
-                    sprintf(buffer, "server: client %d just arrived\n", next_id);
-                    for(int i = 0; i < next_id; i++)
-                    {
-                        if (clientsockets[i] > 0)
-                            send(clientsockets[i], buffer, strlen(buffer), 0);
-                    }
-                    clientsockets[next_id++] = new_client;
-                    free(buffer);
-                }
-                else
-                {
-                    char *buffer = malloc(sizeof(char) * BUFFER_SIZE);
-                    int bytesread = recv(fd, buffer, 1, MSG_DONTWAIT);
-                    if (bytesread <= 0)
-                    {
-                        char *buffer3 = malloc(sizeof(char) * BUFFER_SIZE);
+                printf("Socket successfully binded..\n");
 
-                        int id = find_id(clientsockets, fd, next_id);
-                        if (id >= 0)
-                        {
-                            sprintf(buffer, "server: client %d has left\n", id);
-                            clientsockets[id] = -1;
-                            free(clients[id]);
-                        }
-                        for(int i = 0; i < next_id; i++)
-                        {
-                            if (clientsockets[i] != fd && clientsockets[i] > 0)
-                                send(clientsockets[i], buffer, strlen(buffer), 0);
-                        }
-                        free(buffer);
-                        free(buffer3);
-                        close(fd);
-                        FD_CLR(fd, &reads);
+                connfd = accept(sockfd, NULL, NULL);
+                if (connfd < 0)
+                    return ft_error_fatal();
+
+                int i = 0;
+                for (; i < max_client && id_client[i] > 0; i++);
+                id_client[i] = connfd;
+                FD_SET(id_client[i], &reads);
+                max_client++;
+                if (id_client[i] > max)
+                    max = id_client[i];
+                printf("max_client = %d\n", max_client);
+                printf("max = %d\n", max);
+
+
+                char bufferSend[100];
+                len = sprintf(bufferSend, "server acccept the client %d with fd %d...\n", i, id_client[i]);
+
+                for (int y = 0; y < max_client; y++) {
+                    if (id_client[y] > 0 && id_client[y] != connfd ) 
+                        send(id_client[y], bufferSend, len, MSG_DONTWAIT);
                     }
-                    else
+            }
+            else {
+                    
+                for (int y = 0; y < max_client; y++) {
+                    char bufferReceveid[100];
+                    ssize_t bytesreads = -10;
+                    if (id_client[y] > 0) // && id_client[y] != connfd 
+                         bytesreads = recv(id_client[y], bufferReceveid, 1, MSG_DONTWAIT);
+                    printf("bytesreads = %ld\n", bytesreads);
+
+                    if (bytesreads == 0)
                     {
-                        int pos = -1;
-                        buffer[1] = '\0';
-                        for(int i = 0; i < (int)strlen(buffer); i++)
-                        {
-                            if (buffer[i] == '\n')
-                            {
-                                pos = i;
-                                break;
-                            }
+                        char buffer2[100];
+                        len = sprintf(buffer2, "server kick the client %d with fd %d...\n", y, id_client[y]);
+
+                        for (int i = 0; i < max_client; i++) {
+                        if (id_client[i] > 0 && id_client[i] != id_client[y]) 
+                            send(id_client[i], buffer2, len, MSG_DONTWAIT);
                         }
-                        
-                        if (pos >= 0)
-                        {
-                            char *buffer2;
-                            
-                            int id = find_id(clientsockets, fd, next_id);
-                            if (id >= 0)
-                            {
-                                clients[id] = str_join(clients[id], buffer);
-                                buffer2 = malloc(sizeof(char) * (strlen(clients[id]) + 20));
-                                sprintf(buffer2, "client %d: %s", id, clients[id]);
-                                free(clients[id]);
-                                clients[id] = NULL;
-                            }
-                            for(int i = 0; i < next_id; i++)
-                            {
-                                if (clientsockets[i] != fd && clientsockets[i] > 0 && buffer2)
-                                    send(clientsockets[i], buffer2, strlen(buffer2), 0);
-                            }
-                            if (buffer2)
-                                free(buffer2);
-                        }
-                        else
-                        {
-                            int id = find_id(clientsockets, fd, next_id);
-                            if (id >= 0)
-                            {
-                                clients[id] = str_join(clients[id], buffer);
-                            }
-                        }
+                        close(id_client[y]);
+                        FD_CLR(id_client[y], &reads);
+                        id_client[y] = -1;
                     }
+        
+
                 }
             }
-        }
+    // close(sockfd);
+    // FD_CLR(clientfd, &reads);
     }
 }
