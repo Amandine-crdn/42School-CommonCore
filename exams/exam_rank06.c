@@ -99,11 +99,9 @@ int main(int argc, char **argv) {
                     
                 for (int y = 0; y < max_client; y++) {
                     char bufferReceveid[100];
-                    ssize_t bytesreads = -10;
-                    if (id_client[y] > 0) // && id_client[y] != connfd 
-                         bytesreads = recv(id_client[y], bufferReceveid, 1, MSG_DONTWAIT);
-                    printf("bytesreads = %ld\n", bytesreads);
-
+                    //  bytesreads = -10;
+                    // if (id_client[y] > 0) // && id_client[y] != connfd 
+                    ssize_t bytesreads = recv(id_client[y], bufferReceveid, 1, MSG_DONTWAIT); // il envoie un par un
                     if (bytesreads == 0)
                     {
                         char buffer2[100];
@@ -116,6 +114,10 @@ int main(int argc, char **argv) {
                         close(id_client[y]);
                         FD_CLR(id_client[y], &reads);
                         id_client[y] = -1;
+                    }
+                    else if (bytesreads > 0) {
+
+                        printf( "%d with fd %d try to send a message...\n", y, id_client[y]);
                     }
         
 
