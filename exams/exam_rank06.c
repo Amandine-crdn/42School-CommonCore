@@ -16,10 +16,28 @@ int ft_error_fatal() {
     return 1;
 }
 
+char *str_join(char *buf, char *add)
+{
+	char	*newbuf;
+	int		len;
 
+	if (buf == 0)
+		len = 0;
+	else
+		len = strlen(buf);
+	newbuf = malloc(sizeof(*newbuf) * (len + strlen(add) + 1));
+	if (newbuf == 0)
+		return (0);
+	newbuf[0] = 0;
+	if (buf != 0)
+		strcat(newbuf, buf);
+	free(buf);
+	strcat(newbuf, add);
+	return (newbuf);
+}
 
 int main(int argc, char **argv) {
-    if (argc != 2)
+    if (argc != 2) 
         return ft_error_fatal();
 
 	int sockfd, connfd;
@@ -79,8 +97,8 @@ int main(int argc, char **argv) {
                 int i = 0;
                 for (; i < max_client && id_client[i] > 0; i++);
                 id_client[i] = connfd;
-                FD_SET(id_client[i], &reads);
                 max_client++;
+                FD_SET(id_client[i], &reads);
                 if (id_client[i] > max)
                     max = id_client[i];
                 printf("max_client = %d\n", max_client);
@@ -98,10 +116,12 @@ int main(int argc, char **argv) {
             else {
                     
                 for (int y = 0; y < max_client; y++) {
-                    char bufferReceveid[100];
+                    char bufferReceveid[5000];
                     //  bytesreads = -10;
                     // if (id_client[y] > 0) // && id_client[y] != connfd 
                     ssize_t bytesreads = recv(id_client[y], bufferReceveid, 1, MSG_DONTWAIT); // il envoie un par un
+                        // printf( "bytesreads = %ld\n", bytesreads);
+
                     if (bytesreads == 0)
                     {
                         char buffer2[100];
@@ -116,10 +136,21 @@ int main(int argc, char **argv) {
                         id_client[y] = -1;
                     }
                     else if (bytesreads > 0) {
+                        char bufferJoin[5000];
+                        char str_cast[2] = {bufferReceveid[0], '\0'};
+                        // printf( "%d with fd %d try to send a message...\n", y, id_client[y]);
+                        // bufferJoin = str_join(bufferJoin, str_cast);                                                      
+                        if (bufferReceveid[0] == '\n') {
+                            for (int i = 0; i < max_client; i++) {
+                               if (id_client[i] > 0 && id_client[i] != id_client[y]) 
+                                   send(id_client[i], bufferJoin, len, MSG_DONTWAIT);
+                            }
+                        }
 
-                        printf( "%d with fd %d try to send a message...\n", y, id_client[y]);
                     }
-        
+                    // else
+
+                        // puts("here");
 
                 }
             }
